@@ -83,7 +83,7 @@
             <p class="text-purple-400 font-bold tracking-widest text-xs mb-10 uppercase italic">Charity Edition</p>
 
             <div class="relative mb-8">
-                <input type="text" id="nickname-input" placeholder="ВВЕДІТЬ НІКНЕЙМ"
+                <input type="text" id="username-input" placeholder="ВВЕДІТЬ НІКНЕЙМ"
                     class="w-full bg-slate-900/50 border border-white/10 p-5 rounded-2xl outline-none focus:border-purple-500 text-center text-xl font-black transition-all placeholder:text-slate-600">
             </div>
 
@@ -107,7 +107,7 @@
             <div class="flex items-center gap-6 glass px-8 py-4 rounded-[2rem] border border-white/10 shadow-xl">
                 <div class="text-right">
                     <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter mb-1">Гравець</p>
-                    <p id="display-nick" class="font-black text-purple-400 text-xl tracking-tight">---</p>
+                    <p id="display-username" class="font-black text-purple-400 text-xl tracking-tight">---</p>
                 </div>
                 <div class="h-10 w-[1px] bg-white/10"></div>
                 <div class="text-right">
@@ -237,19 +237,24 @@
 
         const $ = id => document.getElementById(id);
 
+        // Handle Enter key for login
+        $('username-input').addEventListener('keypress', e => {
+            if (e.key === 'Enter') handleLogin();
+        });
+
         async function handleLogin() {
-            const nick = $('nickname-input').value.trim();
-            if (!nick) return;
+            const usernameValue = $('username-input').value.trim();
+            if (!usernameValue) return;
             $('login-btn').innerText = 'ВХІД...';
 
             try {
                 // IMPORTANT: Columns must be username, spins, points
-                let { data, error } = await supabaseClient.from('profiles').select('*').eq('username', nick);
+                let { data, error } = await supabaseClient.from('profiles').select('*').eq('username', usernameValue);
                 if (error) throw error;
 
                 if (!data || data.length === 0) {
                     const { data: newUser, error: createError } = await supabaseClient
-                        .from('profiles').insert([{ username: nick, spins: 0, points: 0 }]).select();
+                        .from('profiles').insert([{ username: usernameValue, spins: 0, points: 0 }]).select();
                     if (createError) {
                         console.error('Create Error:', createError);
                         throw createError;
@@ -276,7 +281,7 @@
 
         function updateUI() {
             if (!currentUser) return;
-            $('display-nick').innerText = currentUser.username;
+            $('display-username').innerText = currentUser.username;
             $('display-spins').innerText = currentUser.spins;
             $('display-points').innerText = currentUser.points;
 
