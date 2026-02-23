@@ -107,7 +107,8 @@
             <div class="flex items-center gap-6 glass px-8 py-4 rounded-[2rem] border border-white/10 shadow-xl">
                 <div class="text-right">
                     <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter mb-1">Гравець</p>
-                    <p id="display-username" class="font-black text-purple-400 text-xl tracking-tight">---</p>
+                    <p id="display-username"
+                        class="font-black text-purple-400 text-xl tracking-tight truncate max-w-[120px]">---</p>
                 </div>
                 <div class="h-10 w-[1px] bg-white/10"></div>
                 <div class="text-right">
@@ -119,6 +120,19 @@
                     <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter mb-1">Бали</p>
                     <p id="display-points" class="font-black text-yellow-400 text-2xl tracking-tighter">0</p>
                 </div>
+                <div class="h-10 w-[1px] bg-white/10"></div>
+                <button onclick="logout()"
+                    class="flex items-center gap-2 px-4 py-2 border border-white/10 hover:border-red-500/50 hover:bg-red-500/10 rounded-2xl transition-all text-slate-400 hover:text-red-400 group"
+                    title="Вийти з акаунту">
+                    <span class="text-[10px] font-bold uppercase tracking-wider hidden md:block">Вийти</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="group-hover:translate-x-1 transition-transform">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <polyline points="16 17 21 12 16 7" />
+                        <line x1="21" y1="12" x2="9" y2="12" />
+                    </svg>
+                </button>
             </div>
         </div>
 
@@ -287,10 +301,24 @@
             if (e.key === 'Enter') handleLogin();
         });
 
+        // Auto-login on mount
+        window.addEventListener('load', async () => {
+            const savedUser = localStorage.getItem('casino_username');
+            if (savedUser) {
+                console.log('Автоматичний вхід для:', savedUser);
+                await performLogin(savedUser);
+            }
+        });
+
         async function handleLogin() {
             const usernameValue = $('username-input').value.trim();
             if (!usernameValue) return;
+            await performLogin(usernameValue);
+        }
+
+        async function performLogin(usernameValue) {
             $('login-btn').innerText = 'ВХІД...';
+            $('login-btn').disabled = true;
 
             try {
                 // IMPORTANT: Columns must be username, spins, points
@@ -308,13 +336,24 @@
                 }
 
                 currentUser = data[0];
+                localStorage.setItem('casino_username', currentUser.username);
                 switchToGame();
                 initRealtime();
             } catch (err) {
                 console.error('Login Failure:', err);
-                $('auth-status').innerText = 'Помилка бази даних. Спробуйте пізніше.';
+                localStorage.removeItem('casino_username'); // Clean up on any error (like user deleted from DB)
+                $('auth-status').innerText = 'Помилка авторизації. Спробуйте ще раз.';
                 $('login-btn').innerText = 'ПОЧАТИ ГРУ';
+                $('login-btn').disabled = false;
+                $('auth-screen').classList.remove('hidden');
+                $('game-screen').classList.add('hidden'); // Ensure game is hidden if auto-login fails
             }
+        }
+
+        function logout() {
+            localStorage.removeItem('casino_username');
+            currentUser = null;
+            location.reload(); // Simplest way to reset all state
         }
 
         function switchToGame() {
