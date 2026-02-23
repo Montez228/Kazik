@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍋 ПУЛЬТ КЕРУВАННЯ ЛИМОНОМ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #020617;
+            color: white;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+
+    <!-- Password Lock -->
+    <div id="lock-screen" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950 p-6">
+        <div class="glass p-10 rounded-3xl w-full max-w-sm text-center border-yellow-500/20 border-2">
+            <h2 class="text-3xl font-black mb-6 italic text-yellow-400">ВХІД В СИСТЕМУ</h2>
+            <input type="password" id="admin-pass" placeholder="Введіть пароль"
+                class="w-full bg-slate-900 border border-white/10 p-4 rounded-xl mb-4 outline-none focus:border-yellow-500 text-center font-bold">
+            <button onclick="checkPass()"
+                class="w-full bg-yellow-500 text-slate-950 font-black p-4 rounded-xl hover:scale-105 transition-all uppercase">Увійти</button>
+            <p id="lock-error" class="mt-4 text-red-500 text-xs font-bold hidden">Невірний пароль!</p>
+        </div>
+    </div>
+
+    <!-- Admin Content (Hidden by default) -->
+    <div id="admin-panel" class="hidden p-4 md:p-10 max-w-6xl mx-auto">
+        <header class="flex justify-between items-center mb-10 border-b border-white/5 pb-6">
+            <div>
+                <h1 class="text-3xl font-black italic text-yellow-400 opacity-90 tracking-tighter uppercase">🍋 ПУЛЬТ
+                    КЕРУВАННЯ ЛИМОНОМ</h1>
+                <p class="text-[10px] font-bold text-blue-400 tracking-widest uppercase">Система управління збором v1.0
+                </p>
+            </div>
+            <button onclick="location.reload()"
+                class="text-xs font-bold text-slate-500 hover:text-white transition-colors">ВИЙТИ</button>
+        </header>
+
+        <!-- Stats Management -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <div class="md:col-span-2 glass p-8 rounded-3xl border-yellow-500/10 border shadow-2xl">
+                <h3 class="text-xl font-black mb-6 italic text-blue-400 uppercase tracking-tight">Загальний прогрес
+                    збору</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="text-[10px] font-black text-slate-500 uppercase block mb-2 px-1">Зібрано
+                            (грн)</label>
+                        <input type="number" id="stats-current"
+                            class="w-full bg-slate-900 border border-white/10 p-4 rounded-xl font-black text-yellow-400 text-xl outline-none focus:border-yellow-500 transition-all">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-black text-slate-500 uppercase block mb-2 px-1">Ціль
+                            (грн)</label>
+                        <input type="number" id="stats-target"
+                            class="w-full bg-slate-900 border border-white/10 p-4 rounded-xl font-black text-white text-xl outline-none focus:border-white transition-all">
+                    </div>
+                </div>
+                <button onclick="updateStats()"
+                    class="bg-blue-600 hover:bg-blue-500 text-white font-black px-8 py-4 rounded-xl transition-all uppercase text-sm shadow-lg shadow-blue-900/40">Зберегти
+                    зміни</button>
+            </div>
+            <div class="glass p-8 rounded-3xl border-white/5 border flex flex-col justify-center text-center">
+                <p class="text-[10px] font-black text-slate-500 uppercase mb-2">Поточний відсоток</p>
+                <h2 id="stats-percent" class="text-6xl font-black text-white italic">0%</h2>
+            </div>
+        </section>
+
+        <!-- Players Management -->
+        <section class="glass p-8 rounded-3xl border-white/5 border">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+                <h3 class="text-xl font-black italic text-blue-400 uppercase tracking-tight">Управління гравцями</h3>
+                <input type="text" id="player-search" oninput="renderPlayers()" placeholder="Пошук за ніком..."
+                    class="bg-slate-900 border border-white/10 px-6 py-3 rounded-xl text-sm font-bold outline-none focus:border-blue-500 w-full sm:w-64 transition-all">
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="text-[10px] font-black text-slate-500 uppercase border-b border-white/5">
+                        <tr>
+                            <th class="pb-4 px-2">Гравець</th>
+                            <th class="pb-4 px-2">Спіни</th>
+                            <th class="pb-4 px-2">Бали</th>
+                            <th class="pb-4 px-2 text-right">Дії</th>
+                        </tr>
+                    </thead>
+                    <tbody id="players-list" class="divide-y divide-white/5">
+                        <!-- Loaded via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="toast-container" class="fixed bottom-10 right-10 z-[200]"></div>
+
+    <script>
+        const SUPABASE_URL = 'https://huhilljlthphkmvgyqlv.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh1aGlsbGpsdGhwaGttdmd5cWx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NzY5NzYsImV4cCI6MjA4NzQ1Mjk3Nn0.OgAcEX5nmEAHwONTLEhF5t_2v6yOdTYIWs5cy9tBpBw';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let allPlayers = [];
+
+        function checkPass() {
+            const pass = document.getElementById('admin-pass').value;
+            if (pass === 'lemon2026') {
+                document.getElementById('lock-screen').classList.add('hidden');
+                document.getElementById('admin-panel').classList.remove('hidden');
+                initAdmin();
+            } else {
+                const error = document.getElementById('lock-error');
+                error.classList.remove('hidden');
+                setTimeout(() => error.classList.add('hidden'), 2000);
+            }
+        }
+
+        async function initAdmin() {
+            loadStats();
+            loadPlayers();
+
+            // Realtime subscriptions
+            supabaseClient.channel('admin-sync')
+                .on('postgres_changes', { event: '*', table: 'stats' }, loadStats)
+                .on('postgres_changes', { event: '*', table: 'profiles' }, loadPlayers)
+                .subscribe();
+        }
+
+        async function loadStats() {
+            const { data, error } = await supabaseClient.from('stats').select('*').eq('id', 1).single();
+            if (data) {
+                document.getElementById('stats-current').value = data.current_amount;
+                document.getElementById('stats-target').value = data.target_amount;
+                const percent = Math.floor((data.current_amount / data.target_amount) * 100);
+                document.getElementById('stats-percent').innerText = percent + '%';
+            }
+        }
+
+        async function updateStats() {
+            const current = parseInt(document.getElementById('stats-current').value);
+            const target = parseInt(document.getElementById('stats-target').value);
+
+            const { error } = await supabaseClient.from('stats').update({
+                current_amount: current,
+                target_amount: target
+            }).eq('id', 1);
+
+            if (error) {
+                showToast('Помилка оновлення!', 'error');
+            } else {
+                showToast('Прогрес успішно оновлено!', 'success');
+            }
+        }
+
+        async function loadPlayers() {
+            const { data, error } = await supabaseClient.from('profiles').select('*').order('points', { ascending: false });
+            if (data) {
+                allPlayers = data;
+                renderPlayers();
+            }
+        }
+
+        function renderPlayers() {
+            const query = document.getElementById('player-search').value.toLowerCase();
+            const list = document.getElementById('players-list');
+            list.innerHTML = '';
+
+            allPlayers.filter(p => p.username.toLowerCase().includes(query)).forEach(p => {
+                const row = document.createElement('tr');
+                row.className = 'group hover:bg-white/[0.02] transition-all';
+                row.innerHTML = `
+                    <td class="py-4 px-2">
+                        <div class="font-black text-white italic truncate max-w-[150px]">${p.username}</div>
+                    </td>
+                    <td class="py-4 px-2 font-black text-blue-400">${p.spins}</td>
+                    <td class="py-4 px-2 font-black text-yellow-500">${p.points.toLocaleString()}</td>
+                    <td class="py-4 px-2 text-right">
+                        <div class="flex flex-col gap-2 sm:flex-row sm:justify-end items-center">
+                            <div class="flex gap-1">
+                                <button onclick="adjustSpins('${p.username}', 10)" class="text-[9px] bg-slate-800 hover:bg-blue-600 px-2 py-1 rounded-md transition-all">+10</button>
+                                <button onclick="adjustSpins('${p.username}', 50)" class="text-[9px] bg-slate-800 hover:bg-blue-600 px-2 py-1 rounded-md transition-all">+50</button>
+                                <button onclick="adjustSpins('${p.username}', 100)" class="text-[9px] bg-slate-800 hover:bg-blue-600 px-2 py-1 rounded-md transition-all">+100</button>
+                            </div>
+                            <input type="number" id="manual-${p.username}" placeholder="К-сть" class="bg-slate-900 border border-white/10 rounded-md py-1 px-2 text-[10px] w-16 outline-none focus:border-blue-500">
+                            <button onclick="setSpins('${p.username}')" class="bg-blue-600 hover:bg-blue-500 text-[9px] font-black px-3 py-1 rounded-md transition-all">OK</button>
+                            <button onclick="deletePlayer('${p.username}')" class="bg-red-900/50 hover:bg-red-600 text-red-400 hover:text-white p-1 rounded-md transition-all">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                list.appendChild(row);
+            });
+        }
+
+        async function adjustSpins(username, amount) {
+            const player = allPlayers.find(p => p.username === username);
+            const { error } = await supabaseClient.from('profiles').update({ spins: player.spins + amount }).eq('username', username);
+            if (!error) showToast(`Додано ${amount} спінів для ${username}`, 'success');
+        }
+
+        async function setSpins(username) {
+            const val = parseInt(document.getElementById(`manual-${username}`).value);
+            if (isNaN(val)) return;
+            const { error } = await supabaseClient.from('profiles').update({ spins: val }).eq('username', username);
+            if (!error) showToast(`Спіни для ${username} встановлено: ${val}`, 'success');
+        }
+
+        async function deletePlayer(username) {
+            if (!confirm(`Видалити гравця ${username}? Дія незворотня.`)) return;
+            const { error } = await supabaseClient.from('profiles').delete().eq('username', username);
+            if (!error) showToast(`Гравця ${username} видалено`, 'warning');
+        }
+
+        function showToast(msg, type) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-green-600' : (type === 'warning' ? 'bg-orange-600' : 'bg-red-600');
+            toast.className = `${bgColor} text-white px-6 py-3 rounded-2xl shadow-2xl mb-3 font-bold text-sm animate-bounce cursor-pointer`;
+            toast.innerText = msg;
+            toast.onclick = () => toast.remove();
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
+
+        // Support Enter key on manual input
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && e.target.id.startsWith('manual-')) {
+                const username = e.target.id.replace('manual-', '');
+                setSpins(username);
+            }
+        });
+
+    </script>
+</body>
+
+</html>
