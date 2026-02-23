@@ -269,23 +269,50 @@
             $('auth-status').innerText = 'Підключаємось до сервера...';
 
             try {
-                // Try to find profile by username (custom column) or nickname (depends on your DB, using nickname as per previous context)
-                let { data, error } = await supabaseClient.from('profiles').select('*').eq('nickname', nick).single();
+                console.log('Початок авторизації для:', nick);
 
-                if (error && error.code === 'PGRST116') {
+                // 1. Спробуємо знайти існуючого користувача
+                let { data, error } = await supabaseClient
+                    .from('profiles')
+                    .select('*')
+                    .eq('nickname', nick);
+
+                if (error) {
+                    console.error('Помилка при пошуку користувача:', error);
+                    throw error;
+                }
+
+                if (!data || data.length === 0) {
+                    // 2. Користувача немає - створюємо
+                    console.log('Користувача не знайдено, створюємо новий профіль...');
                     $('auth-status').innerText = 'Створюємо новий профіль...';
-                    const { data: newUser, error: createError } = await supabaseClient
-                        .from('profiles').insert([{ nickname: nick, spins: 0, points: 0 }]).select().single();
-                    if (createError) throw createError;
-                    data = newUser;
-                } else if (error) throw error;
 
-                currentUser = data;
+                    const { data: newUser, error: createError } = await supabaseClient
+                        .from('profiles')
+                        .insert([{ nickname: nick, spins: 0, points: 0 }])
+                        .select();
+
+                    if (createError) {
+                        console.error('Помилка при створенні профілю:', createError);
+                        throw createError;
+                    }
+
+                    if (!newUser || newUser.length === 0) {
+                        throw new Error('Сервер не повернув дані після створення');
+                    }
+
+                    data = newUser;
+                }
+
+                // Supabase повертає масив при select/insert без .single()
+                currentUser = Array.isArray(data) ? data[0] : data;
+                console.log('Успішний вхід:', currentUser);
+
                 switchToGame();
                 initRealtime();
             } catch (err) {
-                console.error(err);
-                $('auth-status').innerText = 'Помилка доступу. Спробуйте інший нік.';
+                console.error('Критична помилка авторизації:', err);
+                $('auth-status').innerText = 'Помилка доступу. Деталі в консолі.';
                 $('login-btn').innerText = 'ПОЧАТИ ГРУ';
             }
         }
