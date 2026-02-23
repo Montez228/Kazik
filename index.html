@@ -183,23 +183,68 @@
                 <div class="mt-12 w-full grid grid-cols-5 gap-3 max-w-2xl">
                     <div class="glass p-4 rounded-xl text-center border border-white/5">
                         <span class="text-2xl block mb-1">🍒</span><span
-                            class="text-[8px] font-bold text-slate-500">+50</span>
+                            class="text-[8px] font-bold text-slate-500">10</span>
                     </div>
                     <div class="glass p-4 rounded-xl text-center border border-white/5">
                         <span class="text-2xl block mb-1">🍋</span><span
-                            class="text-[8px] font-bold text-slate-500">+100</span>
+                            class="text-[8px] font-bold text-slate-500">20</span>
                     </div>
                     <div class="glass p-4 rounded-xl text-center border border-white/5">
                         <span class="text-2xl block mb-1">🍉</span><span
-                            class="text-[8px] font-bold text-slate-500">+250</span>
+                            class="text-[8px] font-bold text-slate-500">30</span>
                     </div>
                     <div class="glass p-4 rounded-xl text-center border border-white/5">
                         <span class="text-2xl block mb-1">💎</span><span
-                            class="text-[8px] font-bold text-slate-500">+500</span>
+                            class="text-[8px] font-bold text-slate-500">50</span>
                     </div>
                     <div class="glass p-4 rounded-xl text-center border border-white/5">
                         <span class="text-2xl block mb-1">7️⃣</span><span
-                            class="text-[8px] font-bold text-slate-500">+1000</span>
+                            class="text-[8px] font-bold text-slate-500">100</span>
+                    </div>
+                </div>
+
+                <!-- Rules Section -->
+                <div class="mt-16 w-full max-w-4xl">
+                    <div class="glass p-10 rounded-[2.5rem] border border-white/5 relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                            <span class="text-9xl">📜</span>
+                        </div>
+                        <h3 class="text-3xl font-black italic text-purple-400 mb-8 uppercase tracking-tighter">ПРАВИЛА
+                            ГРИ</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
+                            <div class="space-y-4">
+                                <div class="flex items-start gap-4">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center font-black text-purple-400 shrink-0">
+                                        1</div>
+                                    <p class="text-slate-300 leading-relaxed">Кожна крутка — це перемога! Ви отримуєте
+                                        бали за **будь-яку** комбінацію символів на барабанах.</p>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center font-black text-purple-400 shrink-0">
+                                        2</div>
+                                    <p class="text-slate-300 leading-relaxed">Вартість символів: 🍒(10), 🍋(20), 🍉(30),
+                                        💎(50), 7️⃣(100).</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="flex items-start gap-4">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center font-black text-purple-400 shrink-0">
+                                        3</div>
+                                    <p class="text-slate-300 leading-relaxed">**Різні символи:** Ви отримуєте суму
+                                        значень усіх трьох символів.</p>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center font-black text-blue-400 shrink-0">
+                                        4</div>
+                                    <p class="text-slate-300 leading-relaxed font-bold">**ДЖЕКПОТ:** Якщо випало три
+                                        однакові символи — сума подвоюється (X2 БОНУС)!</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -218,7 +263,7 @@
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         const EMOJIS = ['🍒', '🍋', '🍉', '💎', '7️⃣'];
-        const REWARDS = { '🍒': 50, '🍋': 100, '🍉': 250, '💎': 500, '7️⃣': 1000 };
+        const SYMBOL_VALUES = { '🍒': 10, '🍋': 20, '🍉': 30, '💎': 50, '7️⃣': 100 };
 
         let currentUser = null;
         let isSpinning = false;
@@ -365,32 +410,41 @@
 
                 if (elapsed >= duration + 200) {
                     clearInterval(timer);
-                    checkWin(result);
+                    awardPoints(result);
                 }
             }, 80);
         }
 
-        async function checkWin(res) {
+        async function awardPoints(res) {
             isSpinning = false;
 
-            if (res[0] === res[1] && res[1] === res[2]) {
-                const reward = REWARDS[res[0]];
+            let totalEarned = SYMBOL_VALUES[res[0]] + SYMBOL_VALUES[res[1]] + SYMBOL_VALUES[res[2]];
+            const isJackpot = res[0] === res[1] && res[1] === res[2];
 
-                // Visual & Audio Celebration
+            if (isJackpot) {
+                totalEarned *= 2;
+
+                // Jackpot Celebration
                 confetti({ particleCount: 200, spread: 70, origin: { y: 0.6 }, colors: ['#a855f7', '#fbbf24', '#22d3ee'] });
                 playSfx(440, 'triangle', 0.6, 0.2);
                 setTimeout(() => playSfx(554, 'triangle', 0.6, 0.2), 100);
                 setTimeout(() => playSfx(659, 'triangle', 0.8, 0.2), 200);
 
-                $('win-text').innerText = `ВИГРАШ: +${reward} БАЛІВ!`;
-                $('win-overlay').classList.remove('hidden');
-
-                // Update points in DB
-                const { error: pointsErr } = await supabaseClient.from('profiles').update({ points: currentUser.points + reward }).eq('username', currentUser.username);
-                if (pointsErr) console.error('Points increment failed:', pointsErr);
+                $('win-text').innerText = `ДЖЕКПОТ! X2 БОНУС: +${totalEarned} БАЛІВ!`;
             } else {
-                playSfx(60, 'sawtooth', 0.3, 0.05);
+                playSfx(200, 'sine', 0.1, 0.05);
+                $('win-text').innerText = `ВИ НАБРАЛИ +${totalEarned} БАЛІВ!`;
             }
+
+            $('win-overlay').classList.remove('hidden');
+
+            // Update points in DB
+            const { error: pointsErr } = await supabaseClient
+                .from('profiles')
+                .update({ points: currentUser.points + totalEarned })
+                .eq('username', currentUser.username);
+
+            if (pointsErr) console.error('Points increment failed:', pointsErr);
         }
 
         // Convenience for dev - secret increment
