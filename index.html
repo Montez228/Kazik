@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>БЛАГОДІЙНЕ КАЗИНО</title>
     <!-- Tailwind CSS v3 via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -98,34 +98,36 @@
     <!-- Main Game Section -->
     <div id="game-screen" class="hidden w-full max-w-7xl p-4 md:p-10 flex flex-col items-center min-h-screen">
 
-        <div class="w-full flex flex-wrap justify-between items-center mb-16 gap-8">
-            <div>
-                <h1 class="text-5xl font-black italic neon-text tracking-tighter">KAZIK</h1>
-                <p class="text-[10px] text-purple-400 font-bold tracking-widest uppercase">Charity Slots v3.0</p>
+        <div class="w-full flex justify-between items-center mb-10 md:mb-16 gap-4">
+            <div class="shrink-0">
+                <h1 class="text-3xl md:text-5xl font-black italic neon-text tracking-tighter">KAZIK</h1>
+                <p class="text-[8px] md:text-[10px] text-purple-400 font-bold tracking-widest uppercase">Slots v3.0</p>
             </div>
 
-            <div class="flex items-center gap-6 glass px-8 py-4 rounded-[2rem] border border-white/10 shadow-xl">
-                <div class="text-right">
-                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter mb-1">Гравець</p>
+            <div
+                class="flex items-center gap-3 md:gap-6 glass px-3 md:px-8 py-2 md:py-4 rounded-2xl md:rounded-[2rem] border border-white/10 shadow-xl overflow-hidden">
+                <div class="hidden sm:block text-right">
+                    <p class="text-[8px] text-slate-500 font-bold uppercase tracking-tighter mb-1">Гравець</p>
                     <p id="display-username"
-                        class="font-black text-purple-400 text-xl tracking-tight truncate max-w-[120px]">---</p>
+                        class="font-black text-purple-400 text-sm md:text-xl tracking-tight truncate max-w-[80px] md:max-w-[120px]">
+                        ---</p>
                 </div>
-                <div class="h-10 w-[1px] bg-white/10"></div>
+                <div class="hidden sm:block h-10 w-[1px] bg-white/10"></div>
                 <div class="text-right">
-                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter mb-1">Спіни</p>
-                    <p id="display-spins" class="font-black text-blue-400 text-2xl tracking-tighter">0</p>
+                    <p class="text-[8px] text-slate-500 font-bold uppercase tracking-tighter mb-1">Спіни</p>
+                    <p id="display-spins" class="font-black text-blue-400 text-lg md:text-2xl tracking-tighter">0</p>
                 </div>
-                <div class="h-10 w-[1px] bg-white/10"></div>
+                <div class="h-8 w-[1px] bg-white/10"></div>
                 <div class="text-right">
-                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter mb-1">Бали</p>
-                    <p id="display-points" class="font-black text-yellow-400 text-2xl tracking-tighter">0</p>
+                    <p class="text-[8px] text-slate-500 font-bold uppercase tracking-tighter mb-1">Бали</p>
+                    <p id="display-points" class="font-black text-yellow-400 text-lg md:text-2xl tracking-tighter">0</p>
                 </div>
-                <div class="h-10 w-[1px] bg-white/10"></div>
+                <div class="h-8 w-[1px] bg-white/10"></div>
                 <button onclick="logout()"
-                    class="flex items-center gap-2 px-4 py-2 border border-white/10 hover:border-red-500/50 hover:bg-red-500/10 rounded-2xl transition-all text-slate-400 hover:text-red-400 group"
-                    title="Вийти з акаунту">
-                    <span class="text-[10px] font-bold uppercase tracking-wider hidden md:block">Вийти</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    class="flex items-center gap-2 px-2 md:px-4 py-1.5 md:py-2 border border-white/10 hover:border-red-500/50 hover:bg-red-500/10 rounded-xl md:rounded-2xl transition-all text-slate-400 hover:text-red-400 group shrink-0"
+                    title="Вийти">
+                    <span class="text-[9px] font-bold uppercase tracking-wider hidden md:block">Вийти</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="group-hover:translate-x-1 transition-transform">
                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
@@ -156,23 +158,23 @@
                 <div
                     class="glass p-10 md:p-14 rounded-[4rem] border-4 border-purple-500/20 bg-slate-950/80 relative flex flex-col items-center shadow-2xl w-full">
 
-                    <div class="flex gap-4 md:gap-8 mb-12 slot-container">
+                    <div class="flex gap-2 md:gap-8 mb-8 md:mb-12 slot-container">
                         <div
-                            class="w-24 h-36 md:w-40 md:h-60 bg-slate-900 rounded-3xl flex items-center justify-center text-6xl md:text-8xl border border-white/5 relative overflow-hidden shadow-inner">
+                            class="w-20 h-32 md:w-40 md:h-60 bg-slate-900 rounded-2xl md:rounded-3xl flex items-center justify-center text-5xl md:text-8xl border border-white/5 relative overflow-hidden shadow-inner">
                             <div id="reel-1" class="reel">🍒</div>
                             <div
                                 class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60 pointer-events-none">
                             </div>
                         </div>
                         <div
-                            class="w-24 h-36 md:w-40 md:h-60 bg-slate-900 rounded-3xl flex items-center justify-center text-6xl md:text-8xl border border-white/5 relative overflow-hidden shadow-inner">
+                            class="w-20 h-32 md:w-40 md:h-60 bg-slate-900 rounded-2xl md:rounded-3xl flex items-center justify-center text-5xl md:text-8xl border border-white/5 relative overflow-hidden shadow-inner">
                             <div id="reel-2" class="reel">🍋</div>
                             <div
                                 class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60 pointer-events-none">
                             </div>
                         </div>
                         <div
-                            class="w-24 h-36 md:w-40 md:h-60 bg-slate-900 rounded-3xl flex items-center justify-center text-6xl md:text-8xl border border-white/5 relative overflow-hidden shadow-inner">
+                            class="w-20 h-32 md:w-40 md:h-60 bg-slate-900 rounded-2xl md:rounded-3xl flex items-center justify-center text-5xl md:text-8xl border border-white/5 relative overflow-hidden shadow-inner">
                             <div id="reel-3" class="reel">🍉</div>
                             <div
                                 class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60 pointer-events-none">
@@ -181,12 +183,13 @@
                     </div>
 
                     <button onclick="spin()" id="spin-btn"
-                        class="w-full max-w-md py-8 rounded-[2rem] bg-gradient-to-r from-purple-500 to-purple-700 text-white font-black text-4xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all uppercase italic tracking-tighter disabled:opacity-30 disabled:grayscale">
+                        class="w-full max-w-sm md:max-w-md py-6 md:py-8 rounded-2xl md:rounded-[2rem] bg-gradient-to-r from-purple-500 to-purple-700 text-white font-black text-2xl md:text-4xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all uppercase italic tracking-tighter disabled:opacity-30 disabled:grayscale">
                         КРУТИТИ
                     </button>
 
-                    <div id="win-overlay" class="hidden mt-10 text-center animate-win">
-                        <p class="text-4xl font-black text-yellow-400 italic" id="win-text">ВЕЛИКИЙ ВИГРАШ!</p>
+                    <div id="win-overlay" class="hidden mt-6 md:mt-10 text-center animate-win">
+                        <p class="text-2xl md:text-4xl font-black text-yellow-400 italic" id="win-text">ВЕЛИКИЙ ВИГРАШ!
+                        </p>
                     </div>
 
                     <p id="no-spins-msg" class="hidden mt-6 text-red-500 font-black text-xl animate-pulse">
@@ -218,8 +221,9 @@
                 </div>
 
                 <!-- Rules Section -->
-                <div class="mt-16 w-full max-w-4xl">
-                    <div class="glass p-10 rounded-[2.5rem] border border-white/5 relative overflow-hidden group">
+                <div class="mt-12 md:mt-16 w-full max-w-4xl px-2 md:px-0">
+                    <div
+                        class="glass p-6 md:p-10 rounded-3xl md:rounded-[2.5rem] border border-white/5 relative overflow-hidden group">
                         <div class="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                             <span class="text-9xl">📜</span>
                         </div>
