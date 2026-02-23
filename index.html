@@ -1,13 +1,322 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kazik</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAZIK - Твоя вдача тут!</title>
+    <!-- Tailwind CSS v3 via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Supabase JS via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Canvas Confetti via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .neon-shadow {
+            box-shadow: 0 0 20px rgba(240, 171, 252, 0.4);
+        }
+        .neon-text {
+            text-shadow: 0 0 10px rgba(240, 171, 252, 0.8);
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .reel-spinning {
+            animation: reelRoll 0.1s linear infinite;
+        }
+        @keyframes reelRoll {
+            0% { transform: translateY(-10px); opacity: 0.5; }
+            50% { transform: translateY(10px); opacity: 0.8; }
+            100% { transform: translateY(0); opacity: 0.5; }
+        }
+        .slot-border {
+            border: 4px solid #f0abfc;
+            box-shadow: 0 0 15px #f0abfc, inset 0 0 15px #f0abfc;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center">
+
+    <!-- Auth Section -->
+    <div id="auth-screen" class="w-full h-screen flex items-center justify-center p-4">
+        <div class="glass p-10 rounded-[2.5rem] w-full max-w-md text-center neon-shadow">
+            <h1 class="text-5xl font-black italic neon-text mb-8 tracking-tighter">KAZIK</h1>
+            <p class="text-gray-400 mb-6 uppercase tracking-widest text-sm font-bold">Введіть нік для початку</p>
+            <input type="text" id="nickname-input" placeholder="Твій нікнейм..." 
+                class="w-full bg-black/50 border border-white/10 p-5 rounded-2xl mb-6 outline-none focus:border-fuchsia-400 text-center text-xl font-bold transition-all">
+            <button onclick="handleLogin()" id="login-btn"
+                class="w-full bg-fuchsia-400 text-black font-black p-5 rounded-2xl hover:scale-105 active:scale-95 transition-all text-xl shadow-lg">
+                УВІЙТИ
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Game Section (Hidden by default) -->
+    <div id="game-screen" class="hidden w-full max-w-6xl p-4 md:p-8 flex flex-col items-center">
+        <!-- Header -->
+        <div class="w-full flex flex-wrap justify-between items-center mb-12 gap-6">
+            <h1 class="text-4xl md:text-6xl font-black italic neon-text tracking-tighter">KAZIK</h1>
+            
+            <div class="flex items-center gap-4 glass px-6 py-3 rounded-2xl border border-white/10">
+                <div class="text-right">
+                    <p class="text-[10px] text-gray-500 font-bold uppercase">Гравець</p>
+                    <p id="display-nick" class="font-bold text-fuchsia-400">---</p>
+                </div>
+                <div class="h-8 w-[1px] bg-white/10"></div>
+                <div class="text-right">
+                    <p class="text-[10px] text-gray-500 font-bold uppercase">Спіни</p>
+                    <p id="display-spins" class="font-black text-cyan-400 text-lg">0</p>
+                </div>
+                <div class="h-8 w-[1px] bg-white/10"></div>
+                <div class="text-right">
+                    <p class="text-[10px] text-gray-500 font-bold uppercase">Бали</p>
+                    <p id="display-points" class="font-black text-yellow-400 text-lg">0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 w-full">
+            <!-- Slot Machine -->
+            <div class="lg:col-span-2 flex flex-col items-center">
+                <div class="glass p-8 md:p-12 rounded-[4rem] border-4 border-fuchsia-400/30 bg-black/40 relative">
+                    <div class="flex gap-4 md:gap-8 mb-12">
+                        <div id="reel-1" class="w-24 h-36 md:w-36 md:h-52 bg-neutral-900 rounded-3xl flex items-center justify-center text-5xl md:text-7xl border border-white/5 relative overflow-hidden">🍒</div>
+                        <div id="reel-2" class="w-24 h-36 md:w-36 md:h-52 bg-neutral-900 rounded-3xl flex items-center justify-center text-5xl md:text-7xl border border-white/5 relative overflow-hidden">🍋</div>
+                        <div id="reel-3" class="w-24 h-36 md:w-36 md:h-52 bg-neutral-900 rounded-3xl flex items-center justify-center text-5xl md:text-7xl border border-white/5 relative overflow-hidden">777</div>
+                    </div>
+                    <button onclick="spin()" id="spin-btn"
+                        class="w-full py-8 rounded-[2rem] bg-fuchsia-400 text-black font-black text-3xl shadow-[0_0_30px_rgba(240,171,252,0.5)] hover:scale-[1.02] active:scale-95 transition-all uppercase italic tracking-widest">
+                        КРУТИТИ
+                    </button>
+                    <div id="win-badge" class="hidden absolute -bottom-6 left-1/2 -translate-x-1/2 bg-yellow-400 text-black px-10 py-3 rounded-full font-black text-2xl shadow-xl animate-bounce">
+                        ВИГРАШ! 🎉
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaderboard -->
+            <div class="flex flex-col gap-8">
+                <div class="glass p-8 rounded-[2rem] border border-white/10">
+                    <h3 class="text-2xl font-black mb-6 italic text-fuchsia-400 uppercase">TOP PLAYERS</h3>
+                    <div id="leaderboard-list" class="space-y-4">
+                        <div class="text-center text-gray-500 animate-pulse">Завантаження...</div>
+                    </div>
+                </div>
+
+                <div class="glass p-6 rounded-2xl text-xs text-gray-500 uppercase font-bold tracking-widest leading-relaxed">
+                    <p class="mb-2 text-yellow-400">Виплати:</p>
+                    <p>777 777 777 = 500 БАЛІВ</p>
+                    <p>🛸 🛸 🛸 = 100 БАЛІВ</p>
+                    <p>🏦 🏦 🏦 = 50 БАЛІВ</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secret Admin Section -->
+    <div class="mt-20 w-full max-w-6xl px-4 pb-20">
+        <div id="admin-trigger" onclick="toggleAdminAuth()" class="text-center text-[10px] text-white/5 hover:text-white/20 transition-all cursor-pointer select-none">
+            © 2026 KAZIK HIGH-ROLLER COLLECTOR. ADMIN ACCESS.
+        </div>
+        
+        <div id="admin-auth" class="hidden glass p-6 rounded-2xl mt-4 max-w-sm mx-auto text-center border-red-500/20">
+            <input type="password" id="admin-pass" placeholder="Пароль..." class="w-full bg-black/40 border border-white/10 p-3 rounded-xl mb-4 text-center">
+            <button onclick="checkAdminPass()" class="w-full bg-red-500/20 text-red-500 py-2 rounded-xl font-bold">УВІЙТИ В АДМІНКУ</button>
+        </div>
+
+        <div id="admin-panel" class="hidden glass p-8 rounded-[2rem] mt-6 border border-red-500/30">
+            <div class="flex flex-col md:flex-row gap-6 items-center">
+                <div class="flex-grow w-full">
+                    <input type="text" id="admin-target-nick" placeholder="Нікнейм гравця..." class="w-full bg-black p-4 rounded-xl border border-white/10 font-bold">
+                </div>
+                <div class="flex gap-4">
+                    <button onclick="addSpins(5)" class="px-8 py-4 bg-red-500 text-black font-black rounded-xl hover:scale-105 transition-all">+5</button>
+                    <button onclick="addSpins(10)" class="px-8 py-4 bg-red-500 text-black font-black rounded-xl hover:scale-105 transition-all">+10</button>
+                </div>
+            </div>
+            <p id="admin-msg" class="mt-4 text-center font-bold text-sm h-4"></p>
+        </div>
+    </div>
+
+    <script>
+        // Supabase Config
+        const SUPABASE_URL = 'https://huhilljlthphkmvgyqlv.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh1aGlsbGpsdGhwaGttdmd5cWx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NzY5NzYsImV4cCI6MjA4NzQ1Mjk3Nn0.OgAcEX5nmEAHwONTLEhF5t_2v6yOdTYIWs5cy9tBpBw';
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let currentUser = null;
+        const SYMBOLS = ['🍒', '🍋', '777', '🛸', '🏦'];
+        const REWARDS = { '🍒': 10, '🍋': 20, '🏦': 50, '🛸': 100, '777': 500 };
+
+        // UI Helpers
+        const $ = id => document.getElementById(id);
+
+        async function handleLogin() {
+            const nick = $('nickname-input').value.trim();
+            if(!nick) return;
+
+            $('login-btn').innerText = 'ЗАВАНТАЖЕННЯ...';
+            
+            try {
+                let { data, error } = await supabase.from('profiles').select('*').eq('nickname', nick).single();
+
+                if (error && error.code === 'PGRST116') {
+                    const { data: newUser, error: createError } = await supabase
+                        .from('profiles').insert([{ nickname: nick, spins: 0, points: 0 }]).select().single();
+                    if(createError) throw createError;
+                    data = newUser;
+                } else if (error) throw error;
+
+                currentUser = data;
+                switchToGame();
+                subscribeToProfile();
+            } catch (err) {
+                console.error(err);
+                alert('Помилка підключення до БД');
+            } finally {
+                $('login-btn').innerText = 'УВІЙТИ';
+            }
+        }
+
+        function switchToGame() {
+            $('auth-screen').classList.add('hidden');
+            $('game-screen').classList.remove('hidden');
+            updateUI();
+            fetchLeaderboard();
+        }
+
+        function updateUI() {
+            if(!currentUser) return;
+            $('display-nick').innerText = currentUser.nickname;
+            $('display-spins').innerText = currentUser.spins;
+            $('display-points').innerText = currentUser.points;
+            
+            if(currentUser.spins <= 0) {
+                $('spin-btn').classList.add('opacity-30', 'grayscale');
+                $('spin-btn').innerText = 'БЕЗ СПІНІВ';
+            } else {
+                $('spin-btn').classList.remove('opacity-30', 'grayscale');
+                $('spin-btn').innerText = 'КРУТИТИ';
+            }
+        }
+
+        function subscribeToProfile() {
+            supabase.channel(`profile-${currentUser.id}`)
+                .on('postgres_changes', { event: 'UPDATE', table: 'profiles', filter: `id=eq.${currentUser.id}` }, payload => {
+                    currentUser = payload.new;
+                    updateUI();
+                })
+                .subscribe();
+            
+            // Global leaderboard updates
+            supabase.channel('global-changes')
+                .on('postgres_changes', { event: '*', table: 'profiles' }, () => fetchLeaderboard())
+                .subscribe();
+        }
+
+        async function fetchLeaderboard() {
+            const { data } = await supabase.from('profiles').select('nickname, points').order('points', { ascending: false }).limit(5);
+            if(data) {
+                $('leaderboard-list').innerHTML = data.map((u, i) => `
+                    <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
+                        <div class="flex items-center gap-3">
+                            <span class="w-6 h-6 flex items-center justify-center bg-fuchsia-400 text-black rounded text-[10px] font-black">${i+1}</span>
+                            <span class="font-bold text-sm">${u.nickname}</span>
+                        </div>
+                        <span class="font-black text-cyan-400">${u.points}</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        let isSpinning = false;
+        async function spin() {
+            if(isSpinning || currentUser.spins <= 0) return;
+            
+            isSpinning = true;
+            $('win-badge').classList.add('hidden');
+            
+            // 1. Deduct spin
+            const { error } = await supabase.from('profiles').update({ spins: currentUser.spins - 1 }).eq('id', currentUser.id);
+            if(error) {
+                isSpinning = false;
+                return;
+            }
+
+            // 2. Animation
+            const reels = [$('reel-1'), $('reel-2'), $('reel-3')];
+            reels.forEach(r => r.classList.add('reel-spinning'));
+
+            const results = [
+                SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)],
+                SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)],
+                SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)]
+            ];
+
+            setTimeout(() => {
+                reels[0].classList.remove('reel-spinning');
+                reels[0].innerText = results[0];
+                setTimeout(() => {
+                    reels[1].classList.remove('reel-spinning');
+                    reels[1].innerText = results[1];
+                    setTimeout(async () => {
+                        reels[2].classList.remove('reel-spinning');
+                        reels[2].innerText = results[2];
+                        isSpinning = false;
+
+                        // Check Win
+                        if(results[0] === results[1] && results[1] === results[2]) {
+                            const reward = REWARDS[results[0]];
+                            $('win-badge').classList.remove('hidden');
+                            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+                            await supabase.from('profiles').update({ points: currentUser.points + reward }).eq('id', currentUser.id);
+                        }
+                    }, 500);
+                }, 500);
+            }, 1000);
+        }
+
+        // Admin Logic
+        function toggleAdminAuth() {
+            $('admin-auth').classList.toggle('hidden');
+        }
+
+        function checkAdminPass() {
+            if($('admin-pass').value === '1234') {
+                $('admin-auth').classList.add('hidden');
+                $('admin-panel').classList.remove('hidden');
+            } else {
+                alert('Невірний пароль');
+            }
+        }
+
+        async function addSpins(amount) {
+            const nick = $('admin-target-nick').value.trim();
+            if(!nick) return;
+            
+            const { data: user } = await supabase.from('profiles').select('spins').eq('nickname', nick).single();
+            if(user) {
+                const { error } = await supabase.from('profiles').update({ spins: user.spins + amount }).eq('nickname', nick);
+                if(!error) {
+                    $('admin-msg').innerText = `+${amount} спінів додано для ${nick}`;
+                    $('admin-msg').style.color = '#4ade80';
+                    setTimeout(() => $('admin-msg').innerText = '', 3000);
+                }
+            } else {
+                $('admin-msg').innerText = "Гравця не знайдено";
+                $('admin-msg').style.color = '#f87171';
+            }
+        }
+    </script>
+</body>
 </html>
