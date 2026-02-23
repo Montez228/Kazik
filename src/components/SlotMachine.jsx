@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { supabase } from '../lib/supabase'
 import confetti from 'canvas-confetti'
@@ -16,6 +16,8 @@ export default function SlotMachine({ user, isMuted }) {
     const [spinning, setSpinning] = useState(false)
     const [results, setResults] = useState(['777', '777', '777'])
     const [win, setWin] = useState(null)
+    const [spinText, setSpinText] = useState('КРУТИМО... 🍋')
+
 
     const spinAudio = useRef(new Audio('https://assets.mixkit.co/music/preview/mixkit-casino-night-633.mp3'))
     const clickAudio = useRef(new Audio('https://www.soundjay.com/buttons/sounds/button-20.mp3'))
@@ -33,8 +35,11 @@ export default function SlotMachine({ user, isMuted }) {
     const spin = async () => {
         if (spinning || user.spins <= 0) return
 
+        const texts = ['КРУТИМО... 🍋', 'ЗАЦІНИ ЛИМОН...']
+        setSpinText(texts[Math.floor(Math.random() * texts.length)])
         setSpinning(true)
         setWin(null)
+
 
         // Deduct spin first
         const { error: spinError } = await supabase
@@ -135,13 +140,14 @@ export default function SlotMachine({ user, isMuted }) {
                     onClick={spin}
                     disabled={spinning || user.spins <= 0}
                     className={`w-full py-8 rounded-[2rem] font-black text-3xl transition-all relative overflow-hidden
-            ${spinning ? 'bg-neutral-800 text-neutral-500 cursor-wait' : 'bg-casino-neon text-black'}
+            ${spinning ? 'bg-neutral-800/80 text-neutral-500 cursor-wait opacity-75 grayscale-[0.5]' : 'bg-casino-neon text-black'}
             ${user.spins <= 0 && !spinning ? 'bg-red-500/20 text-red-500 border border-red-500/50 grayscale' : 'shadow-[0_0_20px_rgba(240,171,252,0.4)]'}
           `}
                 >
-                    <span className="relative z-10 italic uppercase tracking-widest leading-none">
-                        {spinning ? 'Крутимо...' : user.spins <= 0 ? 'Без спінів' : 'Крутити'}
+                    <span className={`relative z-10 italic uppercase tracking-widest leading-none ${spinning ? 'animate-text-pulse' : ''}`}>
+                        {spinning ? spinText : user.spins <= 0 ? 'Без спінів' : 'КРУТИТИ ЛИМОН'}
                     </span>
+
                     {!spinning && user.spins > 0 && (
                         <motion.div
                             animate={{ x: ['-100%', '200%'] }}
