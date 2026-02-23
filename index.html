@@ -77,8 +77,8 @@
 <body class="flex flex-col items-center">
 
     <!-- Auth Screen -->
-    <div id="auth-screen" class="fixed inset-0 z-50 flex items-center justify-center p-6 bg-slate-950">
-        <div class="glass p-12 rounded-[3rem] w-full max-w-md text-center neon-border animate-fade-in">
+    <div id="auth-screen" class="fixed inset-0 z-50 flex items-center justify-center p-6 bg-slate-950 text-center">
+        <div class="glass p-12 rounded-[3rem] w-full max-w-md neon-border">
             <h1 class="text-6xl font-black italic neon-text mb-2 tracking-tighter">CASINO</h1>
             <p class="text-purple-400 font-bold tracking-widest text-xs mb-10 uppercase italic">Charity Edition</p>
 
@@ -88,21 +88,20 @@
             </div>
 
             <button onclick="handleLogin()" id="login-btn"
-                class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-black p-5 rounded-2xl hover:scale-[1.02] active:scale-95 transition-all text-xl shadow-[0_10px_30px_rgba(147,51,234,0.3)]">
+                class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-black p-5 rounded-2xl hover:scale-[1.02] active:scale-95 transition-all text-xl shadow-[0_10px_30px_rgba(147,51,234,0.3)] uppercase">
                 ПОЧАТИ ГРУ
             </button>
             <p id="auth-status" class="mt-4 text-xs text-slate-500 font-bold"></p>
         </div>
     </div>
 
-    <!-- Main Game Section (Hidden by default) -->
+    <!-- Main Game Section -->
     <div id="game-screen" class="hidden w-full max-w-7xl p-4 md:p-10 flex flex-col items-center min-h-screen">
 
-        <!-- Top Navigation -->
         <div class="w-full flex flex-wrap justify-between items-center mb-16 gap-8">
             <div>
                 <h1 class="text-5xl font-black italic neon-text tracking-tighter">KAZIK</h1>
-                <p class="text-[10px] text-purple-400 font-bold tracking-widest uppercase">Charity Slots v2.0</p>
+                <p class="text-[10px] text-purple-400 font-bold tracking-widest uppercase">Charity Slots v3.0</p>
             </div>
 
             <div class="flex items-center gap-6 glass px-8 py-4 rounded-[2rem] border border-white/10 shadow-xl">
@@ -123,116 +122,97 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-10 w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-10 w-full mb-20">
 
-            <!-- Leaderboard Column (Left) -->
+            <!-- Leaderboard (Left) -->
             <div class="lg:col-span-1 order-2 lg:order-1">
-                <div class="glass p-8 rounded-[2.5rem] border border-white/5 h-full relative overflow-hidden">
-                    <div
-                        class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-30">
-                    </div>
+                <div class="glass p-8 rounded-[2.5rem] border border-white/5 h-full relative">
                     <h3
                         class="text-2xl font-black mb-8 italic text-purple-400 uppercase tracking-tighter flex items-center gap-2">
-                        <span>🏆</span> TOP RIDERS
+                        <span>🏆</span> TOP-10
                     </h3>
-                    <div id="leaderboard-list" class="space-y-4">
-                        <!-- Loaded dynamically -->
+                    <div id="leaderboard-list" class="space-y-3">
+                        <div class="text-center text-slate-600 animate-pulse py-10 font-bold">ОНОВЛЕННЯ...</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Slot Center (Middle) -->
+            <!-- Slot Center -->
             <div class="lg:col-span-3 order-1 lg:order-2 flex flex-col items-center">
-                <div class="relative group">
-                    <!-- Glow effect -->
-                    <div
-                        class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-[4.5rem] blur opacity-25 group-hover:opacity-40 transition duration-1000">
-                    </div>
+                <div
+                    class="glass p-10 md:p-14 rounded-[4rem] border-4 border-purple-500/20 bg-slate-950/80 relative flex flex-col items-center shadow-2xl w-full">
 
-                    <div
-                        class="glass p-10 md:p-16 rounded-[4rem] border-4 border-purple-500/20 bg-slate-950/80 relative flex flex-col items-center shadow-2xl">
-
-                        <div class="flex gap-4 md:gap-10 mb-14 slot-container">
+                    <div class="flex gap-4 md:gap-8 mb-12 slot-container">
+                        <div
+                            class="w-24 h-36 md:w-40 md:h-60 bg-slate-900 rounded-3xl flex items-center justify-center text-6xl md:text-8xl border border-white/5 relative overflow-hidden shadow-inner">
+                            <div id="reel-1" class="reel">🍒</div>
                             <div
-                                class="w-28 h-40 md:w-44 md:h-64 bg-slate-900 rounded-[2rem] flex items-center justify-center text-6xl md:text-8xl border border-white/5 relative overflow-hidden shadow-inner">
-                                <div id="reel-1" class="reel">🍒</div>
-                                <div
-                                    class="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-black/80 to-transparent pointer-events-none">
-                                </div>
-                                <div
-                                    class="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/80 to-transparent pointer-events-none">
-                                </div>
-                            </div>
-                            <div
-                                class="w-28 h-40 md:w-44 md:h-64 bg-slate-900 rounded-[2rem] flex items-center justify-center text-6xl md:text-8xl border border-white/5 relative overflow-hidden shadow-inner">
-                                <div id="reel-2" class="reel">🍋</div>
-                                <div
-                                    class="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-black/80 to-transparent pointer-events-none">
-                                </div>
-                                <div
-                                    class="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/80 to-transparent pointer-events-none">
-                                </div>
-                            </div>
-                            <div
-                                class="w-28 h-40 md:w-44 md:h-64 bg-slate-900 rounded-[2rem] flex items-center justify-center text-6xl md:text-8xl border border-white/5 relative overflow-hidden shadow-inner">
-                                <div id="reel-3" class="reel">🍉</div>
-                                <div
-                                    class="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-black/80 to-transparent pointer-events-none">
-                                </div>
-                                <div
-                                    class="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/80 to-transparent pointer-events-none">
-                                </div>
+                                class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60 pointer-events-none">
                             </div>
                         </div>
-
-                        <button onclick="spin()" id="spin-btn"
-                            class="w-full py-8 rounded-[2.5rem] bg-gradient-to-b from-purple-500 to-purple-700 text-white font-black text-4xl shadow-[0_20px_50px_rgba(147,51,234,0.4)] hover:scale-[1.02] active:scale-95 transition-all uppercase italic tracking-tighter border-t border-white/20">
-                            КРУТИТИ
-                        </button>
-
-                        <!-- Win Message -->
-                        <div id="win-overlay" class="hidden mt-8 text-center animate-win">
-                            <p class="text-4xl font-black text-yellow-400 italic drop-shadow-[0_0_15px_rgba(251,191,36,0.6)]"
-                                id="win-text">ВЕЛИКИЙ ВИГРАШ! +0</p>
+                        <div
+                            class="w-24 h-36 md:w-40 md:h-60 bg-slate-900 rounded-3xl flex items-center justify-center text-6xl md:text-8xl border border-white/5 relative overflow-hidden shadow-inner">
+                            <div id="reel-2" class="reel">🍋</div>
+                            <div
+                                class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60 pointer-events-none">
+                            </div>
+                        </div>
+                        <div
+                            class="w-24 h-36 md:w-40 md:h-60 bg-slate-900 rounded-3xl flex items-center justify-center text-6xl md:text-8xl border border-white/5 relative overflow-hidden shadow-inner">
+                            <div id="reel-3" class="reel">🍉</div>
+                            <div
+                                class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60 pointer-events-none">
+                            </div>
                         </div>
                     </div>
+
+                    <button onclick="spin()" id="spin-btn"
+                        class="w-full max-w-md py-8 rounded-[2rem] bg-gradient-to-r from-purple-500 to-purple-700 text-white font-black text-4xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all uppercase italic tracking-tighter disabled:opacity-30 disabled:grayscale">
+                        КРУТИТИ
+                    </button>
+
+                    <div id="win-overlay" class="hidden mt-10 text-center animate-win">
+                        <p class="text-4xl font-black text-yellow-400 italic" id="win-text">ВЕЛИКИЙ ВИГРАШ!</p>
+                    </div>
+
+                    <p id="no-spins-msg" class="hidden mt-6 text-red-500 font-black text-xl animate-pulse">
+                        Немає спінів! Задонать для поповнення
+                    </p>
                 </div>
 
-                <!-- Game Info -->
-                <div class="mt-12 w-full grid grid-cols-5 gap-4">
-                    <div class="glass p-4 rounded-2xl text-center border border-white/5">
-                        <span class="text-3xl block mb-2">🍒</span>
-                        <span class="text-[10px] font-bold text-slate-500 uppercase">+50 PTS</span>
+                <div class="mt-12 w-full grid grid-cols-5 gap-3 max-w-2xl">
+                    <div class="glass p-4 rounded-xl text-center border border-white/5">
+                        <span class="text-2xl block mb-1">🍒</span><span
+                            class="text-[8px] font-bold text-slate-500">+50</span>
                     </div>
-                    <div class="glass p-4 rounded-2xl text-center border border-white/5">
-                        <span class="text-3xl block mb-2">🍋</span>
-                        <span class="text-[10px] font-bold text-slate-500 uppercase">+100 PTS</span>
+                    <div class="glass p-4 rounded-xl text-center border border-white/5">
+                        <span class="text-2xl block mb-1">🍋</span><span
+                            class="text-[8px] font-bold text-slate-500">+100</span>
                     </div>
-                    <div class="glass p-4 rounded-2xl text-center border border-white/5">
-                        <span class="text-3xl block mb-2">🍉</span>
-                        <span class="text-[10px] font-bold text-slate-500 uppercase">+250 PTS</span>
+                    <div class="glass p-4 rounded-xl text-center border border-white/5">
+                        <span class="text-2xl block mb-1">🍉</span><span
+                            class="text-[8px] font-bold text-slate-500">+250</span>
                     </div>
-                    <div class="glass p-4 rounded-2xl text-center border border-white/5">
-                        <span class="text-3xl block mb-2">💎</span>
-                        <span class="text-[10px] font-bold text-slate-500 uppercase">+500 PTS</span>
+                    <div class="glass p-4 rounded-xl text-center border border-white/5">
+                        <span class="text-2xl block mb-1">💎</span><span
+                            class="text-[8px] font-bold text-slate-500">+500</span>
                     </div>
-                    <div class="glass p-4 rounded-2xl text-center border border-white/5">
-                        <span class="text-3xl block mb-2">7️⃣</span>
-                        <span class="text-[10px] font-bold text-slate-500 uppercase">+1000 PTS</span>
+                    <div class="glass p-4 rounded-xl text-center border border-white/5">
+                        <span class="text-2xl block mb-1">7️⃣</span><span
+                            class="text-[8px] font-bold text-slate-500">+1000</span>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Hidden Admin Area (Just for testing convenience) -->
-    <div
-        class="mt-auto py-10 opacity-10 hover:opacity-50 transition-all cursor-default text-[10px] tracking-widest text-slate-600">
-        © 2026 BENEVOLENT CASINO INFRASTRUCTURE • ALL DATA TO SUPABASE
+        <!-- Secret Admin Logic (Footer Hidden) -->
+        <div id="admin-trigger" onclick="adminLogin()"
+            class="mt-auto py-10 opacity-5 hover:opacity-50 transition-all cursor-default text-[10px] tracking-widest text-slate-600">
+            © 2026 CASINO INFRASTRUCTURE • REALTIME ENABLED
+        </div>
     </div>
 
     <script>
-        // Supabase Infrastructure
         const SUPABASE_URL = 'https://huhilljlthphkmvgyqlv.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh1aGlsbGpsdGhwaGttdmd5cWx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NzY5NzYsImV4cCI6MjA4NzQ1Mjk3Nn0.OgAcEX5nmEAHwONTLEhF5t_2v6yOdTYIWs5cy9tBpBw';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -243,20 +223,16 @@
         let currentUser = null;
         let isSpinning = false;
 
-        // Audio Context for Synth
+        // Audio Synth
         const AudioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-        function playSynthSound(freq, type, duration, vol) {
+        function playSfx(freq, type, duration, vol) {
             const osc = AudioCtx.createOscillator();
             const gain = AudioCtx.createGain();
-            osc.type = type;
-            osc.frequency.setValueAtTime(freq, AudioCtx.currentTime);
+            osc.connect(gain).connect(AudioCtx.destination);
+            osc.frequency.value = freq; osc.type = type;
             gain.gain.setValueAtTime(vol, AudioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.0001, AudioCtx.currentTime + duration);
-            osc.connect(gain);
-            gain.connect(AudioCtx.destination);
-            osc.start();
-            osc.stop(AudioCtx.currentTime + duration);
+            osc.start(); osc.stop(AudioCtx.currentTime + duration);
         }
 
         const $ = id => document.getElementById(id);
@@ -264,109 +240,81 @@
         async function handleLogin() {
             const nick = $('nickname-input').value.trim();
             if (!nick) return;
-
-            $('login-btn').innerText = 'ПЕРЕВІРКА...';
-            $('auth-status').innerText = 'Підключаємось до сервера...';
+            $('login-btn').innerText = 'ВХІД...';
 
             try {
-                console.log('Початок авторизації для:', nick);
-
-                // 1. Спробуємо знайти існуючого користувача
-                let { data, error } = await supabaseClient
-                    .from('profiles')
-                    .select('*')
-                    .eq('nickname', nick);
-
-                if (error) {
-                    console.error('Помилка при пошуку користувача:', error);
-                    throw error;
-                }
+                // IMPORTANT: Columns must be username, spins, points
+                let { data, error } = await supabaseClient.from('profiles').select('*').eq('username', nick);
+                if (error) throw error;
 
                 if (!data || data.length === 0) {
-                    // 2. Користувача немає - створюємо
-                    console.log('Користувача не знайдено, створюємо новий профіль...');
-                    $('auth-status').innerText = 'Створюємо новий профіль...';
-
                     const { data: newUser, error: createError } = await supabaseClient
-                        .from('profiles')
-                        .insert([{ nickname: nick, spins: 0, points: 0 }])
-                        .select();
-
+                        .from('profiles').insert([{ username: nick, spins: 0, points: 0 }]).select();
                     if (createError) {
-                        console.error('Помилка при створенні профілю:', createError);
+                        console.error('Create Error:', createError);
                         throw createError;
                     }
-
-                    if (!newUser || newUser.length === 0) {
-                        throw new Error('Сервер не повернув дані після створення');
-                    }
-
                     data = newUser;
                 }
 
-                // Supabase повертає масив при select/insert без .single()
-                currentUser = Array.isArray(data) ? data[0] : data;
-                console.log('Успішний вхід:', currentUser);
-
+                currentUser = data[0];
                 switchToGame();
                 initRealtime();
             } catch (err) {
-                console.error('Критична помилка авторизації:', err);
-                $('auth-status').innerText = 'Помилка доступу. Деталі в консолі.';
+                console.error('Login Failure:', err);
+                $('auth-status').innerText = 'Помилка бази даних. Спробуйте пізніше.';
                 $('login-btn').innerText = 'ПОЧАТИ ГРУ';
             }
         }
 
         function switchToGame() {
-            $('auth-screen').style.display = 'none';
+            $('auth-screen').classList.add('hidden');
             $('game-screen').classList.remove('hidden');
-            updateUserUI();
+            updateUI();
             updateLeaderboard();
         }
 
-        function updateUserUI() {
+        function updateUI() {
             if (!currentUser) return;
-            $('display-nick').innerText = currentUser.nickname;
+            $('display-nick').innerText = currentUser.username;
             $('display-spins').innerText = currentUser.spins;
             $('display-points').innerText = currentUser.points;
 
             const btn = $('spin-btn');
+            const msg = $('no-spins-msg');
+
             if (currentUser.spins <= 0) {
-                btn.classList.add('opacity-40', 'pointer-events-none');
-                btn.innerText = 'НЕМАЄ СПІНІВ';
+                btn.disabled = true;
+                msg.classList.remove('hidden');
             } else {
-                btn.classList.remove('opacity-40', 'pointer-events-none');
-                btn.innerText = 'КРУТИТИ';
+                btn.disabled = false;
+                msg.classList.add('hidden');
             }
         }
 
         function initRealtime() {
-            // My profile updates
-            supabaseClient.channel(`my-profile-${currentUser.id}`)
-                .on('postgres_changes', { event: 'UPDATE', table: 'profiles', filter: `id=eq.${currentUser.id}` }, payload => {
-                    currentUser = payload.new;
-                    updateUserUI();
-                })
-                .subscribe();
-
-            // All updates for leaderboard
-            supabaseClient.channel('leaderboard-room')
-                .on('postgres_changes', { event: '*', table: 'profiles' }, () => {
+            // Subscribe to any changes in profiles table for leaderboard and personal sync
+            supabaseClient.channel('profiles-sync')
+                .on('postgres_changes', { event: '*', table: 'profiles' }, (payload) => {
+                    if (payload.new && payload.new.username === currentUser.username) {
+                        currentUser = payload.new;
+                        updateUI();
+                    }
                     updateLeaderboard();
                 })
                 .subscribe();
         }
 
         async function updateLeaderboard() {
-            const { data } = await supabaseClient.from('profiles').select('nickname, points').order('points', { ascending: false }).limit(10);
+            const { data } = await supabaseClient.from('profiles').select('username, points').order('points', { ascending: false }).limit(10);
             if (data) {
                 $('leaderboard-list').innerHTML = data.map((u, i) => `
-                    <div class="flex justify-between items-center p-4 ${u.nickname === currentUser?.nickname ? 'bg-purple-500/10 border-purple-500/30' : 'bg-white/5 border-transparent'} rounded-2xl border transition-all">
-                        <div class="flex items-center gap-3">
-                            <span class="text-xs font-black opacity-30">#${i + 1}</span>
-                            <span class="font-bold text-sm truncate max-w-[80px]">${u.nickname}</span>
+                    <div class="flex justify-between items-center p-3 rounded-xl border border-white/5 transition-all ${u.username === currentUser.username ? 'bg-purple-500/20 shadow-lg border-purple-500/50' : 'bg-white/5'}">
+                        <div class="flex items-center gap-2 overflow-hidden">
+                            <span class="text-[10px] font-black opacity-40 italic">#${i + 1}</span>
+                            <span class="font-bold text-sm truncate">${u.username}</span>
                         </div>
-                        <span class="font-black text-yellow-400 text-sm tracking-tighter">${u.points.toLocaleString()}</span>
+                        <span class="font-black text-yellow-500 text-sm tracking-tighter">${u.points.toLocaleString()}</span>
                     </div>
                 `).join('');
             }
@@ -374,79 +322,85 @@
 
         async function spin() {
             if (isSpinning || currentUser.spins <= 0) return;
-
             isSpinning = true;
             $('win-overlay').classList.add('hidden');
 
-            // Deduct spin in DB
-            const { error } = await supabaseClient.from('profiles').update({ spins: currentUser.spins - 1 }).eq('id', currentUser.id);
-            if (error) {
+            // 1. CRITICAL: Deduct spin in DB first
+            const { error: spinErr } = await supabaseClient.from('profiles').update({ spins: currentUser.spins - 1 }).eq('username', currentUser.username);
+
+            if (spinErr) {
+                console.error('Spin deduction failed:', spinErr);
                 isSpinning = false;
                 return;
             }
 
-            // Start Audio Synth
-            playSynthSound(100, 'square', 0.5, 0.1);
+            // Start Audio
+            playSfx(120, 'square', 0.4, 0.1);
 
             const reels = [$('reel-1'), $('reel-2'), $('reel-3')];
-            const finalResults = [
-                EMOJIS[Math.floor(Math.random() * EMOJIS.length)],
-                EMOJIS[Math.floor(Math.random() * EMOJIS.length)],
-                EMOJIS[Math.floor(Math.random() * EMOJIS.length)]
-            ];
+            const result = [EMOJIS[Math.floor(Math.random() * 5)], EMOJIS[Math.floor(Math.random() * 5)], EMOJIS[Math.floor(Math.random() * 5)]];
 
-            // Interval based rolling
-            const start = Date.now();
-            const duration = 1500;
+            // Animation Loop (2 seconds total)
+            const startTime = Date.now();
+            const duration = 2000;
 
             const timer = setInterval(() => {
-                const elapsed = Date.now() - start;
+                const elapsed = Date.now() - startTime;
 
                 reels.forEach((reel, i) => {
-                    if (elapsed < duration - (i * 400)) {
-                        reel.innerText = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+                    if (elapsed < duration - (i * 500)) {
+                        reel.innerText = EMOJIS[Math.floor(Math.random() * 5)];
                         reel.classList.add('blur-effect');
-                        if (Math.random() > 0.8) playSynthSound(200 + i * 100, 'sine', 0.05, 0.05);
+                        if (Math.random() > 0.8) playSfx(200 + (i * 100), 'sine', 0.05, 0.05);
                     } else {
-                        reel.innerText = finalResults[i];
+                        reel.innerText = result[i];
                         reel.classList.remove('blur-effect');
                     }
                 });
 
-                if (elapsed > duration + 500) {
+                if (elapsed >= duration + 200) {
                     clearInterval(timer);
-                    finishSpin(finalResults);
+                    checkWin(result);
                 }
-            }, 100);
+            }, 80);
         }
 
-        async function finishSpin(results) {
+        async function checkWin(res) {
             isSpinning = false;
 
-            if (results[0] === results[1] && results[1] === results[2]) {
-                const reward = REWARDS[results[0]];
+            if (res[0] === res[1] && res[1] === res[2]) {
+                const reward = REWARDS[res[0]];
 
-                // Audio Win
-                playSynthSound(440, 'triangle', 0.5, 0.2);
-                setTimeout(() => playSynthSound(554, 'triangle', 0.5, 0.2), 150);
-                setTimeout(() => playSynthSound(659, 'triangle', 0.7, 0.2), 300);
+                // Visual & Audio Celebration
+                confetti({ particleCount: 200, spread: 70, origin: { y: 0.6 }, colors: ['#a855f7', '#fbbf24', '#22d3ee'] });
+                playSfx(440, 'triangle', 0.6, 0.2);
+                setTimeout(() => playSfx(554, 'triangle', 0.6, 0.2), 100);
+                setTimeout(() => playSfx(659, 'triangle', 0.8, 0.2), 200);
 
-                // UI Win
-                confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 }, colors: ['#a855f7', '#fbbf24', '#3b82f6'] });
-                $('win-text').innerText = `ВИ ВИГРАЛИ +${reward} БАЛІВ!`;
+                $('win-text').innerText = `ВИГРАШ: +${reward} БАЛІВ!`;
                 $('win-overlay').classList.remove('hidden');
 
-                // Update DB Points
-                await supabaseClient.from('profiles').update({ points: currentUser.points + reward }).eq('id', currentUser.id);
+                // Update points in DB
+                const { error: pointsErr } = await supabaseClient.from('profiles').update({ points: currentUser.points + reward }).eq('username', currentUser.username);
+                if (pointsErr) console.error('Points increment failed:', pointsErr);
             } else {
-                playSynthSound(50, 'sawtooth', 0.3, 0.05);
+                playSfx(60, 'sawtooth', 0.3, 0.05);
             }
         }
 
-        // Handle Enter key for login
-        $('nickname-input').addEventListener('keypress', e => {
-            if (e.key === 'Enter') handleLogin();
-        });
+        // Convenience for dev - secret increment
+        function adminLogin() {
+            const pass = prompt('Введіть пароль адміна (1234):');
+            if (pass === '1234') {
+                const target = prompt('Нік гравця:', currentUser.username);
+                const amt = parseInt(prompt('Скільки спінів додати?', '10'));
+                if (target && !isNaN(amt)) {
+                    supabaseClient.from('profiles').select('spins').eq('username', target).single().then(({ data }) => {
+                        if (data) supabaseClient.from('profiles').update({ spins: data.spins + amt }).eq('username', target);
+                    });
+                }
+            }
+        }
     </script>
 </body>
 
