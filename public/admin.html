@@ -50,35 +50,6 @@
                 class="text-xs font-bold text-slate-500 hover:text-white transition-colors">ВИЙТИ</button>
         </header>
 
-        <!-- Stats Management -->
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            <div class="md:col-span-2 glass p-8 rounded-3xl border-yellow-500/10 border shadow-2xl">
-                <h3 class="text-xl font-black mb-6 italic text-blue-400 uppercase tracking-tight">Загальний прогрес
-                    збору</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <label class="text-[10px] font-black text-slate-500 uppercase block mb-2 px-1">Зібрано
-                            (грн)</label>
-                        <input type="number" id="stats-current"
-                            class="w-full bg-slate-900 border border-white/10 p-4 rounded-xl font-black text-yellow-400 text-xl outline-none focus:border-yellow-500 transition-all">
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-black text-slate-500 uppercase block mb-2 px-1">Ціль
-                            (грн)</label>
-                        <input type="number" id="stats-target"
-                            class="w-full bg-slate-900 border border-white/10 p-4 rounded-xl font-black text-white text-xl outline-none focus:border-white transition-all">
-                    </div>
-                </div>
-                <button onclick="updateStats()"
-                    class="bg-blue-600 hover:bg-blue-500 text-white font-black px-8 py-4 rounded-xl transition-all uppercase text-sm shadow-lg shadow-blue-900/40">Зберегти
-                    зміни</button>
-            </div>
-            <div class="glass p-8 rounded-3xl border-white/5 border flex flex-col justify-center text-center">
-                <p class="text-[10px] font-black text-slate-500 uppercase mb-2">Поточний відсоток</p>
-                <h2 id="stats-percent" class="text-6xl font-black text-white italic">0%</h2>
-            </div>
-        </section>
-
         <!-- Players Management -->
         <section class="glass p-8 rounded-3xl border-white/5 border">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
@@ -129,40 +100,12 @@
         }
 
         async function initAdmin() {
-            loadStats();
             loadPlayers();
 
             // Realtime subscriptions
             supabaseClient.channel('admin-sync')
-                .on('postgres_changes', { event: '*', table: 'stats' }, loadStats)
                 .on('postgres_changes', { event: '*', table: 'profiles' }, loadPlayers)
                 .subscribe();
-        }
-
-        async function loadStats() {
-            const { data, error } = await supabaseClient.from('stats').select('*').eq('id', 1).single();
-            if (data) {
-                document.getElementById('stats-current').value = data.current_amount;
-                document.getElementById('stats-target').value = data.target_amount;
-                const percent = Math.floor((data.current_amount / data.target_amount) * 100);
-                document.getElementById('stats-percent').innerText = percent + '%';
-            }
-        }
-
-        async function updateStats() {
-            const current = parseInt(document.getElementById('stats-current').value);
-            const target = parseInt(document.getElementById('stats-target').value);
-
-            const { error } = await supabaseClient.from('stats').update({
-                current_amount: current,
-                target_amount: target
-            }).eq('id', 1);
-
-            if (error) {
-                showToast('Помилка оновлення!', 'error');
-            } else {
-                showToast('Прогрес успішно оновлено!', 'success');
-            }
         }
 
         async function loadPlayers() {
