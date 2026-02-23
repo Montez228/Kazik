@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>БЛАГОДІЙНЕ КАЗИНО</title>
+    <title>Збір: Заряджені на Лимон 🍋🇺🇦</title>
     <!-- Tailwind CSS v3 via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Supabase JS via CDN -->
@@ -78,9 +78,11 @@
 
     <!-- Auth Screen -->
     <div id="auth-screen" class="fixed inset-0 z-50 flex items-center justify-center p-6 bg-slate-950 text-center">
-        <div class="glass p-12 rounded-[3rem] w-full max-w-md neon-border">
-            <h1 class="text-6xl font-black italic neon-text mb-2 tracking-tighter">CASINO</h1>
-            <p class="text-purple-400 font-bold tracking-widest text-xs mb-10 uppercase italic">Charity Edition</p>
+        <div class="glass p-12 rounded-[3rem] w-full max-w-md neon-border shadow-[0_0_50px_rgba(234,179,8,0.2)]">
+            <h1 class="text-4xl font-black italic text-yellow-400 mb-2 tracking-tighter uppercase leading-tight">
+                Заряджені<br>на Лимон</h1>
+            <p class="text-blue-400 font-bold tracking-widest text-[10px] mb-10 uppercase italic">Крутимо подарунки —
+                допомагаємо ЗСУ 🍋🇺🇦</p>
 
             <div class="relative mb-8">
                 <input type="text" id="username-input" placeholder="ВВЕДІТЬ НІКНЕЙМ"
@@ -88,8 +90,8 @@
             </div>
 
             <button onclick="handleLogin()" id="login-btn"
-                class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-black p-5 rounded-2xl hover:scale-[1.02] active:scale-95 transition-all text-xl shadow-[0_10px_30px_rgba(147,51,234,0.3)] uppercase">
-                ПОЧАТИ ГРУ
+                class="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 text-slate-950 font-black p-5 rounded-2xl hover:scale-[1.02] active:scale-95 transition-all text-sm shadow-[0_10px_30px_rgba(234,179,8,0.3)] uppercase">
+                Увійти та наблизити перемогу
             </button>
             <p id="auth-status" class="mt-4 text-xs text-slate-500 font-bold"></p>
         </div>
@@ -98,10 +100,29 @@
     <!-- Main Game Section -->
     <div id="game-screen" class="hidden w-full max-w-7xl p-4 md:p-10 flex flex-col items-center min-h-screen">
 
+        <!-- Progress Bar -->
+        <div
+            class="w-full max-w-3xl mb-12 glass p-4 rounded-2xl border border-white/5 shadow-2xl overflow-hidden relative">
+            <div class="flex justify-between items-end mb-2 px-2">
+                <div>
+                    <p class="text-[10px] font-black text-blue-400 uppercase tracking-tighter mb-1">Ціль збору: 1 000
+                        000 грн</p>
+                    <p class="text-2xl font-black text-yellow-400 italic leading-none">425,780 грн <span
+                            class="text-xs opacity-50 not-italic">на банку</span></p>
+                </div>
+                <p class="text-3xl font-black text-white italic opacity-20">42%</p>
+            </div>
+            <div class="h-4 bg-slate-900 rounded-full overflow-hidden border border-white/5 p-1">
+                <div class="h-full bg-gradient-to-r from-yellow-500 to-yellow-300 rounded-full shadow-[0_0_15px_rgba(234,179,8,0.5)] transition-all duration-1000"
+                    style="width: 42%;"></div>
+            </div>
+        </div>
+
         <div class="w-full flex justify-between items-center mb-10 md:mb-16 gap-4">
             <div class="shrink-0">
-                <h1 class="text-3xl md:text-5xl font-black italic neon-text tracking-tighter">KAZIK</h1>
-                <p class="text-[8px] md:text-[10px] text-purple-400 font-bold tracking-widest uppercase">Slots v3.0</p>
+                <h1 class="text-3xl md:text-5xl font-black italic text-yellow-400 tracking-tighter">ЛИМОН</h1>
+                <p class="text-[8px] md:text-[10px] text-blue-400 font-bold tracking-widest uppercase">Drive for Victory
+                    v3.0</p>
             </div>
 
             <div
@@ -161,7 +182,7 @@
                     <div class="flex gap-2 md:gap-8 mb-8 md:mb-12 slot-container">
                         <div
                             class="w-20 h-32 md:w-40 md:h-60 bg-slate-900 rounded-2xl md:rounded-3xl flex items-center justify-center text-5xl md:text-8xl border border-white/5 relative overflow-hidden shadow-inner">
-                            <div id="reel-1" class="reel">🍒</div>
+                            <div id="reel-1" class="reel">🍋</div>
                             <div
                                 class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60 pointer-events-none">
                             </div>
@@ -175,7 +196,7 @@
                         </div>
                         <div
                             class="w-20 h-32 md:w-40 md:h-60 bg-slate-900 rounded-2xl md:rounded-3xl flex items-center justify-center text-5xl md:text-8xl border border-white/5 relative overflow-hidden shadow-inner">
-                            <div id="reel-3" class="reel">🍉</div>
+                            <div id="reel-3" class="reel">🍋</div>
                             <div
                                 class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60 pointer-events-none">
                             </div>
@@ -183,8 +204,8 @@
                     </div>
 
                     <button onclick="spin()" id="spin-btn"
-                        class="w-full max-w-sm md:max-w-md py-6 md:py-8 rounded-2xl md:rounded-[2rem] bg-gradient-to-r from-purple-500 to-purple-700 text-white font-black text-2xl md:text-4xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all uppercase italic tracking-tighter disabled:opacity-30 disabled:grayscale">
-                        КРУТИТИ
+                        class="w-full max-w-sm md:max-w-md py-6 md:py-8 rounded-2xl md:rounded-[2rem] bg-gradient-to-r from-yellow-500 to-yellow-600 text-slate-950 font-black text-2xl md:text-4xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all uppercase italic tracking-tighter disabled:opacity-30 disabled:grayscale ring-4 ring-yellow-500/20">
+                        КРУТИТИ ЛИМОН
                     </button>
 
                     <div id="win-overlay" class="hidden mt-6 md:mt-10 text-center animate-win">
@@ -197,69 +218,70 @@
                     </p>
                 </div>
 
-                <div class="mt-12 w-full grid grid-cols-5 gap-3 max-w-2xl">
+                <div class="mt-12 w-full grid grid-cols-5 gap-3 max-w-2xl px-4">
                     <div class="glass p-4 rounded-xl text-center border border-white/5">
+                        <span class="text-2xl block mb-1">🍋</span><span
+                            class="text-[8px] font-bold text-slate-500">100</span>
+                    </div>
+                    <div class="glass p-4 rounded-xl text-center border border-white/5 opacity-50">
                         <span class="text-2xl block mb-1">🍒</span><span
                             class="text-[8px] font-bold text-slate-500">10</span>
                     </div>
-                    <div class="glass p-4 rounded-xl text-center border border-white/5">
-                        <span class="text-2xl block mb-1">🍋</span><span
-                            class="text-[8px] font-bold text-slate-500">20</span>
-                    </div>
-                    <div class="glass p-4 rounded-xl text-center border border-white/5">
+                    <div class="glass p-4 rounded-xl text-center border border-white/5 opacity-50">
                         <span class="text-2xl block mb-1">🍉</span><span
                             class="text-[8px] font-bold text-slate-500">30</span>
                     </div>
-                    <div class="glass p-4 rounded-xl text-center border border-white/5">
+                    <div class="glass p-4 rounded-xl text-center border border-white/5 opacity-50">
                         <span class="text-2xl block mb-1">💎</span><span
                             class="text-[8px] font-bold text-slate-500">50</span>
                     </div>
-                    <div class="glass p-4 rounded-xl text-center border border-white/5">
+                    <div class="glass p-4 rounded-xl text-center border border-white/5 opacity-50">
                         <span class="text-2xl block mb-1">7️⃣</span><span
-                            class="text-[8px] font-bold text-slate-500">100</span>
+                            class="text-[8px] font-bold text-slate-500">70</span>
                     </div>
                 </div>
 
-                <!-- Rules Section -->
+                <!-- Rules & Donation Section -->
                 <div class="mt-12 md:mt-16 w-full max-w-4xl px-2 md:px-0">
                     <div
-                        class="glass p-6 md:p-10 rounded-3xl md:rounded-[2.5rem] border border-white/5 relative overflow-hidden group">
-                        <div class="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                            <span class="text-9xl">📜</span>
-                        </div>
-                        <h3 class="text-3xl font-black italic text-purple-400 mb-8 uppercase tracking-tighter">ПРАВИЛА
-                            ГРИ</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
+                        class="glass p-8 md:p-12 rounded-3xl md:rounded-[3rem] border-2 border-yellow-500/10 shadow-3xl text-center">
+                        <h3 class="text-3xl font-black italic text-yellow-500 mb-6 uppercase tracking-tighter">
+                            ПІДТРИМАТИ ЗБІР</h3>
+                        <p class="text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+                            Всі виграші віртуальні, але кожен твій донат — це реальна зброя для захисників.
+                            Крути лимони, забивай бали та переходь за посиланням на банку!
+                        </p>
+
+                        <a href="https://send.monobank.ua/ваша_банка" target="_blank"
+                            class="inline-block bg-yellow-500 text-slate-950 font-black px-12 py-6 rounded-2xl text-xl hover:scale-105 transition-all shadow-2xl uppercase tracking-tight">
+                            ПОСИЛАННЯ НА БАНКУ 🐈⬛
+                        </a>
+
+                        <div
+                            class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 text-left border-t border-white/5 pt-16">
                             <div class="space-y-4">
                                 <div class="flex items-start gap-4">
                                     <div
-                                        class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center font-black text-purple-400 shrink-0">
+                                        class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center font-black text-yellow-400 shrink-0">
                                         1</div>
-                                    <p class="text-slate-300 leading-relaxed">Кожна крутка — це перемога! Ви отримуєте
-                                        бали за **будь-яку** комбінацію символів на барабанах.</p>
+                                    <p class="text-slate-300 leading-relaxed">**Лимон (🍋)** — головний символ. 3 лимони
+                                        дають найбільший бонус!</p>
                                 </div>
                                 <div class="flex items-start gap-4">
                                     <div
-                                        class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center font-black text-purple-400 shrink-0">
+                                        class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center font-black text-yellow-400 shrink-0">
                                         2</div>
-                                    <p class="text-slate-300 leading-relaxed">Вартість символів: 🍒(10), 🍋(20), 🍉(30),
-                                        💎(50), 7️⃣(100).</p>
+                                    <p class="text-slate-300 leading-relaxed">Вартість: 🍋(100), 7️⃣(70), 💎(50),
+                                        🍉(30), 🍒(10).</p>
                                 </div>
                             </div>
                             <div class="space-y-4">
                                 <div class="flex items-start gap-4">
                                     <div
-                                        class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center font-black text-purple-400 shrink-0">
-                                        3</div>
-                                    <p class="text-slate-300 leading-relaxed">**Різні символи:** Ви отримуєте суму
-                                        значень усіх трьох символів.</p>
-                                </div>
-                                <div class="flex items-start gap-4">
-                                    <div
                                         class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center font-black text-blue-400 shrink-0">
-                                        4</div>
-                                    <p class="text-slate-300 leading-relaxed font-bold">**ДЖЕКПОТ:** Якщо випало три
-                                        однакові символи — сума подвоюється (X2 БОНУС)!</p>
+                                        3</div>
+                                    <p class="text-slate-300 leading-relaxed font-bold italic">Заряджай на перемогу
+                                        кожним кліком!</p>
                                 </div>
                             </div>
                         </div>
@@ -280,8 +302,8 @@
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh1aGlsbGpsdGhwaGttdmd5cWx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NzY5NzYsImV4cCI6MjA4NzQ1Mjk3Nn0.OgAcEX5nmEAHwONTLEhF5t_2v6yOdTYIWs5cy9tBpBw';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        const EMOJIS = ['🍒', '🍋', '🍉', '💎', '7️⃣'];
-        const SYMBOL_VALUES = { '🍒': 10, '🍋': 20, '🍉': 30, '💎': 50, '7️⃣': 100 };
+        const EMOJIS = ['🍋', '🍒', '🍉', '💎', '7️⃣'];
+        const SYMBOL_VALUES = { '🍋': 100, '7️⃣': 70, '💎': 50, '🍉': 30, '🍒': 10 };
 
         let currentUser = null;
         let isSpinning = false;
