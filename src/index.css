@@ -1,6 +1,14 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-casino-dark: #0a0a0a;
+  --color-casino-card: #1a1a1a;
+  --color-casino-neon: #f0abfc;
+  --color-casino-cyan: #22d3ee;
+
+  --animate-spin-slow: spin 3s linear infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
 
 :root {
   background-color: #050505;

@@ -4,7 +4,7 @@
 CREATE TABLE IF NOT EXISTS public.profiles (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     nickname TEXT UNIQUE NOT NULL,
-    spins INTEGER DEFAULT 10,
+    spins INTEGER DEFAULT 0 CHECK (spins >= 0),
     points INTEGER DEFAULT 0,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );

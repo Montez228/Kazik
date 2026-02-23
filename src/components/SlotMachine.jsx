@@ -21,24 +21,30 @@ export default function SlotMachine({ user, isMuted }) {
     const clickAudio = useRef(new Audio('https://www.soundjay.com/buttons/sounds/button-20.mp3'))
     const winAudio = useRef(new Audio('https://assets.mixkit.co/active_storage/sfx/2012/2012-preview.mp3'))
 
+    useEffect(() => {
+        const spin = spinAudio.current
+        spin.loop = true
+        return () => {
+            spin.pause()
+            spin.currentTime = 0
+        }
+    }, [])
+
     const spin = async () => {
         if (spinning || user.spins <= 0) return
 
-        // 1. Deduct spin from Supabase FIRST
         setSpinning(true)
         setWin(null)
 
-        const { data: updatedUser, error: spinError } = await supabase
+        // Deduct spin first
+        const { error: spinError } = await supabase
             .from('profiles')
             .update({ spins: user.spins - 1 })
             .eq('id', user.id)
-            .select()
-            .single()
 
         if (spinError) {
-            console.error('Error deducting spin:', spinError)
+            console.error(spinError)
             setSpinning(false)
-            alert('Помилка транзакції. Спробуйте ще раз.')
             return
         }
 
@@ -75,7 +81,7 @@ export default function SlotMachine({ user, isMuted }) {
                         const reward = REWARDS[newResults[0]]
                         setWin(reward)
 
-                        if (!isMuted) winAudio.current.play()
+                        if (!isMuted) winAudio.current.play().catch(() => { })
                         confetti({
                             particleCount: 150,
                             spread: 70,
@@ -83,11 +89,14 @@ export default function SlotMachine({ user, isMuted }) {
                             colors: ['#f0abfc', '#22d3ee', '#fbbf24']
                         })
 
-                        // Update points in DB
-                        await supabase
+                        // Update points - better to use RLS or fetch latest, but we'll use the user object
+                        // which is kept in sync via realtime in App.jsx
+                        const { error: pointsError } = await supabase
                             .from('profiles')
                             .update({ points: user.points + reward })
                             .eq('id', user.id)
+
+                        if (pointsError) console.error('Error updating points:', pointsError)
                     }
                 }, 600)
             }, 600)

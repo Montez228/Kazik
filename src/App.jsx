@@ -12,6 +12,8 @@ function Home({ isMuted, setIsMuted }) {
   const [nickname, setNickname] = useState('')
   const [loading, setLoading] = useState(false)
   const [showLeaderboard, setShowLeaderboard] = useState(false)
+  const [isAdminUnlocked, setIsAdminUnlocked] = useState(false)
+  const [adminClicks, setAdminClicks] = useState(0)
   const navigate = useNavigate()
 
   // Real-time subscription for user profile
@@ -185,8 +187,25 @@ function Home({ isMuted, setIsMuted }) {
       {/* Secret Admin Panel at the bottom */}
       <footer className="mt-auto border-t border-white/5 pt-8">
         <div className="max-w-6xl mx-auto px-4">
-          <AdminPanel />
-          <p className="mt-8 text-center text-gray-600 text-sm">© 2026 KAZIK HIGH-ROLLER SLOTS. ALL RIGHTS RESERVED.</p>
+          {isAdminUnlocked ? (
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              <AdminPanel />
+            </motion.div>
+          ) : null}
+          <p
+            onClick={() => {
+              setAdminClicks(prev => {
+                if (prev + 1 >= 5) {
+                  setIsAdminUnlocked(true)
+                  return 0
+                }
+                return prev + 1
+              })
+            }}
+            className="mt-8 text-center text-gray-600 text-sm cursor-default select-none hover:text-gray-500 transition-colors"
+          >
+            © 2026 KAZIK HIGH-ROLLER SLOTS. ALL RIGHTS RESERVED.
+          </p>
         </div>
       </footer>
     </div>

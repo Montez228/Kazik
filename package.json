@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.97.0",
+    "@tailwindcss/postcss": "^4.2.1",
+    "@tailwindcss/vite": "^4.2.1",
     "autoprefixer": "^10.4.24",
     "canvas-confetti": "^1.9.4",
     "framer-motion": "^12.34.3",
