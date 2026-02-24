@@ -76,9 +76,9 @@ function Home({ isMuted, setIsMuted }) {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           onClick={() => navigate('/')}
-          className="text-4xl md:text-6xl font-black neon-text italic tracking-tighter cursor-pointer select-none"
+          className="text-4xl md:text-6xl font-black neon-text italic tracking-tighter cursor-pointer select-none uppercase"
         >
-          KAZIK <span className="text-casino-cyan neon-cyan-text">SLOTS</span>
+          Заряджені на <span className="text-casino-cyan neon-cyan-text">Лимон</span> 🍋
         </motion.h1>
 
         <div className="flex items-center gap-4">
@@ -121,7 +121,7 @@ function Home({ isMuted, setIsMuted }) {
               className="glass p-10 rounded-[2.5rem] neon-border w-full max-w-md text-center"
             >
               <LogIn className="w-20 h-20 mx-auto mb-6 text-casino-neon" />
-              <h2 className="text-3xl font-black mb-6 italic">LUCKY ENTRY</h2>
+              <h2 className="text-3xl font-black mb-6 italic">ЗАРЯДЖЕНІ НА ЛИМОН</h2>
               <input
                 type="text"
                 value={nickname}
@@ -131,7 +131,7 @@ function Home({ isMuted, setIsMuted }) {
                 autoFocus
               />
               <button disabled={loading} className="w-full bg-casino-neon text-black font-black p-5 rounded-2xl hover:scale-[1.02] active:scale-95 transition-all text-xl shadow-[0_0_20px_rgba(240,171,252,0.4)]">
-                {loading ? 'ЗАВАНТАЖЕННЯ...' : 'ЗАЙТИ В КАЗИНО'}
+                {loading ? 'ЗАВАНТАЖЕННЯ...' : 'УВІЙТИ ТА ГРАТИ'}
               </button>
             </motion.form>
           </div>
@@ -153,7 +153,7 @@ function Home({ isMuted, setIsMuted }) {
               <AnimatePresence mode="wait">
                 {showLeaderboard ? <Leaderboard key="top" /> : (
                   <motion.div key="info" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="glass p-8 rounded-[2rem] border border-white/5">
-                    <h3 className="text-2xl font-black mb-6 flex items-center gap-2 text-yellow-400 italic">WINNINGS</h3>
+                    <h3 className="text-2xl font-black mb-6 flex items-center gap-2 text-yellow-400 italic">ВИГРАШІ</h3>
                     <div className="space-y-4">
                       <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
                         <span className="text-2xl">777</span>
@@ -179,6 +179,24 @@ function Home({ isMuted, setIsMuted }) {
                   </motion.div>
                 )}
               </AnimatePresence>
+
+              {/* Donation Section */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="mt-4 p-6 glass rounded-[2rem] border-2 border-yellow-500/20 text-center flex flex-col gap-4 animate-pulse-gold"
+              >
+                <p className="text-sm font-bold text-yellow-400 uppercase italic">Підтримай ЗСУ / Отримай спіни</p>
+                <a
+                  href="https://send.monobank.ua/jar/8jDCYuZb7Y"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-yellow-500 text-black font-black py-4 px-6 rounded-2xl text-xl hover:scale-105 active:scale-95 transition-all shadow-lg uppercase leading-none"
+                >
+                  ЗАРЯДИТИ БАНКУ 🍋
+                </a>
+                <p className="text-[10px] text-gray-400">Всі донати йдуть на перемогу!</p>
+              </motion.div>
             </div>
           </>
         )}
@@ -204,10 +222,22 @@ function Home({ isMuted, setIsMuted }) {
             }}
             className="mt-8 text-center text-gray-600 text-sm cursor-default select-none hover:text-gray-500 transition-colors"
           >
-            © 2026 KAZIK HIGH-ROLLER SLOTS. ALL RIGHTS RESERVED.
+            © 2026 ЗАРИДЖЕНІ НА ЛИМОН. ВСІ ПРАВА ЗАХИЩЕНІ.
           </p>
         </div>
       </footer>
+
+      {/* Mobile Sticky Donation Button */}
+      <div className="lg:hidden fixed bottom-6 left-0 right-0 px-6 z-40 pointer-events-none">
+        <a
+          href="https://send.monobank.ua/jar/8jDCYuZb7Y"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="pointer-events-auto block w-full bg-yellow-500 text-black font-black py-5 rounded-2xl text-center text-lg shadow-[0_10px_30px_rgba(234,179,8,0.5)] animate-pulse-gold uppercase"
+        >
+          ЗАРЯДИТИ БАНКУ 🍋
+        </a>
+      </div>
     </div>
   )
 }

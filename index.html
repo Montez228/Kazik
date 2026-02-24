@@ -68,6 +68,27 @@
             }
         }
 
+        @keyframes pulse-gold {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(234, 179, 8, 0.7);
+            }
+
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 15px rgba(234, 179, 8, 0);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(234, 179, 8, 0);
+            }
+        }
+
+        .animate-pulse-gold {
+            animation: pulse-gold 2s infinite;
+        }
+
         .animate-win {
             animation: bounce-win 1s ease infinite;
         }
@@ -108,6 +129,18 @@
 
             <div
                 class="flex items-center gap-3 md:gap-6 glass px-3 md:px-8 py-2 md:py-4 rounded-2xl md:rounded-[2rem] border border-white/10 shadow-xl overflow-hidden">
+
+                <button onclick="toggleMute()" id="mute-btn"
+                    class="p-2 hover:bg-white/10 rounded-full transition-all text-yellow-400">
+                    <svg id="volume-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                    </svg>
+                </button>
+
                 <div class="hidden sm:block text-right">
                     <p class="text-[8px] text-slate-500 font-bold uppercase tracking-tighter mb-1">Гравець</p>
                     <p id="display-username"
@@ -233,9 +266,9 @@
                             Крути лимони, забивай бали та переходь за посиланням на банку!
                         </p>
 
-                        <a href="https://send.monobank.ua/ваша_банка" target="_blank"
-                            class="inline-block bg-yellow-500 text-slate-950 font-black px-12 py-6 rounded-2xl text-xl hover:scale-105 transition-all shadow-2xl uppercase tracking-tight">
-                            ПОСИЛАННЯ НА БАНКУ 🐈⬛
+                        <a href="https://send.monobank.ua/jar/8jDCYuZb7Y" target="_blank"
+                            class="inline-block bg-yellow-500 text-slate-950 font-black px-12 py-6 rounded-2xl text-xl hover:scale-105 transition-all shadow-2xl uppercase tracking-tight animate-pulse-gold">
+                            ЗАРЯДИТИ БАНКУ 🍋
                         </a>
 
                         <div
@@ -278,6 +311,15 @@
         </div>
     </div>
 
+    <!-- Mobile Sticky Donation Button -->
+    <div class="md:hidden fixed bottom-6 left-0 right-0 px-6 z-40">
+        <a href="https://send.monobank.ua/jar/8jDCYuZb7Y" target="_blank"
+            class="block w-full bg-yellow-500 text-slate-950 font-black py-5 rounded-2xl text-center text-lg shadow-[0_10px_30px_rgba(234,179,8,0.5)] animate-pulse-gold uppercase">
+            ЗАРЯДИТИ БАНКУ 🍋
+        </a>
+    </div>
+
+
     <script>
         const SUPABASE_URL = 'https://huhilljlthphkmvgyqlv.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh1aGlsbGpsdGhwaGttdmd5cWx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NzY5NzYsImV4cCI6MjA4NzQ1Mjk3Nn0.OgAcEX5nmEAHwONTLEhF5t_2v6yOdTYIWs5cy9tBpBw';
@@ -289,16 +331,31 @@
         let currentUser = null;
         let isSpinning = false;
 
-        // Audio Synth
-        const AudioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function playSfx(freq, type, duration, vol) {
-            const osc = AudioCtx.createOscillator();
-            const gain = AudioCtx.createGain();
-            osc.connect(gain).connect(AudioCtx.destination);
-            osc.frequency.value = freq; osc.type = type;
-            gain.gain.setValueAtTime(vol, AudioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.0001, AudioCtx.currentTime + duration);
-            osc.start(); osc.stop(AudioCtx.currentTime + duration);
+        // Audio System
+        let isMuted = false;
+        const spinAudio = new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3');
+        const winAudio = new Audio('https://assets.mixkit.co/active_storage/sfx/2011/2011-preview.mp3');
+        const clickAudio = new Audio('https://www.soundjay.com/buttons/sounds/button-20.mp3');
+
+        function playSound(audio, loop = false) {
+            if (isMuted) return;
+            audio.currentTime = 0;
+            audio.loop = loop;
+            audio.play().catch(e => console.log("Audio play blocked"));
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            if (isMuted) {
+                spinAudio.pause();
+                $('volume-icon').innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>';
+                $('mute-btn').classList.remove('text-yellow-400');
+                $('mute-btn').classList.add('text-red-500');
+            } else {
+                $('volume-icon').innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>';
+                $('mute-btn').classList.remove('text-red-500');
+                $('mute-btn').classList.add('text-yellow-400');
+            }
         }
 
         const $ = id => document.getElementById(id);
@@ -431,7 +488,9 @@
             }
 
             // Start Audio
-            playSfx(120, 'square', 0.4, 0.1);
+            playSound(spinAudio, true);
+            $('spin-btn').innerText = 'КРУТИМО ЛИМОНИ... 🍋';
+            $('spin-btn').disabled = true;
 
             const reels = [$('reel-1'), $('reel-2'), $('reel-3')];
             const result = [EMOJIS[Math.floor(Math.random() * 5)], EMOJIS[Math.floor(Math.random() * 5)], EMOJIS[Math.floor(Math.random() * 5)]];
@@ -456,6 +515,7 @@
 
                 if (elapsed >= duration + 200) {
                     clearInterval(timer);
+                    spinAudio.pause();
                     awardPoints(result);
                 }
             }, 80);
@@ -463,6 +523,8 @@
 
         async function awardPoints(res) {
             isSpinning = false;
+            $('spin-btn').innerText = 'КРУТИТИ ЛИМОН';
+            $('spin-btn').disabled = currentUser.spins <= 0;
 
             let totalEarned = SYMBOL_VALUES[res[0]] + SYMBOL_VALUES[res[1]] + SYMBOL_VALUES[res[2]];
             const isJackpot = res[0] === res[1] && res[1] === res[2];
@@ -477,8 +539,9 @@
                 setTimeout(() => playSfx(659, 'triangle', 0.8, 0.2), 200);
 
                 $('win-text').innerText = `ДЖЕКПОТ! X2 БОНУС: +${totalEarned} БАЛІВ!`;
+                playSound(winAudio);
             } else {
-                playSfx(200, 'sine', 0.1, 0.05);
+                playSound(clickAudio);
                 $('win-text').innerText = `ВИ НАБРАЛИ +${totalEarned} БАЛІВ!`;
             }
 

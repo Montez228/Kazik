@@ -16,12 +16,12 @@ export default function SlotMachine({ user, isMuted }) {
     const [spinning, setSpinning] = useState(false)
     const [results, setResults] = useState(['777', '777', '777'])
     const [win, setWin] = useState(null)
-    const [spinText, setSpinText] = useState('КРУТИМО... 🍋')
+    const [spinText, setSpinText] = useState('КРУТИМО ЛИМОНИ... 🍋')
 
 
-    const spinAudio = useRef(new Audio('https://assets.mixkit.co/music/preview/mixkit-casino-night-633.mp3'))
+    const spinAudio = useRef(new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3'))
+    const winAudio = useRef(new Audio('https://assets.mixkit.co/active_storage/sfx/2011/2011-preview.mp3'))
     const clickAudio = useRef(new Audio('https://www.soundjay.com/buttons/sounds/button-20.mp3'))
-    const winAudio = useRef(new Audio('https://assets.mixkit.co/active_storage/sfx/2012/2012-preview.mp3'))
 
     useEffect(() => {
         const spin = spinAudio.current
@@ -35,8 +35,7 @@ export default function SlotMachine({ user, isMuted }) {
     const spin = async () => {
         if (spinning || user.spins <= 0) return
 
-        const texts = ['КРУТИМО... 🍋', 'ЗАЦІНИ ЛИМОН...']
-        setSpinText(texts[Math.floor(Math.random() * texts.length)])
+        setSpinText('КРУТИМО ЛИМОНИ... 🍋')
         setSpinning(true)
         setWin(null)
 
