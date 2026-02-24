@@ -71,38 +71,38 @@ function Home({ isMuted, setIsMuted }) {
 
   return (
     <div className="min-h-screen w-full bg-casino-dark text-white p-4 md:p-8 flex flex-col">
-      <header className="max-w-6xl mx-auto w-full flex flex-wrap justify-between items-center mb-8 gap-4">
+      <header className="max-w-6xl mx-auto w-full flex flex-col items-center mb-10 gap-6">
         <motion.h1
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
           onClick={() => navigate('/')}
-          className="text-4xl md:text-6xl font-black neon-text italic tracking-tighter cursor-pointer select-none uppercase"
+          className="text-5xl md:text-7xl font-black neon-text italic tracking-tighter cursor-pointer select-none uppercase text-center"
         >
           Заряджені на <span className="text-casino-cyan neon-cyan-text">Лимон</span> 🍋
         </motion.h1>
 
-        <div className="flex items-center gap-4">
-          <button onClick={() => setIsMuted(!isMuted)} className="p-2 glass rounded-full hover:bg-white/10 transition-all">
+        <div className="flex flex-col md:flex-row items-center gap-6 w-full justify-center">
+          <button onClick={() => setIsMuted(!isMuted)} className="p-3 glass rounded-full hover:bg-white/10 transition-all">
             {isMuted ? <VolumeX className="text-red-400" /> : <Volume2 className="text-casino-neon" />}
           </button>
 
           {user && (
-            <div className="flex items-center gap-4 glass px-6 py-2 rounded-2xl neon-border">
-              <div className="text-right">
-                <p className="text-xs text-gray-400">Гравець</p>
-                <p className="font-bold text-casino-neon">{user.nickname}</p>
+            <div className="flex items-center gap-6 glass px-8 py-3 rounded-[2rem] neon-border shadow-[0_0_30px_rgba(240,171,252,0.15)]">
+              <div className="text-center min-w-[100px]">
+                <p className="text-[10px] text-gray-400 uppercase font-black tracking-widest mb-1">Гравець</p>
+                <p className="font-bold text-casino-neon text-lg md:text-xl truncate max-w-[200px]">{user.nickname}</p>
               </div>
-              <div className="h-8 w-[1px] bg-white/10" />
-              <div className="text-right">
-                <p className="text-xs text-gray-400">Спіни</p>
-                <motion.p key={user.spins} initial={{ scale: 1.5, color: '#22d3ee' }} animate={{ scale: 1, color: '#22d3ee' }} className="font-bold">
+              <div className="h-10 w-[1px] bg-white/10" />
+              <div className="text-center min-w-[60px]">
+                <p className="text-[10px] text-gray-400 uppercase font-black tracking-widest mb-1">Спіни</p>
+                <motion.p key={user.spins} initial={{ scale: 1.5, color: '#22d3ee' }} animate={{ scale: 1, color: '#22d3ee' }} className="font-black text-xl">
                   {user.spins}
                 </motion.p>
               </div>
-              <div className="h-8 w-[1px] bg-white/10" />
-              <div className="text-right">
-                <p className="text-xs text-gray-400">Бали</p>
-                <motion.p key={user.points} initial={{ scale: 1.5, color: '#fbbf24' }} animate={{ scale: 1, color: '#fbbf24' }} className="font-bold">
+              <div className="h-10 w-[1px] bg-white/10" />
+              <div className="text-center min-w-[60px]">
+                <p className="text-[10px] text-gray-400 uppercase font-black tracking-widest mb-1">Бали</p>
+                <motion.p key={user.points} initial={{ scale: 1.5, color: '#fbbf24' }} animate={{ scale: 1, color: '#fbbf24' }} className="font-black text-xl">
                   {user.points}
                 </motion.p>
               </div>
