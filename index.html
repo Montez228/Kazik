@@ -289,59 +289,67 @@
                 </div>
 
                 <!-- Prize Pool Section -->
-                <div id="prize-pool" class="mt-12 w-full max-w-4xl mx-auto px-4 z-30">
-                    <h2 class="text-3xl font-bold text-center text-yellow-400 mb-8 uppercase tracking-wider">🏆 Призовий
-                        Фонд 🏆</h2>
+                <div id="prize-pool" class="mt-16 w-full max-w-5xl mx-auto px-4 z-30">
+                    <p class="text-center text-blue-400 font-bold uppercase tracking-[0.3em] text-[10px] mb-4">Досягайте
+                        цілей збору, щоб розкрити призи!</p>
+                    <h2
+                        class="text-4xl md:text-5xl font-black text-center text-yellow-400 mb-12 uppercase tracking-tighter italic">
+                        🏆 Призовий Фонд 🏆</h2>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <!-- 1st Place - Gold -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- 1st Place - Gold (Locked) -->
                         <div
-                            class="bg-gray-800/50 backdrop-blur-sm border-2 border-yellow-500 p-6 rounded-2xl text-center transform hover:scale-105 transition-all duration-300 group">
-                            <div class="text-xs font-black text-yellow-500/50 mb-2">1 МІСЦЕ</div>
-                            <div
-                                class="h-24 flex items-center justify-center mb-4 relative overflow-hidden rounded-xl bg-black/20">
-                                <span
-                                    class="text-5xl filter group-hover:blur-none transition-all duration-500 blur-[2px]">📚</span>
-                                <div class="absolute inset-0 bg-yellow-500/5 pointer-events-none"></div>
-                            </div>
-                            <h3 class="text-xl font-bold text-yellow-500 mb-1">Інтелектуальний заряд</h3>
-                            <p class="text-xs text-gray-300 font-medium">(Набір книг)</p>
-                        </div>
-
-                        <!-- 2nd Place - Silver -->
-                        <div
-                            class="bg-gray-800/50 backdrop-blur-sm border-2 border-gray-400 p-6 rounded-2xl text-center transform hover:scale-105 transition-all duration-300 group">
-                            <div class="text-xs font-black text-gray-400/50 mb-2">2 МІСЦЕ</div>
-                            <div
-                                class="h-24 flex items-center justify-center mb-4 relative overflow-hidden rounded-xl bg-black/20">
-                                <span class="text-5xl">🌫️</span>
-                                <div class="absolute inset-0 pointer-events-none overflow-hidden">
-                                    <div
-                                        class="absolute top-0 left-0 w-full h-full animate-pulse opacity-30 bg-gradient-to-t from-gray-400/20 to-transparent">
-                                    </div>
+                            class="prize-card locked bg-black/80 border-2 border-yellow-500 p-8 rounded-[2.5rem] text-center transform hover:scale-[1.02] transition-all duration-500 group shadow-[0_0_30px_rgba(234,179,8,0.1)]">
+                            <div class="mystery-overlay"><span class="q-mark">?</span></div>
+                            <div class="prize-content">
+                                <div class="text-xs font-black text-yellow-500 mb-3 tracking-widest italic">1 МІСЦЕ
                                 </div>
+                                <div class="h-32 flex items-center justify-center mb-6 rounded-2xl bg-white/5 relative">
+                                    <span class="text-6xl">📚</span>
+                                </div>
+                                <h3 class="text-2xl font-black text-yellow-500 mb-1 italic">Інтелектуальний заряд</h3>
+                                <p class="text-gray-400 font-bold text-xs">Набір книжок</p>
                             </div>
-                            <h3 class="text-xl font-bold text-white mb-1">Димний релакс</h3>
-                            <p class="text-xs text-gray-300 font-medium">(Табак для кальяну)</p>
+                            <span class="unlock-label">🔓 Відкриється при 100% збору</span>
                         </div>
 
-                        <!-- 3rd Place - Bronze -->
+                        <!-- 2nd Place - Silver (Locked) -->
                         <div
-                            class="bg-gray-800/50 backdrop-blur-sm border-2 border-orange-600 p-6 rounded-2xl text-center transform hover:scale-105 transition-all duration-300 group">
-                            <div class="text-xs font-black text-orange-600/50 mb-2">3 МІСЦЕ</div>
-                            <div
-                                class="h-24 flex items-center justify-center mb-4 relative overflow-hidden rounded-xl bg-black/20">
-                                <div class="text-5xl animate-bounce">❓</div>
+                            class="prize-card locked bg-black/80 border-2 border-slate-400 p-8 rounded-[2.5rem] text-center transform hover:scale-[1.02] transition-all duration-500 group shadow-[0_0_30px_rgba(255,255,255,0.05)]">
+                            <div class="mystery-overlay"><span class="q-mark"
+                                    style="color: silver; text-shadow: 0 0 20px rgba(255,255,255,0.5);">?</span></div>
+                            <div class="prize-content">
+                                <div class="text-xs font-black text-slate-400 mb-3 tracking-widest italic">2 МІСЦЕ</div>
+                                <div class="h-32 flex items-center justify-center mb-6 rounded-2xl bg-white/5 relative">
+                                    <span class="text-6xl">🌬️</span>
+                                </div>
+                                <h3 class="text-2xl font-black text-white mb-1 italic">Димний релакс</h3>
+                                <p class="text-gray-400 font-bold text-xs">Табак для кальяну</p>
                             </div>
-                            <h3 class="text-xl font-bold text-orange-600 mb-1">Секретний Лимон 🍋</h3>
-                            <p class="text-[10px] text-yellow-500/80 font-bold uppercase mt-2">Відкриється при 50% збору
-                            </p>
+                            <span class="unlock-label">🔓 Відкриється при 75% збору</span>
+                        </div>
+
+                        <!-- 3rd Place - Bronze (Locked) -->
+                        <div
+                            class="prize-card locked bg-black/80 border-2 border-orange-600 p-8 rounded-[2.5rem] text-center transform hover:scale-[1.02] transition-all duration-500 group shadow-[0_0_30px_rgba(234,88,12,0.15)]">
+                            <div class="mystery-overlay"><span class="q-mark"
+                                    style="color: #cd7f32; text-shadow: 0 0 20px rgba(205,127,50,0.5);">?</span></div>
+                            <div class="prize-content">
+                                <div class="text-xs font-black text-orange-600 mb-3 tracking-widest italic">3 МІСЦЕ
+                                </div>
+                                <div class="h-32 flex items-center justify-center mb-6 rounded-2xl bg-white/5 relative">
+                                    <span class="text-6xl">🍋</span>
+                                </div>
+                                <h3 class="text-2xl font-black text-orange-600 mb-1 italic">Секретний Лимон</h3>
+                                <p class="text-gray-400 font-bold text-xs">Особливий приз</p>
+                            </div>
+                            <span class="unlock-label">🔓 Відкриється при 50% збору</span>
                         </div>
                     </div>
 
-                    <div class="mt-8 text-center">
-                        <p class="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-[0.2em]">
-                            Розіграш відбудеться серед ТОП-3 лідерборду на момент закриття банки
+                    <div class="mt-12 text-center py-6 border-t border-white/5">
+                        <p class="text-[10px] md:text-sm text-slate-500 font-black uppercase tracking-[0.4em] italic">
+                            🏆 Розіграш серед ТОП-3 на момент закриття банки 🏆
                         </p>
                     </div>
                 </div>

@@ -160,3 +160,81 @@ body {
 .backdrop-filter-none {
   backdrop-filter: none !important;
 }
+
+/* Mystery Box Prize Styles */
+.prize-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.prize-card.locked .prize-content {
+  filter: blur(25px);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.prize-card.locked .mystery-overlay {
+  display: flex;
+}
+
+.prize-card.unlocked .prize-content {
+  filter: blur(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.prize-card.unlocked .mystery-overlay {
+  display: none;
+}
+
+.mystery-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.q-mark {
+  font-size: 5rem;
+  font-weight: 900;
+  color: gold;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  animation: q-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes q-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+    filter: drop-shadow(0 0 5px gold);
+  }
+
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+    filter: drop-shadow(0 0 20px gold);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+    filter: drop-shadow(0 0 5px gold);
+  }
+}
+
+.unlock-label {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-top: 1rem;
+  display: block;
+}
+
+.unlocked .unlock-label {
+  color: #22c55e;
+}
