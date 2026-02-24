@@ -3,15 +3,15 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-route
 import { supabase } from './lib/supabase'
 import SlotMachine from './components/SlotMachine'
 import Leaderboard from './components/Leaderboard'
-import PrizePool from './components/PrizePool'
 import AdminPanel from './components/AdminPanel'
 import { User, LogIn, Trophy, ShieldAlert, Volume2, VolumeX } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 function Home({ isMuted, setIsMuted }) {
   const [user, setUser] = useState(null)
   const [nickname, setNickname] = useState('')
   const [loading, setLoading] = useState(false)
+  const [showLeaderboard, setShowLeaderboard] = useState(false)
   const [isAdminUnlocked, setIsAdminUnlocked] = useState(false)
   const [adminClicks, setAdminClicks] = useState(0)
   const navigate = useNavigate()
@@ -137,54 +137,54 @@ function Home({ isMuted, setIsMuted }) {
           </div>
         ) : (
           <>
-            {/* 1. SlotMachine - Mobile: 1, Desktop: Center (2) */}
-            <div className="lg:col-span-1 lg:order-2 order-1 flex justify-center">
+            <div className="lg:col-span-2">
               <SlotMachine user={user} isMuted={isMuted} />
             </div>
+            <div className="flex flex-col gap-6">
+              <div className="flex gap-2">
+                <button onClick={() => setShowLeaderboard(true)} className={`flex-1 p-4 rounded-2xl transition-all flex items-center justify-center gap-2 font-bold ${showLeaderboard ? 'bg-casino-neon text-black' : 'glass hover:bg-white/5'}`}>
+                  <Trophy size={20} /> ТОП ГРАВЦІВ
+                </button>
+                <button onClick={() => setShowLeaderboard(false)} className={`flex-1 p-4 rounded-2xl transition-all flex items-center justify-center gap-2 font-bold ${!showLeaderboard ? 'bg-casino-neon text-black' : 'glass hover:bg-white/5'}`}>
+                  <ShieldAlert size={20} /> ПРАВИЛА
+                </button>
+              </div>
 
-            {/* 2. Leaderboard - Mobile: 2, Desktop: Left (1) */}
-            <div className="lg:col-span-1 lg:order-1 order-2">
-              <Leaderboard />
-            </div>
+              <AnimatePresence mode="wait">
+                {showLeaderboard ? <Leaderboard key="top" /> : (
+                  <motion.div key="info" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="glass p-8 rounded-[2rem] border border-white/5">
+                    <h3 className="text-2xl font-black mb-6 flex items-center gap-2 text-yellow-400 italic">ВИГРАШІ</h3>
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
+                        <span className="text-2xl">777</span>
+                        <span className="font-black text-casino-neon">500 БАЛІВ</span>
+                      </div>
+                      <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
+                        <span className="text-2xl">🛸</span>
+                        <span className="font-black text-casino-cyan">100 БАЛІВ</span>
+                      </div>
+                      <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
+                        <span className="text-2xl">🏦</span>
+                        <span className="font-black text-casino-cyan">50 БАЛІВ</span>
+                      </div>
+                      <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
+                        <span className="text-2xl">🍋</span>
+                        <span className="font-black text-gray-400">20 БАЛІВ</span>
+                      </div>
+                      <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
+                        <span className="text-2xl">🍒</span>
+                        <span className="font-black text-gray-400">10 БАЛІВ</span>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-            {/* 3. Rules & Donation - Mobile: 4, Desktop: Right (3) */}
-            <div className="lg:col-span-1 lg:order-3 order-4 flex flex-col gap-6">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="glass p-8 rounded-[2rem] border border-white/5"
-              >
-                <h3 className="text-2xl font-black mb-6 flex items-center gap-2 text-yellow-400 italic">
-                  <ShieldAlert size={24} /> ПРАВИЛА ТА ВИГРАШІ
-                </h3>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
-                    <span className="text-2xl">777</span>
-                    <span className="font-black text-casino-neon">500 БАЛІВ</span>
-                  </div>
-                  <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
-                    <span className="text-2xl">🛸</span>
-                    <span className="font-black text-casino-cyan">100 БАЛІВ</span>
-                  </div>
-                  <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
-                    <span className="text-2xl">🏦</span>
-                    <span className="font-black text-casino-cyan">50 БАЛІВ</span>
-                  </div>
-                  <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
-                    <span className="text-2xl">🍋</span>
-                    <span className="font-black text-gray-400">20 БАЛІВ</span>
-                  </div>
-                  <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
-                    <span className="text-2xl">🍒</span>
-                    <span className="font-black text-gray-400">10 БАЛІВ</span>
-                  </div>
-                </div>
-              </motion.div>
-
+              {/* Donation Section */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="p-6 glass rounded-[2rem] border-2 border-yellow-500/20 text-center flex flex-col gap-4 animate-pulse-gold sticky top-4"
+                className="mt-4 p-6 glass rounded-[2rem] border-2 border-yellow-500/20 text-center flex flex-col gap-4 animate-pulse-gold"
               >
                 <p className="text-sm font-bold text-yellow-400 uppercase italic">Підтримай ЗСУ / Отримай спіни</p>
                 <a
@@ -197,11 +197,6 @@ function Home({ isMuted, setIsMuted }) {
                 </a>
                 <p className="text-[10px] text-gray-400">Всі донати йдуть на перемогу!</p>
               </motion.div>
-            </div>
-
-            {/* 4. PrizePool - Mobile: 3, Desktop: Full Width (After row 1) */}
-            <div className="lg:col-span-3 lg:order-4 order-3" id="prize-pool-section">
-              <PrizePool />
             </div>
           </>
         )}

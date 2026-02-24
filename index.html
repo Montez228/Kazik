@@ -153,17 +153,18 @@
 
     <!-- Main Game Section -->
     <div id="game-screen" class="hidden w-full max-w-7xl p-4 md:p-10 flex flex-col items-center min-h-screen">
-        <div class="w-full flex flex-col md:flex-row justify-between items-center mb-8 md:mb-10 gap-6">
-            <div class="text-center md:text-left">
-                <h1 class="text-4xl md:text-5xl font-black italic text-yellow-400 tracking-tighter">ЛИМОН</h1>
-                <p class="text-[10px] text-blue-400 font-bold tracking-widest uppercase">Drive for Victory v3.0</p>
+        <div class="w-full flex justify-between items-center mb-6 md:mb-10 gap-4">
+            <div class="shrink-0">
+                <h1 class="text-3xl md:text-5xl font-black italic text-yellow-400 tracking-tighter">ЛИМОН</h1>
+                <p class="text-[8px] md:text-[10px] text-blue-400 font-bold tracking-widest uppercase">Drive for Victory
+                    v3.0</p>
             </div>
 
             <div
-                class="w-full md:w-auto flex items-center gap-4 md:gap-6 glass px-5 md:px-8 py-3 md:py-4 rounded-2xl md:rounded-[2rem] border border-white/10 shadow-xl overflow-x-auto scrollbar-hide whitespace-nowrap">
+                class="flex items-center gap-3 md:gap-6 glass px-3 md:px-8 py-2 md:py-4 rounded-2xl md:rounded-[2rem] border border-white/10 shadow-xl overflow-hidden">
 
                 <button onclick="toggleMute()" id="mute-btn"
-                    class="p-2 hover:bg-white/10 rounded-full transition-all text-yellow-400 shrink-0">
+                    class="p-2 hover:bg-white/10 rounded-full transition-all text-yellow-400">
                     <svg id="volume-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
@@ -173,25 +174,25 @@
                     </svg>
                 </button>
 
-                <div class="text-right shrink-0">
+                <div class="hidden sm:block text-right">
                     <p class="text-[8px] text-slate-500 font-bold uppercase tracking-tighter mb-1">Гравець</p>
                     <p id="display-username"
-                        class="font-black text-sm md:text-xl tracking-tight truncate max-w-[100px] md:max-w-[150px]">
+                        class="font-black text-purple-400 text-sm md:text-xl tracking-tight truncate max-w-[80px] md:max-w-[120px]">
                         ---</p>
                 </div>
-                <div class="h-10 w-[1px] bg-white/10 shrink-0"></div>
-                <div class="text-right shrink-0">
+                <div class="hidden sm:block h-10 w-[1px] bg-white/10"></div>
+                <div class="text-right">
                     <p class="text-[8px] text-slate-500 font-bold uppercase tracking-tighter mb-1">Спіни</p>
                     <p id="display-spins" class="font-black text-blue-400 text-lg md:text-2xl tracking-tighter">0</p>
                 </div>
-                <div class="h-10 w-[1px] bg-white/10 shrink-0"></div>
-                <div class="text-right shrink-0">
+                <div class="h-8 w-[1px] bg-white/10"></div>
+                <div class="text-right">
                     <p class="text-[8px] text-slate-500 font-bold uppercase tracking-tighter mb-1">Бали</p>
                     <p id="display-points" class="font-black text-yellow-400 text-lg md:text-2xl tracking-tighter">0</p>
                 </div>
-                <div class="h-10 w-[1px] bg-white/10 shrink-0"></div>
+                <div class="h-8 w-[1px] bg-white/10"></div>
                 <button onclick="logout()"
-                    class="flex items-center gap-2 px-3 py-2 border border-white/10 hover:border-red-500/50 hover:bg-red-500/10 rounded-xl md:rounded-2xl transition-all text-slate-400 hover:text-red-400 group shrink-0"
+                    class="flex items-center gap-2 px-2 md:px-4 py-1.5 md:py-2 border border-white/10 hover:border-red-500/50 hover:bg-red-500/10 rounded-xl md:rounded-2xl transition-all text-slate-400 hover:text-red-400 group shrink-0"
                     title="Вийти">
                     <span class="text-[9px] font-bold uppercase tracking-wider hidden md:block">Вийти</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -205,9 +206,23 @@
             </div>
         </div>
 
-        <div class="flex flex-col items-center w-full mb-10">
-            <!-- Slot Center (Full Width) -->
-            <div class="flex flex-col items-center w-full max-w-4xl">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-10 w-full mb-20">
+
+            <!-- Leaderboard (Left) -->
+            <div class="lg:col-span-1 order-2 lg:order-1">
+                <div class="glass p-8 rounded-[2.5rem] border border-white/5 h-full relative">
+                    <h3
+                        class="text-2xl font-black mb-8 italic text-purple-400 uppercase tracking-tighter flex items-center gap-2">
+                        <span>🏆</span> TOP-10
+                    </h3>
+                    <div id="leaderboard-list" class="space-y-3">
+                        <div class="text-center text-slate-600 animate-pulse py-10 font-bold">ОНОВЛЕННЯ...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slot Center -->
+            <div class="lg:col-span-3 order-1 lg:order-2 flex flex-col items-center">
                 <div
                     class="glass p-10 md:p-14 rounded-[4rem] border-4 border-purple-500/20 bg-slate-950/80 relative flex flex-col items-center shadow-2xl w-full">
 
@@ -272,141 +287,49 @@
                             class="text-[8px] font-bold text-slate-500">70</span>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Prize Pool Section (Mystery Boxes) -->
-        <div id="prize-pool" class="mt-20 w-full max-w-6xl mx-auto px-4 z-30">
-            <h2 class="text-3xl font-black text-center text-white mb-6 uppercase tracking-widest metallic-shine italic">
-                ПРИЗОВИЙ <span class="text-yellow-400">ФОНД</span>
-            </h2>
-            <p
-                class="text-center text-slate-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-16 opacity-80 backdrop-blur-sm bg-white/5 py-2 rounded-full max-w-xl mx-auto border border-white/5">
-                Досягайте цілей збору, щоб розкрити призи!
-            </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-
-                <!-- 3rd Place - Bronze -->
-                <div
-                    class="prize-card locked bg-black/90 border-2 border-orange-600/50 p-12 rounded-[4rem] text-center shadow-[0_0_60px_rgba(205,127,50,0.15)] inner-glow-bronze relative group overflow-hidden">
-                    <!-- Background Decoration -->
+                <!-- Rules & Donation Section -->
+                <div class="mt-12 md:mt-16 w-full max-w-4xl px-2 md:px-0">
                     <div
-                        class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover:opacity-40 transition-opacity">
-                        <span
-                            class="text-[15rem] font-black text-orange-600 animate-breathing opacity-30 select-none">?</span>
-                    </div>
+                        class="glass p-8 md:p-12 rounded-3xl md:rounded-[3rem] border-2 border-yellow-500/10 shadow-3xl text-center">
+                        <h3 class="text-3xl font-black italic text-yellow-500 mb-6 uppercase tracking-tighter">
+                            ПІДТРИМАТИ ЗБІР</h3>
+                        <p class="text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+                            Всі виграші віртуальні, але кожен твій донат — це реальна зброя для захисників.
+                            Крути лимони, забивай бали та переходь за посиланням на банку!
+                        </p>
 
-                    <div class="mystery-overlay"><span class="q-mark">?</span></div>
-                    <div class="prize-content blur-2xl transition-all duration-700">
-                        <h3 class="text-3xl font-black text-gradient-lemon mb-4 italic tracking-tighter">
-                            СЕКРЕТНИЙ ЛИМОН 🍋</h3>
-                    </div>
+                        <a href="https://send.monobank.ua/jar/8jDCYuZb7Y" target="_blank"
+                            class="inline-block bg-yellow-500 text-slate-950 font-black px-12 py-6 rounded-2xl text-xl hover:scale-105 transition-all shadow-2xl uppercase tracking-tight animate-pulse-gold">
+                            ЗАРЯДИТИ БАНКУ 🍋
+                        </a>
 
-                    <div
-                        class="mt-12 inline-flex items-center gap-2 bg-orange-600/10 border border-orange-600/30 px-6 py-3 rounded-full backdrop-blur-md">
-                        <span class="animate-lock">🔓</span>
-                        <span
-                            class="font-mono text-[10px] font-black uppercase text-orange-500 tracking-tighter">Відкриється
-                            на 50% збору</span>
-                    </div>
-                </div>
-
-                <!-- 2nd Place - Silver -->
-                <div
-                    class="prize-card locked bg-black/90 border-2 border-slate-400/50 p-12 rounded-[4rem] text-center shadow-[0_0_60px_rgba(255,255,255,0.08)] inner-glow-silver relative group overflow-hidden">
-                    <!-- Background Decoration -->
-                    <div
-                        class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover:opacity-40 transition-opacity">
-                        <span
-                            class="text-[15rem] font-black text-slate-400 animate-breathing opacity-30 select-none">?</span>
-                    </div>
-
-                    <div class="mystery-overlay"><span class="q-mark">?</span></div>
-                    <div class="prize-content blur-2xl transition-all duration-700">
-                        <h3 class="text-3xl font-black text-gradient-lemon mb-4 italic tracking-tighter">
-                            СЕКРЕТНИЙ ЛИМОН 🍋</h3>
-                    </div>
-
-                    <div
-                        class="mt-12 inline-flex items-center gap-2 bg-slate-400/10 border border-slate-400/30 px-6 py-3 rounded-full backdrop-blur-md">
-                        <span class="animate-lock">🔓</span>
-                        <span
-                            class="font-mono text-[10px] font-black uppercase text-slate-300 tracking-tighter">Відкриється
-                            на 75% збору</span>
-                    </div>
-                </div>
-
-                <!-- 1st Place - Gold -->
-                <div
-                    class="prize-card locked bg-black/90 border-2 border-yellow-500/50 p-12 rounded-[4rem] text-center shadow-[0_0_60px_rgba(234,179,8,0.2)] inner-glow-gold relative group overflow-hidden">
-                    <!-- Background Decoration -->
-                    <div
-                        class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover:opacity-40 transition-opacity">
-                        <span
-                            class="text-[15rem] font-black text-yellow-500 animate-breathing opacity-30 select-none">?</span>
-                    </div>
-
-                    <div class="mystery-overlay"><span class="q-mark">?</span></div>
-                    <div class="prize-content blur-2xl transition-all duration-700">
-                        <h3 class="text-3xl font-black text-gradient-lemon mb-4 italic tracking-tighter">
-                            СЕКРЕТНИЙ ЛИМОН 🍋</h3>
-                    </div>
-
-                    <div
-                        class="mt-12 inline-flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/30 px-6 py-3 rounded-full backdrop-blur-md">
-                        <span class="animate-lock">🔓</span>
-                        <span
-                            class="font-mono text-[10px] font-black uppercase text-yellow-500 tracking-tighter">Відкриється
-                            на 100% збору</span>
-                    </div>
-                </div>
-
-            </div>
-
-
-
-            <!-- Rules & Donation Section -->
-            <div class="mt-12 md:mt-16 w-full max-w-4xl px-2 md:px-0">
-                <div
-                    class="glass p-8 md:p-12 rounded-3xl md:rounded-[3rem] border-2 border-yellow-500/10 shadow-3xl text-center">
-                    <h3 class="text-3xl font-black italic text-yellow-500 mb-6 uppercase tracking-tighter">
-                        ПІДТРИМАТИ ЗБІР</h3>
-                    <p class="text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
-                        Всі виграші віртуальні, але кожен твій донат — це реальна зброя для захисників.
-                        Крути лимони, забивай бали та переходь за посиланням на банку!
-                    </p>
-
-                    <a href="https://send.monobank.ua/jar/8jDCYuZb7Y" target="_blank"
-                        class="inline-block bg-yellow-500 text-slate-950 font-black px-12 py-6 rounded-2xl text-xl hover:scale-105 transition-all shadow-2xl uppercase tracking-tight animate-pulse-gold">
-                        ЗАРЯДИТИ БАНКУ 🍋
-                    </a>
-
-                    <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 text-left border-t border-white/5 pt-16">
-                        <div class="space-y-4">
-                            <div class="flex items-start gap-4">
-                                <div
-                                    class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center font-black text-yellow-400 shrink-0">
-                                    1</div>
-                                <p class="text-slate-300 leading-relaxed">**Лимон (🍋)** — головний символ. 3
-                                    лимони
-                                    дають найбільший бонус!</p>
+                        <div
+                            class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 text-left border-t border-white/5 pt-16">
+                            <div class="space-y-4">
+                                <div class="flex items-start gap-4">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center font-black text-yellow-400 shrink-0">
+                                        1</div>
+                                    <p class="text-slate-300 leading-relaxed">**Лимон (🍋)** — головний символ. 3 лимони
+                                        дають найбільший бонус!</p>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center font-black text-yellow-400 shrink-0">
+                                        2</div>
+                                    <p class="text-slate-300 leading-relaxed">Вартість: 🍋(100), 7️⃣(70), 💎(50),
+                                        🍉(30), 🍒(10).</p>
+                                </div>
                             </div>
-                            <div class="flex items-start gap-4">
-                                <div
-                                    class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center font-black text-yellow-400 shrink-0">
-                                    2</div>
-                                <p class="text-slate-300 leading-relaxed">Вартість: 🍋(100), 7️⃣(70), 💎(50),
-                                    🍉(30), 🍒(10).</p>
-                            </div>
-                        </div>
-                        <div class="space-y-4">
-                            <div class="flex items-start gap-4">
-                                <div
-                                    class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center font-black text-blue-400 shrink-0">
-                                    3</div>
-                                <p class="text-slate-300 leading-relaxed font-bold italic">Заряджай на перемогу
-                                    кожним кліком!</p>
+                            <div class="space-y-4">
+                                <div class="flex items-start gap-4">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center font-black text-blue-400 shrink-0">
+                                        3</div>
+                                    <p class="text-slate-300 leading-relaxed font-bold italic">Заряджай на перемогу
+                                        кожним кліком!</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -588,12 +511,13 @@
                     if (isCurrent && i > 2) rowClass += ' ring-2 ring-purple-500/50 bg-purple-500/10';
 
                     return `
-                    <div class="flex justify-between items-center p-3 rounded-xl border border-white/5 bg-white/5 transition-all">
-                        <div class="flex items-center gap-2">
-                            <span class="text-sm font-black text-slate-500">${medal}</span>
-                            <span class="text-sm font-bold text-white">${u.username}</span>
+                    <div class="flex justify-between items-center p-3 rounded-xl border transition-all relative ${rowClass}">
+                        ${crown}
+                        <div class="flex items-center gap-2 overflow-hidden">
+                            <span class="text-sm font-black min-w-[20px]">${medal}</span>
+                            <span class="text-sm truncate ${nickClass}">${u.username}</span>
                         </div>
-                        <span class="font-black text-purple-400 text-sm tracking-tighter">${u.points.toLocaleString()}</span>
+                        <span class="font-black ${scoreClass} text-sm tracking-tighter">${u.points.toLocaleString()}</span>
                     </div>
                     `;
                 }).join('');

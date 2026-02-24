@@ -7,13 +7,13 @@ export default function Leaderboard() {
     const [leaders, setLeaders] = useState([])
 
     useEffect(() => {
-        fetchLeaderboard()
+        fetchLeaders()
 
         // Real-time subscription to any profile change to update leaderboard
         const subscription = supabase
             .channel('global-leaderboard')
             .on('postgres_changes', { event: '*', table: 'profiles' }, () => {
-                fetchLeaderboard()
+                fetchLeaders()
             })
             .subscribe()
 
@@ -22,7 +22,7 @@ export default function Leaderboard() {
         }
     }, [])
 
-    const fetchLeaderboard = async () => {
+    const fetchLeaders = async () => {
         const { data } = await supabase
             .from('profiles')
             .select('nickname, points')
@@ -55,10 +55,9 @@ export default function Leaderboard() {
 
     return (
         <motion.div
-            id="leaderboard"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="glass p-6 md:p-8 rounded-[2rem] border border-white/5 bg-neutral-900/40 relative overflow-hidden flex flex-col h-full max-h-[700px]"
+            className="glass p-6 md:p-8 rounded-[2rem] border border-white/5 bg-neutral-900/40 relative overflow-hidden"
         >
             <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
                 <Trophy size={80} className="text-yellow-400" />
@@ -68,7 +67,7 @@ export default function Leaderboard() {
                 <Crown className="text-yellow-400 animate-crown" /> ТОП-10 ЛИМОНЕРІВ
             </h3>
 
-            <div className="space-y-3 relative z-10 overflow-y-auto pr-2 custom-scrollbar">
+            <div className="space-y-3 relative z-10">
                 <AnimatePresence mode="popLayout">
                     {leaders.map((leader, i) => (
                         <motion.div
