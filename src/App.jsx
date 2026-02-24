@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-route
 import { supabase } from './lib/supabase'
 import SlotMachine from './components/SlotMachine'
 import Leaderboard from './components/Leaderboard'
+import PrizePool from './components/PrizePool'
 import AdminPanel from './components/AdminPanel'
 import { User, LogIn, Trophy, ShieldAlert, Volume2, VolumeX } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -137,8 +138,9 @@ function Home({ isMuted, setIsMuted }) {
           </div>
         ) : (
           <>
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 space-y-8">
               <SlotMachine user={user} isMuted={isMuted} />
+              <PrizePool />
             </div>
             <div className="flex flex-col gap-6">
               <div className="flex gap-2">
