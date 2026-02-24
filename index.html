@@ -177,7 +177,7 @@
                 <div class="hidden sm:block text-right">
                     <p class="text-[8px] text-slate-500 font-bold uppercase tracking-tighter mb-1">Гравець</p>
                     <p id="display-username"
-                        class="font-black text-purple-400 text-sm md:text-xl tracking-tight truncate max-w-[80px] md:max-w-[120px]">
+                        class="font-black text-sm md:text-xl tracking-tight truncate max-w-[80px] md:max-w-[120px]">
                         ---</p>
                 </div>
                 <div class="hidden sm:block h-10 w-[1px] bg-white/10"></div>
@@ -514,7 +514,9 @@
 
         function updateUI() {
             if (!currentUser) return;
-            $('display-username').innerText = currentUser.username;
+            // Rank style is handled by updateLeaderboard to ensure accuracy
+            updateProfileStyle(-1);
+
             $('display-spins').innerText = currentUser.spins;
             $('display-points').innerText = currentUser.points;
 
@@ -527,6 +529,28 @@
             } else {
                 btn.disabled = false;
                 msg.classList.add('hidden');
+            }
+        }
+
+        function updateProfileStyle(rank) {
+            const nameEl = $('display-username');
+            const name = currentUser.username;
+
+            // Reset
+            nameEl.classList.remove('profile-rank-1', 'profile-rank-2', 'profile-rank-3', 'text-purple-400');
+
+            if (rank === 0) {
+                nameEl.classList.add('profile-rank-1');
+                nameEl.innerHTML = `👑 ${name}`;
+            } else if (rank === 1) {
+                nameEl.classList.add('profile-rank-2');
+                nameEl.innerHTML = `🥈 ${name}`;
+            } else if (rank === 2) {
+                nameEl.classList.add('profile-rank-3');
+                nameEl.innerHTML = `🥉 ${name}`;
+            } else {
+                nameEl.classList.add('text-purple-400');
+                nameEl.innerText = name;
             }
         }
 
@@ -546,6 +570,9 @@
         async function updateLeaderboard() {
             const { data } = await supabaseClient.from('profiles').select('username, points').order('points', { ascending: false }).limit(10);
             if (data) {
+                const myRank = data.findIndex(u => u.username === currentUser.username);
+                updateProfileStyle(myRank);
+
                 $('leaderboard-list').innerHTML = data.map((u, i) => {
                     let medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}.`;
                     let rowClass = i === 0 ? 'bg-gradient-to-r from-yellow-500/30 to-transparent border-yellow-500/50 shadow-lg' :

@@ -238,3 +238,50 @@ body {
 .unlocked .unlock-label {
   color: #22c55e;
 }
+
+/* Rank Shimmer Effects */
+@keyframes shimmer-rank {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.profile-rank-1 {
+  color: #fbbf24 !important;
+  text-shadow: 0 0 15px rgba(251, 191, 36, 0.8);
+  background: linear-gradient(90deg, #fbbf24 0%, #fff 50%, #fbbf24 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer-rank 3s infinite linear;
+  display: inline-block;
+}
+
+.profile-rank-2 {
+  color: #e5e7eb !important;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  background: linear-gradient(90deg, #e5e7eb 0%, #fff 50%, #e5e7eb 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer-rank 3s infinite linear;
+  display: inline-block;
+}
+
+.profile-rank-3 {
+  color: #cd7f32 !important;
+  text-shadow: 0 0 10px rgba(205, 127, 50, 0.5);
+  background: linear-gradient(90deg, #cd7f32 0%, #fff 50%, #cd7f32 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer-rank 3s infinite linear;
+  display: inline-block;
+}
