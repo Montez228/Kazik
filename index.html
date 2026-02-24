@@ -292,51 +292,103 @@
                 <div id="prize-pool" class="mt-20 w-full max-w-6xl mx-auto px-4 z-30">
 
 
-                    <h2
-                        class="text-4xl md:text-6xl font-black text-center text-white mb-4 uppercase tracking-tighter italic">
-                        <span class="text-yellow-400">СЕКРЕТНІ</span> ЛИМОНИ
-                    </h2>
-                    <p class="text-center text-slate-500 font-bold uppercase tracking-[0.3em] text-[10px] mb-12">
-                        Досягайте цілей збору, щоб розкрити призи!</p>
+                    <!-- Prize Pool Section (Mystery Boxes) -->
+                    <div id="prize-pool" class="mt-28 w-full max-w-6xl mx-auto px-4 z-30">
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-
-                        <!-- 3rd Place - Bronze -->
-                        <div
-                            class="prize-card locked bg-black/90 border-2 border-orange-600 p-10 rounded-[3rem] text-center shadow-[0_0_40px_rgba(205,127,50,0.1)]">
-                            <div class="mystery-overlay"><span class="q-mark">?</span></div>
-                            <div class="prize-content blur-2xl">
-                                <h3 class="text-2xl font-black text-orange-600 mb-1 italic">СЕКРЕТНИЙ ЛИМОН 🍋</h3>
-                            </div>
-                            <span class="unlock-label mt-8 text-orange-600/80">🔓 Відкриється на 50% збору</span>
-                        </div>
-
-                        <!-- 2nd Place - Silver -->
-                        <div
-                            class="prize-card locked bg-black/90 border-2 border-slate-400 p-10 rounded-[3rem] text-center shadow-[0_0_40px_rgba(255,255,255,0.05)]">
-                            <div class="mystery-overlay"><span class="q-mark">?</span></div>
-                            <div class="prize-content blur-2xl">
-                                <h3 class="text-2xl font-black text-white mb-1 italic">СЕКРЕТНИЙ ЛИМОН 🍋</h3>
-                            </div>
-                            <span class="unlock-label mt-8 text-slate-400/80">🔓 Відкриється на 75% збору</span>
-                        </div>
-
-                        <!-- 1st Place - Gold -->
-                        <div
-                            class="prize-card locked bg-black/90 border-2 border-yellow-500 p-10 rounded-[3rem] text-center shadow-[0_0_40px_rgba(234,179,8,0.15)]">
-                            <div class="mystery-overlay"><span class="q-mark">?</span></div>
-                            <div class="prize-content blur-2xl">
-                                <h3 class="text-2xl font-black text-yellow-400 mb-1 italic">СЕКРЕТНИЙ ЛИМОН 🍋</h3>
-                            </div>
-                            <span class="unlock-label mt-8 text-yellow-500/80">🔓 Відкриється на 100% збору</span>
-                        </div>
-
-                    </div>
-
-                    <div class="mt-20 text-center py-8 border-t border-white/5 opacity-30">
-                        <p class="text-[10px] md:text-xs text-slate-500 font-black uppercase tracking-[0.6em]">
-                            ANONYMOUS PRIZE SYSTEM • v.1.0
+                        <h2
+                            class="text-5xl md:text-8xl font-black text-center text-white mb-6 uppercase tracking-widest metallic-shine italic">
+                            ПРИЗОВИЙ <span class="text-yellow-400">ФОНД</span>
+                        </h2>
+                        <p
+                            class="text-center text-slate-500 font-bold uppercase tracking-[0.4em] text-[12px] mb-16 opacity-80 backdrop-blur-sm bg-white/5 py-2 rounded-full max-w-xl mx-auto border border-white/5">
+                            Досягайте цілей збору, щоб розкрити призи!
                         </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+
+                            <!-- 3rd Place - Bronze -->
+                            <div
+                                class="prize-card locked bg-black/90 border-2 border-orange-600/50 p-12 rounded-[4rem] text-center shadow-[0_0_60px_rgba(205,127,50,0.15)] inner-glow-bronze relative group overflow-hidden">
+                                <!-- Background Decoration -->
+                                <div
+                                    class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover:opacity-40 transition-opacity">
+                                    <span
+                                        class="text-[15rem] font-black text-orange-600 animate-breathing opacity-30 select-none">?</span>
+                                </div>
+
+                                <div class="mystery-overlay"><span class="q-mark">?</span></div>
+                                <div class="prize-content blur-2xl transition-all duration-700">
+                                    <h3 class="text-3xl font-black text-gradient-lemon mb-4 italic tracking-tighter">
+                                        СЕКРЕТНИЙ ЛИМОН 🍋</h3>
+                                </div>
+
+                                <div
+                                    class="mt-12 inline-flex items-center gap-2 bg-orange-600/10 border border-orange-600/30 px-6 py-3 rounded-full backdrop-blur-md">
+                                    <span class="animate-lock">🔓</span>
+                                    <span
+                                        class="font-mono text-[10px] font-black uppercase text-orange-500 tracking-tighter">Відкриється
+                                        на 50% збору</span>
+                                </div>
+                            </div>
+
+                            <!-- 2nd Place - Silver -->
+                            <div
+                                class="prize-card locked bg-black/90 border-2 border-slate-400/50 p-12 rounded-[4rem] text-center shadow-[0_0_60px_rgba(255,255,255,0.08)] inner-glow-silver relative group overflow-hidden">
+                                <!-- Background Decoration -->
+                                <div
+                                    class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover:opacity-40 transition-opacity">
+                                    <span
+                                        class="text-[15rem] font-black text-slate-400 animate-breathing opacity-30 select-none">?</span>
+                                </div>
+
+                                <div class="mystery-overlay"><span class="q-mark">?</span></div>
+                                <div class="prize-content blur-2xl transition-all duration-700">
+                                    <h3 class="text-3xl font-black text-gradient-lemon mb-4 italic tracking-tighter">
+                                        СЕКРЕТНИЙ ЛИМОН 🍋</h3>
+                                </div>
+
+                                <div
+                                    class="mt-12 inline-flex items-center gap-2 bg-slate-400/10 border border-slate-400/30 px-6 py-3 rounded-full backdrop-blur-md">
+                                    <span class="animate-lock">🔓</span>
+                                    <span
+                                        class="font-mono text-[10px] font-black uppercase text-slate-300 tracking-tighter">Відкриється
+                                        на 75% збору</span>
+                                </div>
+                            </div>
+
+                            <!-- 1st Place - Gold -->
+                            <div
+                                class="prize-card locked bg-black/90 border-2 border-yellow-500/50 p-12 rounded-[4rem] text-center shadow-[0_0_60px_rgba(234,179,8,0.2)] inner-glow-gold relative group overflow-hidden">
+                                <!-- Background Decoration -->
+                                <div
+                                    class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover:opacity-40 transition-opacity">
+                                    <span
+                                        class="text-[15rem] font-black text-yellow-500 animate-breathing opacity-30 select-none">?</span>
+                                </div>
+
+                                <div class="mystery-overlay"><span class="q-mark">?</span></div>
+                                <div class="prize-content blur-2xl transition-all duration-700">
+                                    <h3 class="text-3xl font-black text-gradient-lemon mb-4 italic tracking-tighter">
+                                        СЕКРЕТНИЙ ЛИМОН 🍋</h3>
+                                </div>
+
+                                <div
+                                    class="mt-12 inline-flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/30 px-6 py-3 rounded-full backdrop-blur-md">
+                                    <span class="animate-lock">🔓</span>
+                                    <span
+                                        class="font-mono text-[10px] font-black uppercase text-yellow-500 tracking-tighter">Відкриється
+                                        на 100% збору</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="mt-24 text-center py-10 border-t border-white/5 opacity-50 backdrop-blur-sm">
+                            <p
+                                class="text-[10px] md:text-sm text-slate-500 font-black uppercase tracking-[0.8em] italic">
+                                🏆 ПРЕМІАЛЬНА СИСТЕМА ВИНАГОРОД 🏆
+                            </p>
+                        </div>
                     </div>
                 </div>
 
