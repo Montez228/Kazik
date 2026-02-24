@@ -1,12 +1,18 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { BookOpen, HelpCircle } from 'lucide-react';
+import { BookOpen, HelpCircle, Wind } from 'lucide-react';
 
-const PrizeCard = ({ rank, title, subtitle, icon, color, effectClass, description }) => {
+const PrizeCard = ({ rank, title, subtitle, icon, color, description }) => {
     const borderColors = {
-        gold: 'border-[#ffd700] shadow-[0_0_25px_rgba(255,215,0,0.1)] hover:shadow-[0_0_40px_rgba(255,215,0,0.2)]',
-        silver: 'border-[#e5e7eb] shadow-[0_0_25px_rgba(255,255,255,0.05)] hover:shadow-[0_0_40px_rgba(255,255,255,0.1)]',
-        bronze: 'border-[#cd7f32] shadow-[0_0_25px_rgba(205,127,50,0.1)] hover:shadow-[0_0_40px_rgba(205,127,50,0.2)]',
+        gold: 'border-[#ffd700] shadow-[0_0_15px_rgba(255,215,0,0.3)]',
+        silver: 'border-[#e5e7eb] shadow-[0_0_15px_rgba(255,255,255,0.2)]',
+        bronze: 'border-[#cd7f32] shadow-[0_0_15px_rgba(205,127,50,0.3)]',
+    };
+
+    const textColors = {
+        gold: 'text-[#ffd700]',
+        silver: 'text-white',
+        bronze: 'text-[#cd7f32]',
     };
 
     const rankLabels = {
@@ -15,52 +21,34 @@ const PrizeCard = ({ rank, title, subtitle, icon, color, effectClass, descriptio
         3: '3 МІСЦЕ',
     };
 
-    const metalText = {
-        gold: 'text-[#ffd700]',
-        silver: 'text-white',
-        bronze: 'text-[#cd7f32]',
-    };
-
     return (
         <motion.div
-            whileHover={{ y: -15, scale: 1.02 }}
-            className={`relative group overflow-hidden bg-black p-8 rounded-[2.5rem] border-2 ${borderColors[color] || 'border-white/10'} transition-all duration-700 h-[320px] flex flex-col items-center justify-center cursor-help`}
+            whileHover={{ y: -10 }}
+            className={`relative flex flex-col items-center justify-center p-8 rounded-[2rem] border-4 bg-black/80 ${borderColors[color]} transition-all duration-300 min-h-[300px] z-30`}
         >
-            {/* Rank Label - Always slightly visible */}
-            <div className="absolute top-6 right-6 text-[10px] font-black opacity-20 italic tracking-widest group-hover:opacity-50 transition-opacity">
+            <div className={`absolute top-4 right-6 text-sm font-black italic opacity-60 ${textColors[color]}`}>
                 {rankLabels[rank]}
             </div>
 
-            {/* Mystery Overlay (Hidden on hover) */}
-            <motion.div
-                className="absolute inset-0 z-20 bg-black flex items-center justify-center group-hover:opacity-0 transition-opacity duration-500 pointer-events-none"
-            >
-                <span className={`text-4xl font-black italic opacity-40 ${metalText[color]}`}>?</span>
-            </motion.div>
+            <div className="mb-6 flex items-center justify-center">
+                {icon}
+            </div>
 
-            {/* Prize Content (Visible on hover) */}
-            <div className="flex flex-col items-center justify-center w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                <div className={`flex flex-col items-center justify-center h-40 mb-4 relative w-full rounded-2xl overflow-hidden ${effectClass}`}>
-                    {icon}
-                    {rank === 2 && <div className="smoke-effect"></div>}
-                </div>
+            <div className="text-center w-full">
+                <h3 className={`text-2xl md:text-3xl font-black mb-2 italic uppercase tracking-tighter ${textColors[color]}`}>
+                    {title}
+                </h3>
+                <p className="text-gray-300 text-sm font-bold uppercase tracking-widest mb-4">
+                    {subtitle}
+                </p>
 
-                <div className="text-center relative z-10 w-full">
-                    <h3 className={`text-2xl font-black mb-1 italic tracking-tighter ${metalText[color]}`}>
-                        {title}
-                    </h3>
-                    <p className="text-gray-400 text-[10px] font-bold uppercase tracking-[0.2em] opacity-80 mb-2">
-                        {subtitle}
-                    </p>
-
-                    {rank === 3 && (
-                        <div className="py-1 px-3 bg-yellow-500/10 rounded-full border border-yellow-500/20 inline-block">
-                            <p className="text-[9px] text-yellow-500 font-bold uppercase">
-                                {description}
-                            </p>
-                        </div>
-                    )}
-                </div>
+                {description && (
+                    <div className="mt-2 py-2 px-4 bg-white/10 rounded-xl border border-white/20">
+                        <p className="text-[11px] text-yellow-500 font-black uppercase tracking-tight">
+                            {description}
+                        </p>
+                    </div>
+                )}
             </div>
         </motion.div>
     );
@@ -68,70 +56,58 @@ const PrizeCard = ({ rank, title, subtitle, icon, color, effectClass, descriptio
 
 const PrizePool = () => {
     return (
-        <section className="mt-16 w-full px-4">
-            <div className="flex items-center justify-center gap-6 mb-12">
-                <div className="h-[2px] w-16 bg-gradient-to-r from-transparent to-casino-neon/40" />
-                <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-4xl md:text-6xl font-black italic text-center uppercase tracking-tighter"
-                >
-                    <span className="text-casino-neon neon-text">ПРИЗОВИЙ</span> ФОНД
-                </motion.h2>
-                <div className="h-[2px] w-16 bg-gradient-to-l from-transparent to-casino-neon/40" />
+        <section id="prizes" className="w-full py-10 relative z-20">
+            <div className="flex items-center justify-center gap-4 mb-12">
+                <div className="h-1 flex-1 bg-gradient-to-r from-transparent to-yellow-500" />
+                <h2 className="text-4xl md:text-6xl font-black italic text-center uppercase tracking-tighter text-yellow-500 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]">
+                    ПРИЗОВИЙ ФОНД
+                </h2>
+                <div className="h-1 flex-1 bg-gradient-to-l from-transparent to-yellow-500" />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto px-2">
                 {/* 1st Place - Gold */}
                 <PrizeCard
                     rank={1}
                     color="gold"
-                    title="Інтелектуальний заряд"
-                    subtitle="Набір книжок"
-                    effectClass="bg-white/5"
-                    icon={<BookOpen className="w-20 h-20 text-[#ffd700] drop-shadow-[0_0_15px_rgba(255,215,0,0.6)]" />}
+                    title="Книги"
+                    subtitle="Інтелектуальний заряд"
+                    icon={<BookOpen className="w-20 h-20 text-[#ffd700] drop-shadow-[0_0_15px_rgba(255,215,0,0.8)]" />}
                 />
 
                 {/* 2nd Place - Silver */}
                 <PrizeCard
                     rank={2}
                     color="silver"
-                    title="Димний релакс"
-                    subtitle="Табак для кальяну"
-                    effectClass="bg-white/5"
-                    icon={<div className="text-6xl filter drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">🌫️</div>}
+                    title="Табак"
+                    subtitle="Димний релакс"
+                    icon={<Wind className="w-20 h-20 text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.6)]" />}
                 />
 
                 {/* 3rd Place - Bronze */}
                 <PrizeCard
                     rank={3}
                     color="bronze"
-                    title="Секретний Лимон"
-                    subtitle="Знак питання"
+                    title="Секрет"
+                    subtitle="Секретний Лимон"
                     description="Відкриється при 50% збору"
-                    effectClass="bg-white/5"
                     icon={
                         <motion.div
-                            animate={{ scale: [1, 1.1, 1] }}
-                            transition={{ repeat: Infinity, duration: 2 }}
+                            animate={{ scale: [1, 1.2, 1] }}
+                            transition={{ repeat: Infinity, duration: 1.5 }}
                         >
-                            <HelpCircle className="w-20 h-20 text-[#ffd700] drop-shadow-[0_0_25px_rgba(255,215,0,0.9)]" />
+                            <HelpCircle className="w-20 h-20 text-[#cd7f32] drop-shadow-[0_0_15px_rgba(205,127,50,0.8)]" />
                         </motion.div>
                     }
                 />
             </div>
 
-            <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                className="mt-16 p-6 glass rounded-2xl border border-white/5 max-w-3xl mx-auto bg-black/40"
-            >
-                <p className="text-center text-gray-500 font-bold uppercase text-[10px] md:text-xs tracking-[0.3em] leading-relaxed">
+            <div className="mt-12 p-6 border-2 border-dashed border-white/20 rounded-2xl bg-black/50 overflow-hidden relative group">
+                <p className="text-center text-gray-400 font-black uppercase text-xs md:text-sm tracking-[0.2em] relative z-10">
                     🏆 Розіграш відбудеться серед ТОП-3 лідерборду на момент закриття банки 🏆
                 </p>
-            </motion.div>
+                <div className="absolute inset-0 bg-yellow-500/5 group-hover:bg-yellow-500/10 transition-colors" />
+            </div>
         </section>
     );
 };

@@ -138,7 +138,7 @@ function Home({ isMuted, setIsMuted }) {
           </div>
         ) : (
           <>
-            <div className="lg:col-span-2 space-y-8">
+            <div className="lg:col-span-2">
               <SlotMachine user={user} isMuted={isMuted} />
               <PrizePool />
             </div>
