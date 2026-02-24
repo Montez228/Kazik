@@ -92,23 +92,23 @@ function Home({ isMuted, setIsMuted }) {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-2 md:gap-8 glass px-3 md:px-12 py-3 md:py-6 rounded-2xl md:rounded-[3rem] neon-border shadow-[0_0_50px_rgba(240,171,252,0.1)] w-full max-w-[380px] md:max-w-none border border-white/10"
+              className="flex items-center gap-2 md:gap-8 glass px-3 md:px-12 py-4 md:py-6 rounded-2xl md:rounded-[3rem] neon-border shadow-[0_0_50px_rgba(240,171,252,0.1)] w-full max-w-[380px] md:max-w-none border border-white/10"
             >
               <div className="text-center flex-1 md:flex-none md:min-w-[140px]">
-                <p className="text-[7px] md:text-[10px] text-gray-500 uppercase font-black tracking-widest mb-1">Гравець</p>
-                <p className="font-bold text-casino-neon text-[10px] md:text-2xl truncate max-w-[70px] md:max-w-[200px] mx-auto">{user.nickname}</p>
+                <p className="text-[9px] md:text-[10px] text-gray-500 uppercase font-black tracking-widest mb-1">Гравець</p>
+                <p className="font-bold text-casino-neon text-sm md:text-2xl truncate max-w-[90px] md:max-w-[200px] mx-auto">{user.nickname}</p>
               </div>
-              <div className="h-8 md:h-14 w-[1px] bg-white/10" />
+              <div className="h-10 md:h-14 w-[1px] bg-white/10" />
               <div className="text-center flex-1 md:flex-none md:min-w-[80px]">
-                <p className="text-[7px] md:text-[10px] text-gray-500 uppercase font-black tracking-widest mb-1">Спіни</p>
-                <motion.p key={user.spins} initial={{ scale: 1.5, color: '#22d3ee' }} animate={{ scale: 1, color: '#22d3ee' }} className="font-black text-sm md:text-4xl text-center">
+                <p className="text-[9px] md:text-[10px] text-gray-500 uppercase font-black tracking-widest mb-1">Спіни</p>
+                <motion.p key={user.spins} initial={{ scale: 1.5, color: '#22d3ee' }} animate={{ scale: 1, color: '#22d3ee' }} className="font-black text-xl md:text-4xl text-center">
                   {user.spins}
                 </motion.p>
               </div>
-              <div className="h-8 md:h-14 w-[1px] bg-white/10" />
+              <div className="h-10 md:h-14 w-[1px] bg-white/10" />
               <div className="text-center flex-1 md:flex-none md:min-w-[80px]">
-                <p className="text-[7px] md:text-[10px] text-gray-500 uppercase font-black tracking-widest mb-1">Бали</p>
-                <motion.p key={user.points} initial={{ scale: 1.5, color: '#fbbf24' }} animate={{ scale: 1, color: '#fbbf24' }} className="font-black text-sm md:text-4xl text-center">
+                <p className="text-[9px] md:text-[10px] text-gray-500 uppercase font-black tracking-widest mb-1">Бали</p>
+                <motion.p key={user.points} initial={{ scale: 1.5, color: '#fbbf24' }} animate={{ scale: 1, color: '#fbbf24' }} className="font-black text-xl md:text-4xl text-center">
                   {user.points}
                 </motion.p>
               </div>
