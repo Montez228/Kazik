@@ -208,7 +208,7 @@ function Home({ isMuted, setIsMuted }) {
                 >
                   ЗАРЯДИТИ БАНКУ 🍋
                 </a>
-                <p className="text-[10px] text-gray-400">Всі донати йдуть на перемогу!</p>
+                <p className="text-[10px] text-gray-400 uppercase font-black tracking-widest">1 ГРН = 1 СПІН • ВСІ ДОНАТИ ЙДУТЬ НА ПЕРЕМОГУ!</p>
               </motion.div>
             </div>
           </>
