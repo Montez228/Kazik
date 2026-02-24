@@ -71,46 +71,57 @@ function Home({ isMuted, setIsMuted }) {
 
   return (
     <div className="min-h-screen w-full bg-casino-dark text-white p-4 md:p-8 flex flex-col">
-      <header className="max-w-6xl mx-auto w-full flex flex-col items-center mb-8 gap-4 md:gap-8">
-        <motion.h1
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          onClick={() => navigate('/')}
-          className="text-3xl md:text-7xl font-black neon-text italic tracking-tighter cursor-pointer select-none uppercase text-center leading-none"
+      <header className="max-w-6xl mx-auto w-full flex flex-col items-center mb-10 gap-6 md:gap-12 relative">
+        {/* Title Block - Always on top */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center w-full"
         >
-          Заряджені на <span className="text-casino-cyan neon-cyan-text">Лимон</span> 🍋
-        </motion.h1>
+          <h1
+            onClick={() => navigate('/')}
+            className="text-4xl md:text-8xl font-black neon-text italic tracking-tighter cursor-pointer select-none uppercase leading-none md:mb-4"
+          >
+            ЗАРЯДЖЕНІ НА <br className="md:hidden" />
+            <span className="text-casino-cyan neon-cyan-text">ЛИМОН</span> 🍋
+          </h1>
+        </motion.div>
 
+        {/* Profile and Controls Block - Directly below title */}
         <div className="flex flex-col items-center gap-4 w-full justify-center">
-          <div className="flex items-center gap-3">
-            <button onClick={() => setIsMuted(!isMuted)} className="p-2 glass rounded-full hover:bg-white/10 transition-all">
-              {isMuted ? <VolumeX size={20} className="text-red-400" /> : <Volume2 size={20} className="text-casino-neon" />}
-            </button>
-            <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Керування звуком</span>
-          </div>
-
           {user && (
-            <div className="flex items-center gap-3 md:gap-8 glass px-4 md:px-10 py-3 rounded-2xl md:rounded-[2.5rem] neon-border shadow-[0_0_40px_rgba(240,171,252,0.1)]">
-              <div className="text-center min-w-[80px] md:min-w-[120px]">
-                <p className="text-[8px] md:text-[10px] text-gray-400 uppercase font-black tracking-widest mb-1">Гравець</p>
-                <p className="font-bold text-casino-neon text-sm md:text-2xl truncate max-w-[100px] md:max-w-[200px]">{user.nickname}</p>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center gap-2 md:gap-8 glass px-3 md:px-12 py-3 md:py-6 rounded-2xl md:rounded-[3rem] neon-border shadow-[0_0_50px_rgba(240,171,252,0.1)] w-full max-w-[380px] md:max-w-none border border-white/10"
+            >
+              <div className="text-center flex-1 md:flex-none md:min-w-[140px]">
+                <p className="text-[7px] md:text-[10px] text-gray-500 uppercase font-black tracking-widest mb-1">Гравець</p>
+                <p className="font-bold text-casino-neon text-[10px] md:text-2xl truncate max-w-[70px] md:max-w-[200px] mx-auto">{user.nickname}</p>
               </div>
-              <div className="h-8 md:h-12 w-[1px] bg-white/10" />
-              <div className="text-center min-w-[50px] md:min-w-[80px]">
-                <p className="text-[8px] md:text-[10px] text-gray-400 uppercase font-black tracking-widest mb-1">Спіни</p>
-                <motion.p key={user.spins} initial={{ scale: 1.5, color: '#22d3ee' }} animate={{ scale: 1, color: '#22d3ee' }} className="font-black text-lg md:text-3xl">
+              <div className="h-8 md:h-14 w-[1px] bg-white/10" />
+              <div className="text-center flex-1 md:flex-none md:min-w-[80px]">
+                <p className="text-[7px] md:text-[10px] text-gray-500 uppercase font-black tracking-widest mb-1">Спіни</p>
+                <motion.p key={user.spins} initial={{ scale: 1.5, color: '#22d3ee' }} animate={{ scale: 1, color: '#22d3ee' }} className="font-black text-sm md:text-4xl">
                   {user.spins}
                 </motion.p>
               </div>
-              <div className="h-8 md:h-12 w-[1px] bg-white/10" />
-              <div className="text-center min-w-[50px] md:min-w-[80px]">
-                <p className="text-[8px] md:text-[10px] text-gray-400 uppercase font-black tracking-widest mb-1">Бали</p>
-                <motion.p key={user.points} initial={{ scale: 1.5, color: '#fbbf24' }} animate={{ scale: 1, color: '#fbbf24' }} className="font-black text-lg md:text-3xl">
+              <div className="h-8 md:h-14 w-[1px] bg-white/10" />
+              <div className="text-center flex-1 md:flex-none md:min-w-[80px]">
+                <p className="text-[7px] md:text-[10px] text-gray-500 uppercase font-black tracking-widest mb-1">Бали</p>
+                <motion.p key={user.points} initial={{ scale: 1.5, color: '#fbbf24' }} animate={{ scale: 1, color: '#fbbf24' }} className="font-black text-sm md:text-4xl">
                   {user.points}
                 </motion.p>
               </div>
-            </div>
+            </motion.div>
           )}
+
+          <div className="flex items-center gap-3">
+            <button onClick={() => setIsMuted(!isMuted)} className="p-2 md:p-3 glass rounded-full hover:bg-white/10 transition-all border border-white/5">
+              {isMuted ? <VolumeX size={16} className="text-red-400 md:w-6 md:h-6" /> : <Volume2 size={16} className="text-casino-neon md:w-6 md:h-6" />}
+            </button>
+            <span className="text-[8px] md:text-xs text-gray-600 font-bold uppercase tracking-widest">Керування звуком</span>
+          </div>
         </div>
       </header>
 
