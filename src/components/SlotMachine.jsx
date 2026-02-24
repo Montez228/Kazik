@@ -19,8 +19,8 @@ export default function SlotMachine({ user, isMuted }) {
     const [spinText, setSpinText] = useState('КРУТИМО ЛИМОНИ... 🍋')
 
 
-    const spinAudio = useRef(new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3'))
-    const winAudio = useRef(new Audio('https://assets.mixkit.co/active_storage/sfx/2011/2011-preview.mp3'))
+    const spinAudio = useRef(new Audio('https://www.soundjay.com/mechanical/sounds/mechanical-clatter-1.mp3'))
+    const winAudio = useRef(new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-01.mp3'))
     const clickAudio = useRef(new Audio('https://www.soundjay.com/buttons/sounds/button-20.mp3'))
 
     useEffect(() => {
@@ -79,6 +79,7 @@ export default function SlotMachine({ user, isMuted }) {
 
                     setSpinning(false)
                     spinAudio.current.pause()
+                    spinAudio.current.currentTime = 0
 
                     // 3. Check for matching symbols
                     if (newResults[0] === newResults[1] && newResults[1] === newResults[2]) {
