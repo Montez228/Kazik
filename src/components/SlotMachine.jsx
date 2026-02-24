@@ -144,8 +144,8 @@ export default function SlotMachine({ user, isMuted }) {
             ${user.spins <= 0 && !spinning ? 'bg-red-500/20 text-red-500 border border-red-500/50 grayscale' : 'shadow-[0_0_20px_rgba(240,171,252,0.4)]'}
           `}
                 >
-                    <span className={`relative z-10 italic uppercase tracking-widest leading-none ${spinning ? 'animate-text-pulse' : ''}`}>
-                        {spinning ? spinText : user.spins <= 0 ? 'Без спінів' : 'КРУТИТИ ЛИМОН'}
+                    <span className={`relative z-10 italic uppercase tracking-tight leading-none ${spinning ? 'animate-text-pulse' : ''}`}>
+                        {spinning ? spinText : user.spins <= 0 ? 'Без спінів' : 'КРУТИТИ\u00A0\u00A0ЛИМОН'}
                     </span>
 
                     {!spinning && user.spins > 0 && (
