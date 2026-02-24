@@ -82,8 +82,7 @@ function Home({ isMuted, setIsMuted }) {
             onClick={() => navigate('/')}
             className="text-4xl md:text-8xl font-black neon-text italic tracking-tighter cursor-pointer select-none uppercase leading-none md:mb-4"
           >
-            ЗАРЯДЖЕНІ НА <br className="md:hidden" />
-            <span className="text-casino-cyan neon-cyan-text">ЛИМОН</span> 🍋
+            LEMON GAME 🍋
           </h1>
         </motion.div>
 
@@ -102,14 +101,14 @@ function Home({ isMuted, setIsMuted }) {
               <div className="h-8 md:h-14 w-[1px] bg-white/10" />
               <div className="text-center flex-1 md:flex-none md:min-w-[80px]">
                 <p className="text-[7px] md:text-[10px] text-gray-500 uppercase font-black tracking-widest mb-1">Спіни</p>
-                <motion.p key={user.spins} initial={{ scale: 1.5, color: '#22d3ee' }} animate={{ scale: 1, color: '#22d3ee' }} className="font-black text-sm md:text-4xl">
+                <motion.p key={user.spins} initial={{ scale: 1.5, color: '#22d3ee' }} animate={{ scale: 1, color: '#22d3ee' }} className="font-black text-sm md:text-4xl text-center">
                   {user.spins}
                 </motion.p>
               </div>
               <div className="h-8 md:h-14 w-[1px] bg-white/10" />
               <div className="text-center flex-1 md:flex-none md:min-w-[80px]">
                 <p className="text-[7px] md:text-[10px] text-gray-500 uppercase font-black tracking-widest mb-1">Бали</p>
-                <motion.p key={user.points} initial={{ scale: 1.5, color: '#fbbf24' }} animate={{ scale: 1, color: '#fbbf24' }} className="font-black text-sm md:text-4xl">
+                <motion.p key={user.points} initial={{ scale: 1.5, color: '#fbbf24' }} animate={{ scale: 1, color: '#fbbf24' }} className="font-black text-sm md:text-4xl text-center">
                   {user.points}
                 </motion.p>
               </div>
