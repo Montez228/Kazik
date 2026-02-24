@@ -137,12 +137,23 @@ function Home({ isMuted, setIsMuted }) {
           </div>
         ) : (
           <>
-            <div className="lg:col-span-2 flex flex-col gap-8">
+            {/* Desktop: SlotMachine spans 2 cols. Mobile: Order 1 */}
+            <div className="lg:col-span-2 order-1">
               <SlotMachine user={user} isMuted={isMuted} />
+            </div>
+
+            {/* Desktop: Leaderboard in sidebar. Mobile: Order 2 (between Slot and Prize) */}
+            <div className="lg:col-span-1 order-2">
               <Leaderboard />
+            </div>
+
+            {/* Desktop: PrizePool spans 2 cols. Mobile: Order 3 */}
+            <div className="lg:col-span-2 order-3">
               <PrizePool />
             </div>
-            <div className="flex flex-col gap-6">
+
+            {/* Desktop: Rules and Donation Section in sidebar. Mobile: Order 4 */}
+            <div className="lg:col-span-1 flex flex-col gap-6 order-4">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -175,11 +186,10 @@ function Home({ isMuted, setIsMuted }) {
                 </div>
               </motion.div>
 
-              {/* Donation Section */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="mt-4 p-6 glass rounded-[2rem] border-2 border-yellow-500/20 text-center flex flex-col gap-4 animate-pulse-gold"
+                className="p-6 glass rounded-[2rem] border-2 border-yellow-500/20 text-center flex flex-col gap-4 animate-pulse-gold sticky top-4"
               >
                 <p className="text-sm font-bold text-yellow-400 uppercase italic">Підтримай ЗСУ / Отримай спіни</p>
                 <a
@@ -198,7 +208,7 @@ function Home({ isMuted, setIsMuted }) {
       </main>
 
       {/* Secret Admin Panel at the bottom */}
-      <footer className="mt-auto border-t border-white/5 pt-8">
+      < footer className="mt-auto border-t border-white/5 pt-8" >
         <div className="max-w-6xl mx-auto px-4">
           {isAdminUnlocked ? (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
@@ -220,10 +230,10 @@ function Home({ isMuted, setIsMuted }) {
             © 2026 ЗАРИДЖЕНІ НА ЛИМОН. ВСІ ПРАВА ЗАХИЩЕНІ.
           </p>
         </div>
-      </footer>
+      </footer >
 
       {/* Mobile Sticky Donation Button */}
-      <div className="lg:hidden fixed bottom-6 left-0 right-0 px-6 z-40 pointer-events-none">
+      < div className="lg:hidden fixed bottom-6 left-0 right-0 px-6 z-40 pointer-events-none" >
         <a
           href="https://send.monobank.ua/jar/8jDCYuZb7Y"
           target="_blank"
@@ -232,8 +242,8 @@ function Home({ isMuted, setIsMuted }) {
         >
           ЗАРЯДИТИ БАНКУ 🍋
         </a>
-      </div>
-    </div>
+      </div >
+    </div >
   )
 }
 
