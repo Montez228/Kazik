@@ -208,8 +208,8 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-10 w-full mb-20">
 
-            <!-- Leaderboard (Left) -->
-            <div class="lg:col-span-1 order-2 lg:order-1">
+            <!-- Leaderboard (Left side) -->
+            <div class="lg:col-span-1 order-1">
                 <div class="glass p-8 rounded-[2.5rem] border border-white/5 h-full relative">
                     <h3
                         class="text-2xl font-black mb-8 italic text-purple-400 uppercase tracking-tighter flex items-center gap-2">
@@ -221,8 +221,8 @@
                 </div>
             </div>
 
-            <!-- Slot Center -->
-            <div class="lg:col-span-3 order-1 lg:order-2 flex flex-col items-center">
+            <!-- Slot Center (Main Content) -->
+            <div class="lg:col-span-3 order-2 flex flex-col items-center">
                 <div
                     class="glass p-10 md:p-14 rounded-[4rem] border-4 border-purple-500/20 bg-slate-950/80 relative flex flex-col items-center shadow-2xl w-full">
 
@@ -287,347 +287,346 @@
                             class="text-[8px] font-bold text-slate-500">70</span>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Prize Pool Section (Mystery Boxes) -->
-                <div id="prize-pool" class="mt-20 w-full max-w-6xl mx-auto px-4 z-30">
-                    <h2
-                        class="text-3xl font-black text-center text-white mb-6 uppercase tracking-widest metallic-shine italic">
-                        ПРИЗОВИЙ <span class="text-yellow-400">ФОНД</span>
-                    </h2>
-                    <p
-                        class="text-center text-slate-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-16 opacity-80 backdrop-blur-sm bg-white/5 py-2 rounded-full max-w-xl mx-auto border border-white/5">
-                        Досягайте цілей збору, щоб розкрити призи!
-                    </p>
+        <!-- Prize Pool Section (Mystery Boxes) -->
+        <div id="prize-pool" class="mt-20 w-full max-w-6xl mx-auto px-4 z-30">
+            <h2 class="text-3xl font-black text-center text-white mb-6 uppercase tracking-widest metallic-shine italic">
+                ПРИЗОВИЙ <span class="text-yellow-400">ФОНД</span>
+            </h2>
+            <p
+                class="text-center text-slate-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-16 opacity-80 backdrop-blur-sm bg-white/5 py-2 rounded-full max-w-xl mx-auto border border-white/5">
+                Досягайте цілей збору, щоб розкрити призи!
+            </p>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
 
-                        <!-- 3rd Place - Bronze -->
-                        <div
-                            class="prize-card locked bg-black/90 border-2 border-orange-600/50 p-12 rounded-[4rem] text-center shadow-[0_0_60px_rgba(205,127,50,0.15)] inner-glow-bronze relative group overflow-hidden">
-                            <!-- Background Decoration -->
-                            <div
-                                class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover:opacity-40 transition-opacity">
-                                <span
-                                    class="text-[15rem] font-black text-orange-600 animate-breathing opacity-30 select-none">?</span>
-                            </div>
-
-                            <div class="mystery-overlay"><span class="q-mark">?</span></div>
-                            <div class="prize-content blur-2xl transition-all duration-700">
-                                <h3 class="text-3xl font-black text-gradient-lemon mb-4 italic tracking-tighter">
-                                    СЕКРЕТНИЙ ЛИМОН 🍋</h3>
-                            </div>
-
-                            <div
-                                class="mt-12 inline-flex items-center gap-2 bg-orange-600/10 border border-orange-600/30 px-6 py-3 rounded-full backdrop-blur-md">
-                                <span class="animate-lock">🔓</span>
-                                <span
-                                    class="font-mono text-[10px] font-black uppercase text-orange-500 tracking-tighter">Відкриється
-                                    на 50% збору</span>
-                            </div>
-                        </div>
-
-                        <!-- 2nd Place - Silver -->
-                        <div
-                            class="prize-card locked bg-black/90 border-2 border-slate-400/50 p-12 rounded-[4rem] text-center shadow-[0_0_60px_rgba(255,255,255,0.08)] inner-glow-silver relative group overflow-hidden">
-                            <!-- Background Decoration -->
-                            <div
-                                class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover:opacity-40 transition-opacity">
-                                <span
-                                    class="text-[15rem] font-black text-slate-400 animate-breathing opacity-30 select-none">?</span>
-                            </div>
-
-                            <div class="mystery-overlay"><span class="q-mark">?</span></div>
-                            <div class="prize-content blur-2xl transition-all duration-700">
-                                <h3 class="text-3xl font-black text-gradient-lemon mb-4 italic tracking-tighter">
-                                    СЕКРЕТНИЙ ЛИМОН 🍋</h3>
-                            </div>
-
-                            <div
-                                class="mt-12 inline-flex items-center gap-2 bg-slate-400/10 border border-slate-400/30 px-6 py-3 rounded-full backdrop-blur-md">
-                                <span class="animate-lock">🔓</span>
-                                <span
-                                    class="font-mono text-[10px] font-black uppercase text-slate-300 tracking-tighter">Відкриється
-                                    на 75% збору</span>
-                            </div>
-                        </div>
-
-                        <!-- 1st Place - Gold -->
-                        <div
-                            class="prize-card locked bg-black/90 border-2 border-yellow-500/50 p-12 rounded-[4rem] text-center shadow-[0_0_60px_rgba(234,179,8,0.2)] inner-glow-gold relative group overflow-hidden">
-                            <!-- Background Decoration -->
-                            <div
-                                class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover:opacity-40 transition-opacity">
-                                <span
-                                    class="text-[15rem] font-black text-yellow-500 animate-breathing opacity-30 select-none">?</span>
-                            </div>
-
-                            <div class="mystery-overlay"><span class="q-mark">?</span></div>
-                            <div class="prize-content blur-2xl transition-all duration-700">
-                                <h3 class="text-3xl font-black text-gradient-lemon mb-4 italic tracking-tighter">
-                                    СЕКРЕТНИЙ ЛИМОН 🍋</h3>
-                            </div>
-
-                            <div
-                                class="mt-12 inline-flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/30 px-6 py-3 rounded-full backdrop-blur-md">
-                                <span class="animate-lock">🔓</span>
-                                <span
-                                    class="font-mono text-[10px] font-black uppercase text-yellow-500 tracking-tighter">Відкриється
-                                    на 100% збору</span>
-                            </div>
-                        </div>
-
+                <!-- 3rd Place - Bronze -->
+                <div
+                    class="prize-card locked bg-black/90 border-2 border-orange-600/50 p-12 rounded-[4rem] text-center shadow-[0_0_60px_rgba(205,127,50,0.15)] inner-glow-bronze relative group overflow-hidden">
+                    <!-- Background Decoration -->
+                    <div
+                        class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover:opacity-40 transition-opacity">
+                        <span
+                            class="text-[15rem] font-black text-orange-600 animate-breathing opacity-30 select-none">?</span>
                     </div>
 
+                    <div class="mystery-overlay"><span class="q-mark">?</span></div>
+                    <div class="prize-content blur-2xl transition-all duration-700">
+                        <h3 class="text-3xl font-black text-gradient-lemon mb-4 italic tracking-tighter">
+                            СЕКРЕТНИЙ ЛИМОН 🍋</h3>
+                    </div>
+
+                    <div
+                        class="mt-12 inline-flex items-center gap-2 bg-orange-600/10 border border-orange-600/30 px-6 py-3 rounded-full backdrop-blur-md">
+                        <span class="animate-lock">🔓</span>
+                        <span
+                            class="font-mono text-[10px] font-black uppercase text-orange-500 tracking-tighter">Відкриється
+                            на 50% збору</span>
+                    </div>
+                </div>
+
+                <!-- 2nd Place - Silver -->
+                <div
+                    class="prize-card locked bg-black/90 border-2 border-slate-400/50 p-12 rounded-[4rem] text-center shadow-[0_0_60px_rgba(255,255,255,0.08)] inner-glow-silver relative group overflow-hidden">
+                    <!-- Background Decoration -->
+                    <div
+                        class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover:opacity-40 transition-opacity">
+                        <span
+                            class="text-[15rem] font-black text-slate-400 animate-breathing opacity-30 select-none">?</span>
+                    </div>
+
+                    <div class="mystery-overlay"><span class="q-mark">?</span></div>
+                    <div class="prize-content blur-2xl transition-all duration-700">
+                        <h3 class="text-3xl font-black text-gradient-lemon mb-4 italic tracking-tighter">
+                            СЕКРЕТНИЙ ЛИМОН 🍋</h3>
+                    </div>
+
+                    <div
+                        class="mt-12 inline-flex items-center gap-2 bg-slate-400/10 border border-slate-400/30 px-6 py-3 rounded-full backdrop-blur-md">
+                        <span class="animate-lock">🔓</span>
+                        <span
+                            class="font-mono text-[10px] font-black uppercase text-slate-300 tracking-tighter">Відкриється
+                            на 75% збору</span>
+                    </div>
+                </div>
+
+                <!-- 1st Place - Gold -->
+                <div
+                    class="prize-card locked bg-black/90 border-2 border-yellow-500/50 p-12 rounded-[4rem] text-center shadow-[0_0_60px_rgba(234,179,8,0.2)] inner-glow-gold relative group overflow-hidden">
+                    <!-- Background Decoration -->
+                    <div
+                        class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover:opacity-40 transition-opacity">
+                        <span
+                            class="text-[15rem] font-black text-yellow-500 animate-breathing opacity-30 select-none">?</span>
+                    </div>
+
+                    <div class="mystery-overlay"><span class="q-mark">?</span></div>
+                    <div class="prize-content blur-2xl transition-all duration-700">
+                        <h3 class="text-3xl font-black text-gradient-lemon mb-4 italic tracking-tighter">
+                            СЕКРЕТНИЙ ЛИМОН 🍋</h3>
+                    </div>
+
+                    <div
+                        class="mt-12 inline-flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/30 px-6 py-3 rounded-full backdrop-blur-md">
+                        <span class="animate-lock">🔓</span>
+                        <span
+                            class="font-mono text-[10px] font-black uppercase text-yellow-500 tracking-tighter">Відкриється
+                            на 100% збору</span>
+                    </div>
+                </div>
+
+            </div>
 
 
-                    <!-- Rules & Donation Section -->
-                    <div class="mt-12 md:mt-16 w-full max-w-4xl px-2 md:px-0">
-                        <div
-                            class="glass p-8 md:p-12 rounded-3xl md:rounded-[3rem] border-2 border-yellow-500/10 shadow-3xl text-center">
-                            <h3 class="text-3xl font-black italic text-yellow-500 mb-6 uppercase tracking-tighter">
-                                ПІДТРИМАТИ ЗБІР</h3>
-                            <p class="text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
-                                Всі виграші віртуальні, але кожен твій донат — це реальна зброя для захисників.
-                                Крути лимони, забивай бали та переходь за посиланням на банку!
-                            </p>
 
-                            <a href="https://send.monobank.ua/jar/8jDCYuZb7Y" target="_blank"
-                                class="inline-block bg-yellow-500 text-slate-950 font-black px-12 py-6 rounded-2xl text-xl hover:scale-105 transition-all shadow-2xl uppercase tracking-tight animate-pulse-gold">
-                                ЗАРЯДИТИ БАНКУ 🍋
-                            </a>
+            <!-- Rules & Donation Section -->
+            <div class="mt-12 md:mt-16 w-full max-w-4xl px-2 md:px-0">
+                <div
+                    class="glass p-8 md:p-12 rounded-3xl md:rounded-[3rem] border-2 border-yellow-500/10 shadow-3xl text-center">
+                    <h3 class="text-3xl font-black italic text-yellow-500 mb-6 uppercase tracking-tighter">
+                        ПІДТРИМАТИ ЗБІР</h3>
+                    <p class="text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+                        Всі виграші віртуальні, але кожен твій донат — це реальна зброя для захисників.
+                        Крути лимони, забивай бали та переходь за посиланням на банку!
+                    </p>
 
-                            <div
-                                class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 text-left border-t border-white/5 pt-16">
-                                <div class="space-y-4">
-                                    <div class="flex items-start gap-4">
-                                        <div
-                                            class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center font-black text-yellow-400 shrink-0">
-                                            1</div>
-                                        <p class="text-slate-300 leading-relaxed">**Лимон (🍋)** — головний символ. 3
-                                            лимони
-                                            дають найбільший бонус!</p>
-                                    </div>
-                                    <div class="flex items-start gap-4">
-                                        <div
-                                            class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center font-black text-yellow-400 shrink-0">
-                                            2</div>
-                                        <p class="text-slate-300 leading-relaxed">Вартість: 🍋(100), 7️⃣(70), 💎(50),
-                                            🍉(30), 🍒(10).</p>
-                                    </div>
-                                </div>
-                                <div class="space-y-4">
-                                    <div class="flex items-start gap-4">
-                                        <div
-                                            class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center font-black text-blue-400 shrink-0">
-                                            3</div>
-                                        <p class="text-slate-300 leading-relaxed font-bold italic">Заряджай на перемогу
-                                            кожним кліком!</p>
-                                    </div>
-                                </div>
+                    <a href="https://send.monobank.ua/jar/8jDCYuZb7Y" target="_blank"
+                        class="inline-block bg-yellow-500 text-slate-950 font-black px-12 py-6 rounded-2xl text-xl hover:scale-105 transition-all shadow-2xl uppercase tracking-tight animate-pulse-gold">
+                        ЗАРЯДИТИ БАНКУ 🍋
+                    </a>
+
+                    <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 text-left border-t border-white/5 pt-16">
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center font-black text-yellow-400 shrink-0">
+                                    1</div>
+                                <p class="text-slate-300 leading-relaxed">**Лимон (🍋)** — головний символ. 3
+                                    лимони
+                                    дають найбільший бонус!</p>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center font-black text-yellow-400 shrink-0">
+                                    2</div>
+                                <p class="text-slate-300 leading-relaxed">Вартість: 🍋(100), 7️⃣(70), 💎(50),
+                                    🍉(30), 🍒(10).</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center font-black text-blue-400 shrink-0">
+                                    3</div>
+                                <p class="text-slate-300 leading-relaxed font-bold italic">Заряджай на перемогу
+                                    кожним кліком!</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Secret Admin Logic (Footer Hidden) -->
-            <div id="admin-trigger" onclick="adminLogin()"
-                class="mt-auto py-10 opacity-5 hover:opacity-50 transition-all cursor-default text-[10px] tracking-widest text-slate-600">
-                © 2026 CASINO INFRASTRUCTURE • REALTIME ENABLED
-            </div>
         </div>
 
-        <!-- Mobile Sticky Donation Button -->
-        <div class="md:hidden fixed bottom-6 left-0 right-0 px-6 z-40">
-            <a href="https://send.monobank.ua/jar/8jDCYuZb7Y" target="_blank"
-                class="block w-full bg-yellow-500 text-slate-950 font-black py-5 rounded-2xl text-center text-lg shadow-[0_10px_30px_rgba(234,179,8,0.5)] animate-pulse-gold uppercase">
-                ЗАРЯДИТИ БАНКУ 🍋
-            </a>
+        <!-- Secret Admin Logic (Footer Hidden) -->
+        <div id="admin-trigger" onclick="adminLogin()"
+            class="mt-auto py-10 opacity-5 hover:opacity-50 transition-all cursor-default text-[10px] tracking-widest text-slate-600">
+            © 2026 CASINO INFRASTRUCTURE • REALTIME ENABLED
         </div>
+    </div>
+
+    <!-- Mobile Sticky Donation Button -->
+    <div class="md:hidden fixed bottom-6 left-0 right-0 px-6 z-40">
+        <a href="https://send.monobank.ua/jar/8jDCYuZb7Y" target="_blank"
+            class="block w-full bg-yellow-500 text-slate-950 font-black py-5 rounded-2xl text-center text-lg shadow-[0_10px_30px_rgba(234,179,8,0.5)] animate-pulse-gold uppercase">
+            ЗАРЯДИТИ БАНКУ 🍋
+        </a>
+    </div>
 
 
-        <script>
-            const SUPABASE_URL = 'https://huhilljlthphkmvgyqlv.supabase.co';
-            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh1aGlsbGpsdGhwaGttdmd5cWx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NzY5NzYsImV4cCI6MjA4NzQ1Mjk3Nn0.OgAcEX5nmEAHwONTLEhF5t_2v6yOdTYIWs5cy9tBpBw';
-            const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    <script>
+        const SUPABASE_URL = 'https://huhilljlthphkmvgyqlv.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh1aGlsbGpsdGhwaGttdmd5cWx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NzY5NzYsImV4cCI6MjA4NzQ1Mjk3Nn0.OgAcEX5nmEAHwONTLEhF5t_2v6yOdTYIWs5cy9tBpBw';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-            const EMOJIS = ['🍋', '🍒', '🍉', '💎', '7️⃣'];
-            const SYMBOL_VALUES = { '🍋': 100, '7️⃣': 70, '💎': 50, '🍉': 30, '🍒': 10 };
+        const EMOJIS = ['🍋', '🍒', '🍉', '💎', '7️⃣'];
+        const SYMBOL_VALUES = { '🍋': 100, '7️⃣': 70, '💎': 50, '🍉': 30, '🍒': 10 };
 
-            let currentUser = null;
-            let isSpinning = false;
+        let currentUser = null;
+        let isSpinning = false;
 
-            // Audio System
-            let isMuted = false;
-            const spinAudio = new Audio('https://www.soundjay.com/mechanical/sounds/mechanical-clatter-1.mp3');
-            const winAudio = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-01.mp3');
-            const clickAudio = new Audio('https://www.soundjay.com/buttons/sounds/button-20.mp3');
+        // Audio System
+        let isMuted = false;
+        const spinAudio = new Audio('https://www.soundjay.com/mechanical/sounds/mechanical-clatter-1.mp3');
+        const winAudio = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-01.mp3');
+        const clickAudio = new Audio('https://www.soundjay.com/buttons/sounds/button-20.mp3');
 
-            function playSound(audio, loop = false) {
-                if (isMuted) return;
-                audio.currentTime = 0;
-                audio.loop = loop;
-                audio.play().catch(e => console.log("Audio play blocked"));
+        function playSound(audio, loop = false) {
+            if (isMuted) return;
+            audio.currentTime = 0;
+            audio.loop = loop;
+            audio.play().catch(e => console.log("Audio play blocked"));
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            if (isMuted) {
+                spinAudio.pause();
+                $('volume-icon').innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>';
+                $('mute-btn').classList.remove('text-yellow-400');
+                $('mute-btn').classList.add('text-red-500');
+            } else {
+                $('volume-icon').innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>';
+                $('mute-btn').classList.remove('text-red-500');
+                $('mute-btn').classList.add('text-yellow-400');
             }
+        }
 
-            function toggleMute() {
-                isMuted = !isMuted;
-                if (isMuted) {
-                    spinAudio.pause();
-                    $('volume-icon').innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>';
-                    $('mute-btn').classList.remove('text-yellow-400');
-                    $('mute-btn').classList.add('text-red-500');
-                } else {
-                    $('volume-icon').innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>';
-                    $('mute-btn').classList.remove('text-red-500');
-                    $('mute-btn').classList.add('text-yellow-400');
-                }
+        const $ = id => document.getElementById(id);
+
+        // Handle Enter key for login
+        $('username-input').addEventListener('keypress', e => {
+            if (e.key === 'Enter') handleLogin();
+        });
+
+        // Auto-login on mount
+        window.addEventListener('load', async () => {
+            const savedUser = localStorage.getItem('casino_username');
+            if (savedUser) {
+                console.log('Автоматичний вхід для:', savedUser);
+                await performLogin(savedUser);
             }
+        });
 
-            const $ = id => document.getElementById(id);
+        async function handleLogin() {
+            const usernameValue = $('username-input').value.trim();
+            if (!usernameValue) return;
+            await performLogin(usernameValue);
+        }
 
-            // Handle Enter key for login
-            $('username-input').addEventListener('keypress', e => {
-                if (e.key === 'Enter') handleLogin();
-            });
+        async function performLogin(usernameValue) {
+            $('login-btn').innerText = 'ВХІД...';
+            $('login-btn').disabled = true;
 
-            // Auto-login on mount
-            window.addEventListener('load', async () => {
-                const savedUser = localStorage.getItem('casino_username');
-                if (savedUser) {
-                    console.log('Автоматичний вхід для:', savedUser);
-                    await performLogin(savedUser);
-                }
-            });
+            try {
+                // IMPORTANT: Columns must be username, spins, points
+                let { data, error } = await supabaseClient.from('profiles').select('*').eq('username', usernameValue);
+                if (error) throw error;
 
-            async function handleLogin() {
-                const usernameValue = $('username-input').value.trim();
-                if (!usernameValue) return;
-                await performLogin(usernameValue);
-            }
-
-            async function performLogin(usernameValue) {
-                $('login-btn').innerText = 'ВХІД...';
-                $('login-btn').disabled = true;
-
-                try {
-                    // IMPORTANT: Columns must be username, spins, points
-                    let { data, error } = await supabaseClient.from('profiles').select('*').eq('username', usernameValue);
-                    if (error) throw error;
-
-                    if (!data || data.length === 0) {
-                        const { data: newUser, error: createError } = await supabaseClient
-                            .from('profiles').insert([{ username: usernameValue, spins: 0, points: 0 }]).select();
-                        if (createError) {
-                            console.error('Create Error:', createError);
-                            throw createError;
-                        }
-                        data = newUser;
+                if (!data || data.length === 0) {
+                    const { data: newUser, error: createError } = await supabaseClient
+                        .from('profiles').insert([{ username: usernameValue, spins: 0, points: 0 }]).select();
+                    if (createError) {
+                        console.error('Create Error:', createError);
+                        throw createError;
                     }
-
-                    currentUser = data[0];
-                    localStorage.setItem('casino_username', currentUser.username);
-                    switchToGame();
-                    initRealtime();
-                } catch (err) {
-                    console.error('Login Failure:', err);
-                    localStorage.removeItem('casino_username'); // Clean up on any error (like user deleted from DB)
-                    $('auth-status').innerText = 'Помилка авторизації. Спробуйте ще раз.';
-                    $('login-btn').innerText = 'ПОЧАТИ ГРУ';
-                    $('login-btn').disabled = false;
-                    $('auth-screen').classList.remove('hidden');
-                    $('game-screen').classList.add('hidden'); // Ensure game is hidden if auto-login fails
+                    data = newUser;
                 }
+
+                currentUser = data[0];
+                localStorage.setItem('casino_username', currentUser.username);
+                switchToGame();
+                initRealtime();
+            } catch (err) {
+                console.error('Login Failure:', err);
+                localStorage.removeItem('casino_username'); // Clean up on any error (like user deleted from DB)
+                $('auth-status').innerText = 'Помилка авторизації. Спробуйте ще раз.';
+                $('login-btn').innerText = 'ПОЧАТИ ГРУ';
+                $('login-btn').disabled = false;
+                $('auth-screen').classList.remove('hidden');
+                $('game-screen').classList.add('hidden'); // Ensure game is hidden if auto-login fails
             }
+        }
 
-            function logout() {
-                localStorage.removeItem('casino_username');
-                currentUser = null;
-                location.reload(); // Simplest way to reset all state
+        function logout() {
+            localStorage.removeItem('casino_username');
+            currentUser = null;
+            location.reload(); // Simplest way to reset all state
+        }
+
+        function switchToGame() {
+            $('auth-screen').classList.add('hidden');
+            $('game-screen').classList.remove('hidden');
+            updateUI();
+            updateLeaderboard();
+        }
+
+        function updateUI() {
+            if (!currentUser) return;
+            // Rank style is handled by updateLeaderboard to ensure accuracy
+            updateProfileStyle(-1);
+
+            $('display-spins').innerText = currentUser.spins;
+            $('display-points').innerText = currentUser.points;
+
+            const btn = $('spin-btn');
+            const msg = $('no-spins-msg');
+
+            if (currentUser.spins <= 0) {
+                btn.disabled = true;
+                msg.classList.remove('hidden');
+            } else {
+                btn.disabled = false;
+                msg.classList.add('hidden');
             }
+        }
 
-            function switchToGame() {
-                $('auth-screen').classList.add('hidden');
-                $('game-screen').classList.remove('hidden');
-                updateUI();
-                updateLeaderboard();
+        function updateProfileStyle(rank) {
+            const nameEl = $('display-username');
+            const name = currentUser.username;
+
+            // Reset
+            nameEl.classList.remove('profile-rank-1', 'profile-rank-2', 'profile-rank-3', 'text-purple-400');
+
+            if (rank === 0) {
+                nameEl.classList.add('profile-rank-1');
+            } else if (rank === 1) {
+                nameEl.classList.add('profile-rank-2');
+            } else if (rank === 2) {
+                nameEl.classList.add('profile-rank-3');
+            } else {
+                nameEl.classList.add('text-purple-400');
             }
+            nameEl.innerText = name;
+        }
 
-            function updateUI() {
-                if (!currentUser) return;
-                // Rank style is handled by updateLeaderboard to ensure accuracy
-                updateProfileStyle(-1);
+        function initRealtime() {
+            // Subscribe to any changes in profiles table for leaderboard and personal sync
+            supabaseClient.channel('profiles-sync')
+                .on('postgres_changes', { event: '*', table: 'profiles' }, (payload) => {
+                    if (payload.new && payload.new.username === currentUser.username) {
+                        currentUser = payload.new;
+                        updateUI();
+                    }
+                    updateLeaderboard();
+                })
+                .subscribe();
+        }
 
-                $('display-spins').innerText = currentUser.spins;
-                $('display-points').innerText = currentUser.points;
+        async function updateLeaderboard() {
+            const { data } = await supabaseClient.from('profiles').select('username, points').order('points', { ascending: false }).limit(10);
+            if (data) {
+                const myRank = data.findIndex(u => u.username === currentUser.username);
+                updateProfileStyle(myRank);
 
-                const btn = $('spin-btn');
-                const msg = $('no-spins-msg');
+                $('leaderboard-list').innerHTML = data.map((u, i) => {
+                    let medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}.`;
+                    let rowClass = i === 0 ? 'bg-gradient-to-r from-yellow-500/30 to-transparent border-yellow-500/50 shadow-lg' :
+                        i === 1 ? 'bg-gradient-to-r from-slate-400/20 to-transparent border-slate-400/30' :
+                            i === 2 ? 'bg-gradient-to-r from-orange-500/20 to-transparent border-orange-500/30' :
+                                'bg-white/5 border-white/5';
+                    let nickClass = i === 0 ? 'text-yellow-400 font-black text-glow-gold' :
+                        i === 1 ? 'text-slate-300 font-bold text-glow-silver' :
+                            i === 2 ? 'text-orange-400 font-bold text-glow-bronze' :
+                                'text-white font-bold';
+                    let scoreClass = i === 0 ? 'text-yellow-400' : i < 3 ? 'text-white' : 'text-purple-400';
+                    let crown = i === 0 ? '<span class="absolute -top-2 -left-2 animate-crown">👑</span>' : '';
 
-                if (currentUser.spins <= 0) {
-                    btn.disabled = true;
-                    msg.classList.remove('hidden');
-                } else {
-                    btn.disabled = false;
-                    msg.classList.add('hidden');
-                }
-            }
+                    let isCurrent = u.username === currentUser.username;
+                    if (isCurrent && i > 2) rowClass += ' ring-2 ring-purple-500/50 bg-purple-500/10';
 
-            function updateProfileStyle(rank) {
-                const nameEl = $('display-username');
-                const name = currentUser.username;
-
-                // Reset
-                nameEl.classList.remove('profile-rank-1', 'profile-rank-2', 'profile-rank-3', 'text-purple-400');
-
-                if (rank === 0) {
-                    nameEl.classList.add('profile-rank-1');
-                } else if (rank === 1) {
-                    nameEl.classList.add('profile-rank-2');
-                } else if (rank === 2) {
-                    nameEl.classList.add('profile-rank-3');
-                } else {
-                    nameEl.classList.add('text-purple-400');
-                }
-                nameEl.innerText = name;
-            }
-
-            function initRealtime() {
-                // Subscribe to any changes in profiles table for leaderboard and personal sync
-                supabaseClient.channel('profiles-sync')
-                    .on('postgres_changes', { event: '*', table: 'profiles' }, (payload) => {
-                        if (payload.new && payload.new.username === currentUser.username) {
-                            currentUser = payload.new;
-                            updateUI();
-                        }
-                        updateLeaderboard();
-                    })
-                    .subscribe();
-            }
-
-            async function updateLeaderboard() {
-                const { data } = await supabaseClient.from('profiles').select('username, points').order('points', { ascending: false }).limit(10);
-                if (data) {
-                    const myRank = data.findIndex(u => u.username === currentUser.username);
-                    updateProfileStyle(myRank);
-
-                    $('leaderboard-list').innerHTML = data.map((u, i) => {
-                        let medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}.`;
-                        let rowClass = i === 0 ? 'bg-gradient-to-r from-yellow-500/30 to-transparent border-yellow-500/50 shadow-lg' :
-                            i === 1 ? 'bg-gradient-to-r from-slate-400/20 to-transparent border-slate-400/30' :
-                                i === 2 ? 'bg-gradient-to-r from-orange-500/20 to-transparent border-orange-500/30' :
-                                    'bg-white/5 border-white/5';
-                        let nickClass = i === 0 ? 'text-yellow-400 font-black text-glow-gold' :
-                            i === 1 ? 'text-slate-300 font-bold text-glow-silver' :
-                                i === 2 ? 'text-orange-400 font-bold text-glow-bronze' :
-                                    'text-white font-bold';
-                        let scoreClass = i === 0 ? 'text-yellow-400' : i < 3 ? 'text-white' : 'text-purple-400';
-                        let crown = i === 0 ? '<span class="absolute -top-2 -left-2 animate-crown">👑</span>' : '';
-
-                        let isCurrent = u.username === currentUser.username;
-                        if (isCurrent && i > 2) rowClass += ' ring-2 ring-purple-500/50 bg-purple-500/10';
-
-                        return `
+                    return `
                     <div class="flex justify-between items-center p-3 rounded-xl border transition-all relative ${rowClass}">
                         ${crown}
                         <div class="flex items-center gap-2 overflow-hidden">
@@ -637,99 +636,99 @@
                         <span class="font-black ${scoreClass} text-sm tracking-tighter">${u.points.toLocaleString()}</span>
                     </div>
                     `;
-                    }).join('');
-                }
+                }).join('');
             }
+        }
 
-            async function spin() {
-                if (isSpinning || currentUser.spins <= 0) return;
-                isSpinning = true;
-                $('win-overlay').classList.add('hidden');
+        async function spin() {
+            if (isSpinning || currentUser.spins <= 0) return;
+            isSpinning = true;
+            $('win-overlay').classList.add('hidden');
 
-                // 1. CRITICAL: Deduct spin in DB first
-                const { error: spinErr } = await supabaseClient.from('profiles').update({ spins: currentUser.spins - 1 }).eq('username', currentUser.username);
+            // 1. CRITICAL: Deduct spin in DB first
+            const { error: spinErr } = await supabaseClient.from('profiles').update({ spins: currentUser.spins - 1 }).eq('username', currentUser.username);
 
-                if (spinErr) {
-                    console.error('Spin deduction failed:', spinErr);
-                    isSpinning = false;
-                    return;
-                }
-
-                // Start Audio
-                playSound(spinAudio, true);
-                $('spin-btn').innerText = 'КРУТИМО ЛИМОНИ... 🍋';
-                $('spin-btn').disabled = true;
-
-                const reels = [$('reel-1'), $('reel-2'), $('reel-3')];
-                const result = [EMOJIS[Math.floor(Math.random() * 5)], EMOJIS[Math.floor(Math.random() * 5)], EMOJIS[Math.floor(Math.random() * 5)]];
-
-                // Animation Loop (2 seconds total)
-                const startTime = Date.now();
-                const duration = 2000;
-
-                const timer = setInterval(() => {
-                    const elapsed = Date.now() - startTime;
-
-                    reels.forEach((reel, i) => {
-                        if (elapsed < duration - (i * 500)) {
-                            reel.innerText = EMOJIS[Math.floor(Math.random() * 5)];
-                            reel.classList.add('blur-effect');
-                            if (Math.random() > 0.8) playSfx(200 + (i * 100), 'sine', 0.05, 0.05);
-                        } else {
-                            reel.innerText = result[i];
-                            reel.classList.remove('blur-effect');
-                        }
-                    });
-
-                    if (elapsed >= duration + 200) {
-                        clearInterval(timer);
-                        spinAudio.pause();
-                        spinAudio.currentTime = 0;
-                        awardPoints(result);
-                    }
-                }, 80);
-            }
-
-            async function awardPoints(res) {
+            if (spinErr) {
+                console.error('Spin deduction failed:', spinErr);
                 isSpinning = false;
-                $('spin-btn').innerText = 'КРУТИТИ ЛИМОН';
-                $('spin-btn').disabled = currentUser.spins <= 0;
+                return;
+            }
 
-                let totalEarned = SYMBOL_VALUES[res[0]] + SYMBOL_VALUES[res[1]] + SYMBOL_VALUES[res[2]];
-                const isJackpot = res[0] === res[1] && res[1] === res[2];
+            // Start Audio
+            playSound(spinAudio, true);
+            $('spin-btn').innerText = 'КРУТИМО ЛИМОНИ... 🍋';
+            $('spin-btn').disabled = true;
 
-                if (isJackpot) {
-                    totalEarned *= 2;
+            const reels = [$('reel-1'), $('reel-2'), $('reel-3')];
+            const result = [EMOJIS[Math.floor(Math.random() * 5)], EMOJIS[Math.floor(Math.random() * 5)], EMOJIS[Math.floor(Math.random() * 5)]];
 
-                    // Jackpot Celebration
-                    confetti({ particleCount: 200, spread: 70, origin: { y: 0.6 }, colors: ['#a855f7', '#fbbf24', '#22d3ee'] });
-                    playSfx(440, 'triangle', 0.6, 0.2);
-                    setTimeout(() => playSfx(554, 'triangle', 0.6, 0.2), 100);
-                    setTimeout(() => playSfx(659, 'triangle', 0.8, 0.2), 200);
+            // Animation Loop (2 seconds total)
+            const startTime = Date.now();
+            const duration = 2000;
 
-                    $('win-text').innerText = `ДЖЕКПОТ! X2 БОНУС: +${totalEarned} БАЛІВ!`;
-                    playSound(winAudio);
-                } else {
-                    playSound(clickAudio);
-                    $('win-text').innerText = `ВИ НАБРАЛИ +${totalEarned} БАЛІВ!`;
+            const timer = setInterval(() => {
+                const elapsed = Date.now() - startTime;
+
+                reels.forEach((reel, i) => {
+                    if (elapsed < duration - (i * 500)) {
+                        reel.innerText = EMOJIS[Math.floor(Math.random() * 5)];
+                        reel.classList.add('blur-effect');
+                        if (Math.random() > 0.8) playSfx(200 + (i * 100), 'sine', 0.05, 0.05);
+                    } else {
+                        reel.innerText = result[i];
+                        reel.classList.remove('blur-effect');
+                    }
+                });
+
+                if (elapsed >= duration + 200) {
+                    clearInterval(timer);
+                    spinAudio.pause();
+                    spinAudio.currentTime = 0;
+                    awardPoints(result);
                 }
+            }, 80);
+        }
 
-                $('win-overlay').classList.remove('hidden');
+        async function awardPoints(res) {
+            isSpinning = false;
+            $('spin-btn').innerText = 'КРУТИТИ ЛИМОН';
+            $('spin-btn').disabled = currentUser.spins <= 0;
 
-                // Update points in DB
-                const { error: pointsErr } = await supabaseClient
-                    .from('profiles')
-                    .update({ points: currentUser.points + totalEarned })
-                    .eq('username', currentUser.username);
+            let totalEarned = SYMBOL_VALUES[res[0]] + SYMBOL_VALUES[res[1]] + SYMBOL_VALUES[res[2]];
+            const isJackpot = res[0] === res[1] && res[1] === res[2];
 
-                if (pointsErr) console.error('Points increment failed:', pointsErr);
+            if (isJackpot) {
+                totalEarned *= 2;
+
+                // Jackpot Celebration
+                confetti({ particleCount: 200, spread: 70, origin: { y: 0.6 }, colors: ['#a855f7', '#fbbf24', '#22d3ee'] });
+                playSfx(440, 'triangle', 0.6, 0.2);
+                setTimeout(() => playSfx(554, 'triangle', 0.6, 0.2), 100);
+                setTimeout(() => playSfx(659, 'triangle', 0.8, 0.2), 200);
+
+                $('win-text').innerText = `ДЖЕКПОТ! X2 БОНУС: +${totalEarned} БАЛІВ!`;
+                playSound(winAudio);
+            } else {
+                playSound(clickAudio);
+                $('win-text').innerText = `ВИ НАБРАЛИ +${totalEarned} БАЛІВ!`;
             }
 
-            // Admin login removed - use admin.html
-            function adminLogin() {
-                window.location.href = 'admin.html';
-            }
-        </script>
+            $('win-overlay').classList.remove('hidden');
+
+            // Update points in DB
+            const { error: pointsErr } = await supabaseClient
+                .from('profiles')
+                .update({ points: currentUser.points + totalEarned })
+                .eq('username', currentUser.username);
+
+            if (pointsErr) console.error('Points increment failed:', pointsErr);
+        }
+
+        // Admin login removed - use admin.html
+        function adminLogin() {
+            window.location.href = 'admin.html';
+        }
+    </script>
 </body>
 
 </html>
