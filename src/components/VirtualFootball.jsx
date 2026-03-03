@@ -6,15 +6,15 @@ const TEAMS = [
     { name: 'Реал Мадрид', emoji: '🇪🇸' },
     { name: 'Динамо Київ', emoji: '🇺🇦' },
     { name: 'Борусія Д.', emoji: '🇩🇪' },
-    { name: 'Челсі', emoji: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
-    { name: 'Ман Юнайтед', emoji: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+    { name: 'Челсі', emoji: '🇬🇧' },
+    { name: 'Ман Юнайтед', emoji: '🇬🇧' },
     { name: 'ПСЖ', emoji: '🇫🇷' },
     { name: 'Барселона', emoji: '🇪🇸' },
     { name: 'Шахтар Д.', emoji: '🇺🇦' },
-    { name: 'Ман Сіті', emoji: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+    { name: 'Ман Сіті', emoji: '🇬🇧' },
     { name: 'Баварія', emoji: '🇩🇪' },
-    { name: 'Ліверпуль', emoji: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
-    { name: 'Арсенал Л.', emoji: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+    { name: 'Ліверпуль', emoji: '🇬🇧' },
+    { name: 'Арсенал Л.', emoji: '🇬🇧' },
     { name: 'Бенфіка', emoji: '🇵🇹' },
     { name: 'Спортінг', emoji: '🇵🇹' }
 ]
@@ -49,7 +49,7 @@ export default function VirtualFootball({ user, isMuted }) {
 
     const clickAudio = useRef(new Audio('https://www.soundjay.com/buttons/sounds/button-20.mp3'))
     const whistleAudio = useRef(new Audio('https://www.soundjay.com/misc/sounds/referee-whistle-01.mp3'))
-    const goalAudio = useRef(new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-01.mp3')) // Using same bell for goal
+    const goalAudio = useRef(new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-01.mp3'))
 
     useEffect(() => {
         initMatch()
@@ -105,7 +105,6 @@ export default function VirtualFootball({ user, isMuted }) {
 
         if (!isMuted) whistleAudio.current.play().catch(() => { })
 
-        // Deduct balance immediately in DB
         const { error: deductError } = await supabase
             .from('profiles')
             .update({ balance: user.balance - betAmount })
@@ -118,49 +117,73 @@ export default function VirtualFootball({ user, isMuted }) {
         }
 
         // Determine result
-        // We'll simulate 6 moments, each 2 seconds.
-        // The final score is generated at the start to ensure consistency with broadcast if we wanted to, 
-        // but the requirement is "Final score is generated randomly... but must strictly match result (P1, X, P2)".
-
-        // Let's pick a winner based on some hidden logic (e.g. 1/3 each or based on odds?)
-        // To make it a fair game (casino-like), let's just pick one result.
-        const results = ['p1', 'x', 'p2']
-        // Maybe weigh it slightly? Nah, let's keep it simple.
-        const actualResult = results[Math.floor(Math.random() * 3)]
-
-        // Generate score that matches actualResult
-        let s1, s2
+        const actualResult = ['p1', 'x', 'p2'][Math.floor(Math.random() * 3)]
+        let finalS1, finalS2
         if (actualResult === 'p1') {
-            s1 = Math.floor(Math.random() * 4) + 1 // 1..4
-            s2 = Math.floor(Math.random() * s1) // 0..s1-1
+            finalS1 = Math.floor(Math.random() * 3) + 1
+            finalS2 = Math.floor(Math.random() * finalS1)
         } else if (actualResult === 'p2') {
-            s2 = Math.floor(Math.random() * 4) + 1 // 1..4
-            s1 = Math.floor(Math.random() * s2) // 0..s2-1
+            finalS2 = Math.floor(Math.random() * 3) + 1
+            finalS1 = Math.floor(Math.random() * finalS2)
         } else {
-            s1 = s2 = Math.floor(Math.random() * 5) // 0..4
+            finalS1 = finalS2 = Math.floor(Math.random() * 3)
         }
 
-        const phrases = []
-        for (let i = 0; i < 6; i++) {
-            phrases.push(BROADCAST_PHRASES[Math.floor(Math.random() * BROADCAST_PHRASES.length)])
+        const totalEvents = 10
+        const goalMoments = []
+        let goalsToAssign1 = finalS1
+        let goalsToAssign2 = finalS2
+
+        const availableIndices = Array.from({ length: totalEvents }, (_, i) => i)
+
+        // Assign goals to random events
+        while (goalsToAssign1 > 0 && availableIndices.length > 0) {
+            const idx = Math.floor(Math.random() * availableIndices.length)
+            goalMoments.push({ team: 1, eventIdx: availableIndices.splice(idx, 1)[0] })
+            goalsToAssign1--
+        }
+        while (goalsToAssign2 > 0 && availableIndices.length > 0) {
+            const idx = Math.floor(Math.random() * availableIndices.length)
+            goalMoments.push({ team: 2, eventIdx: availableIndices.splice(idx, 1)[0] })
+            goalsToAssign2--
         }
 
-        let currentPhraseIndex = 0
-        const minutes = [15, 32, 45, 60, 78, 90]
-        const interval = setInterval(() => {
-            if (currentPhraseIndex < 6) {
-                const minute = minutes[currentPhraseIndex]
-                let phrase = phrases[currentPhraseIndex]
-                if (phrase.includes('{team}')) {
-                    phrase = phrase.replace('{team}', Math.random() > 0.5 ? team1.name : team2.name)
+        let currentEvent = 0
+        let currentS1 = 0
+        let currentS2 = 0
+
+        // Timing: 10 events spread over 35s. 
+        // Pause between messages: ~3.5s.
+        // Event 1 at 2.5s.
+        // Last event at 34s.
+        // Final whistle at 35s.
+        const eventTimes = [2500, 6000, 9500, 13000, 16500, 20000, 23500, 27000, 30500, 34000]
+
+        eventTimes.forEach((time, index) => {
+            setTimeout(() => {
+                const goal = goalMoments.find(gm => gm.eventIdx === index)
+                let phrase
+                if (goal) {
+                    phrase = `⚽️ ГОООООЛ! ${goal.team === 1 ? team1.name : team2.name} забиває!`
+                    if (goal.team === 1) currentS1++
+                    else currentS2++
+                    setScore([currentS1, currentS2])
+                    if (!isMuted) goalAudio.current.play().catch(() => { })
+                } else {
+                    phrase = BROADCAST_PHRASES[Math.floor(Math.random() * BROADCAST_PHRASES.length)]
+                    if (phrase.includes('{team}')) {
+                        phrase = phrase.replace('{team}', Math.random() > 0.5 ? team1.name : team2.name)
+                    }
                 }
+                const minute = Math.floor((index + 1) * (90 / totalEvents))
                 setBroadcast(`'${minute} хв: ${phrase}`)
-                currentPhraseIndex++
-            } else {
-                clearInterval(interval)
-                finishMatch(actualResult, [s1, s2])
-            }
-        }, 2000)
+            }, time)
+        })
+
+        // Final Whistle exactly at 35s
+        setTimeout(() => {
+            finishMatch(actualResult, [finalS1, finalS2])
+        }, 35000)
     }
 
     const finishMatch = async (actualResult, finalScore) => {
@@ -171,12 +194,11 @@ export default function VirtualFootball({ user, isMuted }) {
         if (!isMuted) whistleAudio.current.play().catch(() => { })
 
         const didWin = selectedResult === actualResult
-        const multiplier = selectedResult === 'x' ? 2.0 : odds[selectedResult]
+        const multiplier = selectedResult === 'x' ? 2.0 : parseFloat(odds[selectedResult])
         const winAmount = Math.floor(betAmount * multiplier)
 
         if (didWin) {
             if (!isMuted) goalAudio.current.play().catch(() => { })
-            // Update balance and points (Delayed payoff)
             recordWin(winAmount)
         }
 
