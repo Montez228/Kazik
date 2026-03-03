@@ -220,27 +220,29 @@
                 </div>
 
                 <div class="flex items-center gap-3">
-                    <button onclick="toggleMute()" id="mute-btn"
-                        class="p-2 md:p-3 glass rounded-full hover:bg-white/10 transition-all text-yellow-400 border border-white/5">
-                        <svg id="volume-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-                            <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-                        </svg>
-                    </button>
-                    <button onclick="logout()"
-                        class="flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 border border-white/10 hover:border-red-500/50 hover:bg-red-500/10 rounded-xl md:rounded-2xl transition-all text-slate-400 hover:text-red-400 group">
-                        <span class="text-[9px] md:text-[10px] font-black uppercase tracking-widest">Вийти</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="group-hover:translate-x-1 transition-transform">
-                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                            <polyline points="16 17 21 12 16 7" />
-                            <line x1="21" y1="12" x2="9" y2="12" />
-                        </svg>
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button onclick="toggleMute()" id="mute-btn"
+                            class="p-2 md:p-3 glass rounded-full hover:bg-white/10 transition-all text-yellow-400 border border-white/5">
+                            <svg id="volume-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                                <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                                <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                            </svg>
+                        </button>
+                        <button onclick="resetSession()"
+                            class="flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 border border-white/10 hover:border-red-500/50 hover:bg-red-500/10 rounded-xl md:rounded-2xl transition-all text-slate-400 hover:text-red-400 group">
+                            <span class="text-[9px] md:text-[10px] font-black uppercase tracking-widest">Вийти</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="group-hover:translate-x-1 transition-transform">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                <polyline points="16 17 21 12 16 7" />
+                                <line x1="21" y1="12" x2="9" y2="12" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </header>
@@ -310,40 +312,17 @@
                             <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-6">
                             </div>
 
-                            <div class="flex flex-col items-center w-full px-4 overflow-hidden">
+                            <div class="flex flex-col items-center w-full px-4 overflow-hidden mt-4">
                                 <p
-                                    class="text-[7px] min-[380px]:text-[9px] md:text-xs font-black uppercase tracking-[0.1em] md:tracking-[0.2em] flex items-center justify-center gap-2 md:gap-3 text-yellow-500/80 text-center leading-tight">
-                                    <span class="hidden min-[400px]:block w-4 md:w-8 h-px bg-yellow-500/20"></span>
-                                    <span class="whitespace-nowrap">Кожна <span class="text-yellow-500">1 грн</span> на
-                                        збір = <span class="text-white">100 🍋</span></span>
-                                    <span class="hidden min-[400px]:block w-4 md:w-8 h-px bg-yellow-500/20"></span>
+                                    class="text-[10px] md:text-sm font-black uppercase tracking-widest flex items-center justify-center gap-4 text-yellow-400 text-center leading-tight bg-yellow-400/10 px-6 py-3 rounded-2xl border border-yellow-500/20">
+                                    <span>1 ГРН — 10 ЛИМОНІВ 🍋</span>
+                                    <span class="w-1.5 h-1.5 rounded-full bg-yellow-500/40"></span>
+                                    <span>1 СПІН — 1 ЛИМОН 🎰</span>
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="mt-12 w-full grid grid-cols-5 gap-3 max-w-2xl px-4">
-                        <div class="glass p-4 rounded-xl text-center border-2 border-yellow-500/50">
-                            <span class="text-2xl block mb-1">🍋🍋🍋</span><span
-                                class="text-[8px] font-bold text-yellow-500">500</span>
-                        </div>
-                        <div class="glass p-4 rounded-xl text-center border border-white/10">
-                            <span class="text-2xl block mb-1">ANY x3</span><span
-                                class="text-[8px] font-bold text-slate-400">100</span>
-                        </div>
-                        <div class="glass p-4 rounded-xl text-center border border-white/5 opacity-80">
-                            <span class="text-2xl block mb-1">x2 ROW</span><span
-                                class="text-[8px] font-bold text-slate-500">20</span>
-                        </div>
-                        <div
-                            class="glass p-4 rounded-xl text-center border border-white/5 opacity-30 flex items-center justify-center">
-                            <span class="text-xs font-bold text-slate-600 tracking-tighter">COST: 10</span>
-                        </div>
-                        <div
-                            class="glass p-4 rounded-xl text-center border border-white/5 opacity-30 flex items-center justify-center">
-                            <span class="text-xs font-bold text-slate-600 tracking-tighter">LUCK: 100%</span>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Football Section -->
@@ -445,7 +424,7 @@
 
                         <div id="fb-win-overlay" class="hidden mt-8 text-center animate-win">
                             <p class="text-3xl md:text-5xl font-black text-yellow-400 italic mb-2" id="fb-win-text">
-                                ВИГРАШ! +0 🍋</p>
+                                ВИ ЗАРОБИЛИ +0 ⭐</p>
                         </div>
                         <p id="fb-error-msg"
                             class="hidden mt-8 text-red-500 font-black text-xl animate-pulse text-center">---</p>
@@ -473,15 +452,15 @@
                                     <div
                                         class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center font-black text-yellow-400 shrink-0">
                                         1</div>
-                                    <p class="text-slate-300 leading-relaxed" id="rule-1">**3 ЛИМОНИ** — дають **500**
-                                        фішок!</p>
+                                    <p class="text-slate-300 leading-relaxed" id="rule-1">**3 ЛИМОНИ** — дають **1000**
+                                        балів! ⭐</p>
                                 </div>
                                 <div class="flex items-start gap-4">
                                     <div
                                         class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center font-black text-yellow-400 shrink-0">
                                         2</div>
                                     <p class="text-slate-300 leading-relaxed" id="rule-2">**3 однакові символи** —
-                                        **100** фішок. **2 в ряд** — **20** фішок.</p>
+                                        **400** балів. **2 в ряд** — **200** балів! ⭐</p>
                                 </div>
                             </div>
                         </div>
@@ -582,8 +561,23 @@
             if (!isMuted) clickAudio.cloneNode().play();
         }
 
-        async function handleLogin() {
-            const val = $('username-input').value.trim(); if (val) await performLogin(val);
+        async function fetchPlayerData(un) {
+            try {
+                let { data, error } = await supabaseClient.from('profiles').select('*').eq('username', un);
+                if (error) throw error;
+                if (!data || data.length === 0) {
+                    // Profile in storage but not in DB
+                    resetSession();
+                    return;
+                }
+                currentUser = data[0];
+                $('auth-screen').classList.add('hidden');
+                $('game-screen').classList.remove('hidden');
+                updateUI(); initRealtime(); initMatch();
+            } catch (err) {
+                console.error(err);
+                resetSession();
+            }
         }
 
         async function performLogin(un) {
@@ -595,7 +589,7 @@
                     data = newUser;
                 }
                 currentUser = data[0];
-                localStorage.setItem('casino_username', currentUser.username);
+                localStorage.setItem('playerNickname', currentUser.username);
                 $('auth-screen').classList.add('hidden');
                 $('game-screen').classList.remove('hidden');
                 updateUI(); initRealtime(); initMatch();
@@ -694,7 +688,7 @@
             if (reward > 0) {
                 if (reward >= 100) { confetti({ particleCount: 200, spread: 70, origin: { y: 0.6 } }); playSound(winAudio); }
                 else playSound(clickAudio);
-                $('win-overlay').classList.remove('hidden'); $('win-text').innerText = `+${reward} 🍋`;
+                $('win-overlay').classList.remove('hidden'); $('win-text').innerText = `Ви заробили +${reward} балів! ⭐`;
                 recordWin(reward);
             }
         }
@@ -818,7 +812,7 @@
                 confetti({ particleCount: 150, spread: 70 });
                 setTimeout(() => {
                     playSound(goalAudio);
-                    $('fb-win-text').innerText = `ВИГРАШ! +${prize} 🍋`;
+                    $('fb-win-text').innerText = `Ви заробили +${prize} балів! ⭐`;
                     $('fb-win-overlay').classList.remove('hidden');
                     recordWin(prize);
                 }, 500);
@@ -840,7 +834,7 @@
 
         function adminLogin() { location.href = 'admin.html'; }
 
-        function playSfx(f, t, v, d) {
+        async function playSfx(f, t, v, d) {
             if (isMuted) return;
             const ctx = new (window.AudioContext || window.webkitAudioContext)();
             const osc = ctx.createOscillator();
@@ -850,6 +844,22 @@
             g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + d);
             osc.connect(g); g.connect(ctx.destination);
             osc.start(); osc.stop(ctx.currentTime + d);
+        }
+
+        function resetSession() {
+            localStorage.clear();
+            location.reload();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedNickname = localStorage.getItem('playerNickname');
+            if (savedNickname) {
+                fetchPlayerData(savedNickname);
+            }
+        });
+
+        async function handleLogin() {
+            const val = $('username-input').value.trim(); if (val) await performLogin(val);
         }
     </script>
 </body>

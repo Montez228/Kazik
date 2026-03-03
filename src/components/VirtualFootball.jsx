@@ -339,8 +339,8 @@ export default function VirtualFootball({ user, isMuted }) {
                         exit={{ opacity: 0, scale: 0.8 }}
                         className="mt-6 w-full text-center"
                     >
-                        <div className={`inline-block px-10 py-4 rounded-full font-black text-2xl shadow-xl ${gameResult.win ? 'bg-blue-500 text-white animate-bounce' : 'bg-red-500/20 text-red-500 border border-red-500/50'}`}>
-                            {gameResult.win ? `+${gameResult.amount} ⭐! 🎉` : 'ПРОГРАШ 😔'}
+                        <div className={`inline-block px-10 py-4 rounded-full font-black text-2xl shadow-xl ${gameResult.win ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-black animate-bounce' : 'bg-red-500/20 text-red-500 border border-red-500/50'}`}>
+                            {gameResult.win ? `Ви заробили +${gameResult.amount} балів! ⭐` : 'ПРОГРАШ 😔'}
                         </div>
                         <button
                             onClick={initMatch}

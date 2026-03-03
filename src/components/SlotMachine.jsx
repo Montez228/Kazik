@@ -175,12 +175,12 @@ export default function SlotMachine({ user, isMuted }) {
 
                 <div className="mt-8 flex flex-col items-center w-full">
                     <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-6" />
-                    <div className="inline-flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 rounded-full bg-white/5 border border-white/10 shadow-[inner_0_0_20px_rgba(255,255,255,0.02)] transition-all hover:bg-white/10 max-w-full overflow-hidden">
-                        <span className="w-1 md:w-1.5 h-1 md:h-1.5 rounded-full bg-yellow-400 animate-pulse shrink-0" />
-                        <p className="text-[8px] md:text-xs font-bold uppercase tracking-[0.1em] md:tracking-[0.2em] text-gray-400 whitespace-nowrap">
-                            Кожна <span className="text-yellow-400">1 ГРН</span> на збір = <span className="text-casino-neon">100 🍋</span>
+                    <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-yellow-400/10 border border-yellow-500/20 shadow-xl transition-all hover:bg-yellow-400/20 max-w-full overflow-hidden">
+                        <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse shrink-0" />
+                        <p className="text-[10px] md:text-sm font-black uppercase tracking-widest text-yellow-400 whitespace-nowrap">
+                            1 ГРН — 10 ЛИМОНІВ 🍋 | 1 СПІН — 1 ЛИМОН 🎰
                         </p>
-                        <span className="w-1 md:w-1.5 h-1 md:h-1.5 rounded-full bg-casino-neon animate-pulse shrink-0" />
+                        <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse shrink-0" />
                     </div>
                 </div>
             </div>
@@ -193,7 +193,7 @@ export default function SlotMachine({ user, isMuted }) {
                         exit={{ scale: 0, opacity: 0 }}
                         className="mt-10 bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-12 py-5 rounded-full font-black text-4xl shadow-[0_0_50px_rgba(251,191,36,0.6)] border-4 border-white/20"
                     >
-                        +{win} БАЛАНСУ! 🎉
+                        Ви заробили +{win} балів! ⭐
                     </motion.div>
                 )}
             </AnimatePresence>

@@ -18,58 +18,68 @@ function Home({ isMuted, setIsMuted }) {
   const [activeTab, setActiveTab] = useState('slots') // 'slots' or 'football'
   const navigate = useNavigate()
 
-  // Real-time subscription for user profile
   useEffect(() => {
-    if (!user) return
-
-    const channel = supabase
-      .channel(`profile-${user.id}`)
-      .on(
-        'postgres_changes',
-        { event: 'UPDATE', table: 'profiles', filter: `id=eq.${user.id}` },
-        (payload) => {
-          setUser(payload.new)
-        }
-      )
-      .subscribe()
-
-    return () => {
-      supabase.removeChannel(channel)
+    const saved = localStorage.getItem('playerNickname')
+    if (saved) {
+      performLogin(saved)
     }
-  }, [user?.id])
+  }, [])
 
-  const handleLogin = async (e) => {
-    e.preventDefault()
-    if (!nickname) return
+  const resetSession = () => {
+    localStorage.clear()
+    window.location.reload()
+  }
+
+  const performLogin = async (nicknameToLogin) => {
+    if (!nicknameToLogin) return
     setLoading(true)
-
     try {
       let { data: profile, error } = await supabase
         .from('profiles')
         .select('*')
-        .eq('nickname', nickname)
+        .eq('nickname', nicknameToLogin)
         .single()
 
       if (error && error.code === 'PGRST116') {
-        // Create new profile with balance 100 and points 0
+        if (localStorage.getItem('playerNickname') === nicknameToLogin) {
+          resetSession()
+          return
+        }
         const { data: newProfile, error: createError } = await supabase
           .from('profiles')
-          .insert([{ nickname, balance: 100, points: 0 }])
+          .insert([{ nickname: nicknameToLogin, balance: 100, points: 0 }])
           .select()
           .single()
-
         if (createError) throw createError
         profile = newProfile
       } else if (error) throw error
 
+      localStorage.setItem('playerNickname', profile.nickname)
       setUser(profile)
     } catch (err) {
       console.error(err)
-      alert('Помилка входу. Спробуйте інший нік або перевірте БД.')
+      alert('Помилка входу.')
     } finally {
       setLoading(false)
     }
   }
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault()
+    performLogin(nickname)
+  }
+
+  // Real-time subscription for user profile
+  useEffect(() => {
+    if (!user) return
+    const channel = supabase
+      .channel(`profile-${user.id}`)
+      .on('postgres_changes', { event: 'UPDATE', table: 'profiles', filter: `id=eq.${user.id}` }, (p) => {
+        setUser(p.new)
+      })
+      .subscribe()
+    return () => { supabase.removeChannel(channel) }
+  }, [user?.id])
 
   return (
     <div className="min-h-screen w-full bg-casino-dark text-white p-4 md:p-8 flex flex-col">
@@ -88,8 +98,24 @@ function Home({ isMuted, setIsMuted }) {
           </h1>
         </motion.div>
 
-        {/* Profile and Controls Block - Directly below title */}
         <div className="flex flex-col items-center gap-4 w-full justify-center">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setIsMuted(!isMuted)}
+              className="p-3 glass rounded-full hover:bg-white/10 transition-all text-yellow-500 border border-white/5 shadow-lg"
+            >
+              {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+            </button>
+            {user && (
+              <button
+                onClick={resetSession}
+                className="flex items-center gap-2 px-4 py-2 border border-white/10 hover:border-red-500/50 hover:bg-red-500/10 rounded-xl md:rounded-2xl transition-all text-slate-400 hover:text-red-400 group"
+              >
+                <span className="text-[10px] font-black uppercase tracking-widest italic">Вийти</span>
+                <ShieldAlert size={14} className="group-hover:rotate-12 transition-transform" />
+              </button>
+            )}
+          </div>
           {user && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -147,7 +173,7 @@ function Home({ isMuted, setIsMuted }) {
             <motion.form
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              onSubmit={handleLogin}
+              onSubmit={handleLoginSubmit}
               className="glass p-10 rounded-[2.5rem] neon-border w-full max-w-md text-center"
             >
               <LogIn className="w-20 h-20 mx-auto mb-6 text-casino-neon" />
@@ -222,24 +248,16 @@ function Home({ isMuted, setIsMuted }) {
                     <h3 className="text-2xl font-black mb-6 flex items-center gap-2 text-yellow-400 italic">ВИГРАШІ</h3>
                     <div className="space-y-4">
                       <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
-                        <span className="text-2xl">777</span>
-                        <span className="font-black text-casino-neon">500 БАЛІВ</span>
+                        <span className="text-2xl text-yellow-400">🍋🍋🍋</span>
+                        <span className="font-black text-casino-neon">1000 БАЛІВ ⭐</span>
                       </div>
                       <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
-                        <span className="text-2xl">🛸</span>
-                        <span className="font-black text-casino-cyan">100 БАЛІВ</span>
+                        <span className="text-2xl">🍒🍒🍒</span>
+                        <span className="font-black text-casino-cyan">400 БАЛІВ ⭐</span>
                       </div>
                       <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
-                        <span className="text-2xl">🏦</span>
-                        <span className="font-black text-casino-cyan">50 БАЛІВ</span>
-                      </div>
-                      <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
-                        <span className="text-2xl">🍋</span>
-                        <span className="font-black text-gray-400">20 БАЛІВ</span>
-                      </div>
-                      <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
-                        <span className="text-2xl">🍒</span>
-                        <span className="font-black text-gray-400">10 БАЛІВ</span>
+                        <span className="text-2xl">🍉🍉</span>
+                        <span className="font-black text-casino-cyan">200 БАЛІВ ⭐</span>
                       </div>
                     </div>
                   </motion.div>
@@ -261,7 +279,7 @@ function Home({ isMuted, setIsMuted }) {
                 >
                   ЗАРЯДИТИ БАНКУ 🍋
                 </a>
-                <p className="text-[10px] text-gray-400 uppercase font-black tracking-widest">1 ГРН = 100 🍋 • ВСІ ДОНАТИ ЙДУТЬ НА ПЕРЕМОГУ!</p>
+                <p className="text-[10px] text-gray-400 uppercase font-black tracking-widest">1 ГРН = 10 🍋 • ВСІ ДОНАТИ ЙДУТЬ НА ПЕРЕМОГУ!</p>
               </motion.div>
             </div>
           </>
