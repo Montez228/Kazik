@@ -36,14 +36,13 @@ export default function SlotMachine({ user, isMuted }) {
         const { error } = await supabase
             .from('profiles')
             .update({
-                balance: user.balance + reward,
                 points: (user.points || 0) + reward
             })
             .eq('id', user.id)
         if (error) console.error('Error recording win:', error)
     }
 
-    const SPIN_COST = 10
+    const SPIN_COST = 1
 
     const spin = async () => {
         if (spinning || user.balance < SPIN_COST) return
@@ -98,10 +97,10 @@ export default function SlotMachine({ user, isMuted }) {
                     let reward = 0
                     if (newResults[0] === newResults[1] && newResults[1] === newResults[2]) {
                         // 3 of a kind
-                        reward = newResults[0] === '🍋' ? 500 : 100
+                        reward = newResults[0] === '🍋' ? 1000 : 400
                     } else if (newResults[0] === newResults[1] || newResults[1] === newResults[2]) {
                         // 2 in a row
-                        reward = 20
+                        reward = 200
                     }
 
                     if (reward > 0) {
@@ -160,7 +159,9 @@ export default function SlotMachine({ user, isMuted }) {
           `}
                 >
                     <span className={`relative z-10 italic uppercase tracking-tight leading-none ${spinning ? 'animate-text-pulse' : ''}`}>
-                        {spinning ? spinText : user.balance < SPIN_COST ? 'Поповни банку!' : 'КРУТИТИ\u00A0\u00A0ЛИМОН'}
+                        {spinning ? spinText : user.balance <= 0 ? (
+                            <span className="text-xs">Лимони закінчилися! 🍋 Твій результат збережено в лідерборді. Задонать на банку, щоб отримати нові фішки та піднятися вище!</span>
+                        ) : 'КРУТИТИ\u00A0\u00A0ЛИМОН'}
                     </span>
 
                     {!spinning && user.points >= SPIN_COST && (

@@ -198,7 +198,7 @@
                     <div class="h-10 md:h-12 w-[1px] bg-white/10"></div>
                     <div class="flex-1 lg:flex-none text-center">
                         <p class="text-[10px] md:text-[8px] text-slate-500 font-black uppercase tracking-widest mb-1">
-                            МІй БАЛАНС</p>
+                            Мій Баланс (Лимони)</p>
                         <div class="flex items-center justify-center gap-2">
                             <p id="display-balance"
                                 class="font-black text-yellow-400 text-2xl md:text-2xl lg:text-3xl tracking-tighter">0
@@ -209,7 +209,7 @@
                     <div class="h-10 md:h-12 w-[1px] bg-white/10"></div>
                     <div class="flex-1 lg:flex-none text-center">
                         <p class="text-[10px] md:text-[8px] text-slate-500 font-black uppercase tracking-widest mb-1">
-                            МОЇ БАЛИ (TOP)</p>
+                            Мої Бали (Рейтинг)</p>
                         <div class="flex items-center justify-center gap-2">
                             <p id="display-rating"
                                 class="font-black text-blue-400 text-2xl md:text-2xl lg:text-3xl tracking-tighter">0
@@ -532,6 +532,7 @@
         let selectedOutcome = null;
         let currentOdds = { p1: 1.8, x: 2.0, p2: 2.1 };
         let team1, team2;
+        let fbTimer = null;
         let isMuted = false;
 
         const spinAudio = new Audio('https://www.soundjay.com/mechanical/sounds/mechanical-clatter-1.mp3');
@@ -610,14 +611,18 @@
             $('display-balance').innerText = currentUser.balance.toLocaleString();
             $('display-rating').innerText = (currentUser.points || 0).toLocaleString();
 
-            const canPlay = currentUser.balance >= 10;
-            $('spin-btn').disabled = isSpinning || !canPlay;
+            const isBalanceDepleted = currentUser.balance <= 0;
+            $('spin-btn').disabled = isSpinning || isBalanceDepleted;
 
-            if (!canPlay) {
-                $('no-balance-msg').innerText = 'Недостатньо фішок! Поповни банку';
+            if (isBalanceDepleted) {
+                $('no-balance-msg').innerText = 'Лимони закінчилися! 🍋 Твій результат збережено в лідерборді. Задонать на банку, щоб отримати нові фішки та піднятися вище!';
                 $('no-balance-msg').classList.remove('hidden');
+                $('start-btn').disabled = true;
+                $('start-btn').innerText = 'ПОПОВНИ БАЛАНС! 🍋';
             } else {
                 $('no-balance-msg').classList.add('hidden');
+                // start-btn state is managed by match logic, but we enable it here if not playing
+                if (!isPlayingMatch) $('start-btn').disabled = false;
             }
             updateLeaderboard();
         }
@@ -629,7 +634,6 @@
 
         async function recordWin(prize) {
             const { data, error } = await supabaseClient.from('profiles').update({
-                balance: currentUser.balance + prize,
                 points: (currentUser.points || 0) + prize
             }).eq('username', currentUser.username).select().single();
             if (!error && data) {
@@ -660,9 +664,9 @@
 
         // SLOTS LOGIC
         async function spin() {
-            if (isSpinning || currentUser.balance < 10) return;
+            if (isSpinning || currentUser.balance < 1) return;
             isSpinning = true; $('win-overlay').classList.add('hidden');
-            const { error } = await supabaseClient.from('profiles').update({ balance: currentUser.balance - 10 }).eq('username', currentUser.username);
+            const { error } = await supabaseClient.from('profiles').update({ balance: currentUser.balance - 1 }).eq('username', currentUser.username);
             if (error) { isSpinning = false; return; }
             playSound(spinAudio, true); $('spin-btn').innerText = 'КРУТИМО...'; $('spin-btn').disabled = true;
             const reels = [$('reel-1'), $('reel-2'), $('reel-3')];
@@ -681,8 +685,11 @@
         function awardPoints(res) {
             isSpinning = false; $('spin-btn').innerText = 'КРУТИТИ ЛИМОН'; updateUI();
             let reward = 0;
-            if (res[0] === res[1] && res[1] === res[2]) reward = res[0] === '🍋' ? 500 : 100;
-            else if (res[0] === res[1] || res[1] === res[2]) reward = 20;
+            if (res[0] === res[1] && res[1] === res[2]) {
+                reward = res[0] === '🍋' ? 1000 : 400; // 3 items
+            } else if (res[0] === res[1] || res[1] === res[2]) {
+                reward = 200; // 2 items
+            }
 
             if (reward > 0) {
                 if (reward >= 100) { confetti({ particleCount: 200, spread: 70, origin: { y: 0.6 } }); playSound(winAudio); }
@@ -707,6 +714,7 @@
             $('broadcast-text').innerText = 'Очікуємо на початок...';
             $('fb-win-overlay').classList.add('hidden'); $('fb-error-msg').classList.add('hidden');
             $('start-btn').disabled = false; $('start-btn').innerText = 'ПОЧАТИ МАТЧ ⚽️';
+            $('start-btn').onclick = startMatch;
         }
 
         function setBet(v) { if (!isPlayingMatch) $('bet-input').value = v; playSound(clickAudio); }
@@ -720,11 +728,19 @@
         async function startMatch() {
             let bet = parseInt($('bet-input').value);
             if (isPlayingMatch || !selectedOutcome || isNaN(bet) || bet <= 0 || bet > currentUser.balance) {
-                if (bet > currentUser.balance) { $('fb-error-msg').innerText = 'Не вистачає лимонів! 🍋'; $('fb-error-msg').classList.remove('hidden'); }
+                if (bet > currentUser.balance) { $('fb-error-msg').innerText = 'Недостатньо фішок! Поповни банку 🍋'; $('fb-error-msg').classList.remove('hidden'); }
                 return;
             }
+
+            // RESET STATE
+            if (fbTimer) clearInterval(fbTimer);
+            $('broadcast-text').innerText = '';
+            $('score1').innerText = '0'; $('score2').innerText = '0';
+            $('fb-win-overlay').classList.add('hidden');
+            $('fb-error-msg').classList.add('hidden');
+
             isPlayingMatch = true; $('start-btn').disabled = true; $('start-btn').innerText = 'МАТЧ ТРИВАЄ...';
-            $('fb-error-msg').classList.add('hidden'); playSound(whistleAudio);
+            playSound(whistleAudio);
 
             // Deduct bet immediately
             const newP = currentUser.balance - bet;
@@ -771,7 +787,7 @@
             }
 
             let step = 0;
-            let sim = setInterval(() => {
+            fbTimer = setInterval(() => {
                 let currentEvent = matchEvents[step];
                 let minute = Math.floor((step + 1) * (90 / totalMatchSteps));
 
@@ -786,7 +802,7 @@
 
                 step++;
                 if (step >= totalMatchSteps) {
-                    clearInterval(sim);
+                    clearInterval(fbTimer); fbTimer = null;
                     setTimeout(() => finishMatch(actual, bet, s1, s2), 2000);
                 }
             }, 2000);

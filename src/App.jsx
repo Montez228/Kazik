@@ -102,7 +102,7 @@ function Home({ isMuted, setIsMuted }) {
               </div>
               <div className="h-10 md:h-14 w-[1px] bg-white/10" />
               <div className="text-center flex-1 md:flex-none">
-                <p className="text-[10px] md:text-[12px] text-gray-500 uppercase font-black tracking-widest mb-1">МІЙ БАЛАНС / БАЛИ</p>
+                <p className="text-[10px] md:text-[12px] text-gray-500 uppercase font-black tracking-widest mb-1">Мій Баланс (Лимони) / Мої Бали (Рейтинг)</p>
                 <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-6">
                   <div className="flex items-center gap-2">
                     <motion.p

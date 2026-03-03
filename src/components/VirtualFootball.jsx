@@ -74,7 +74,6 @@ export default function VirtualFootball({ user, isMuted }) {
         const { error } = await supabase
             .from('profiles')
             .update({
-                balance: user.balance + reward,
                 points: (user.points || 0) + reward
             })
             .eq('id', user.id)
@@ -317,8 +316,13 @@ export default function VirtualFootball({ user, isMuted }) {
                         ${(!selectedResult || betAmount > user.balance || betAmount <= 0) && !isPlaying ? 'opacity-50 grayscale cursor-not-allowed' : ''}
                     `}
                 >
-                    {isPlaying ? 'Матч триває...' : betAmount > user.balance ? 'Поповни банку!' : 'ПОЧАТИ МАТЧ ⚽️'}
+                    {isPlaying ? 'МАТЧ ТРИВАЄ...' : user.balance <= 0 ? 'ПОПОВНИ БАЛАНС! 🍋' : 'ПОЧАТИ МАТЧ ⚽️'}
                 </motion.button>
+                {(user.balance <= 0 && !isPlaying) && (
+                    <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center mt-4 font-black text-red-500 text-xs">
+                        Лимони закінчилися! 🍋 Твій результат збережено в лідерборді. Задонать на банку, щоб отримати нові фішки та піднятися вище!
+                    </motion.p>
+                )}
                 {error && !isPlaying && (
                     <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center mt-4 font-black text-yellow-500 uppercase italic">
                         {error}
@@ -335,8 +339,8 @@ export default function VirtualFootball({ user, isMuted }) {
                         exit={{ opacity: 0, scale: 0.8 }}
                         className="mt-6 w-full text-center"
                     >
-                        <div className={`inline-block px-10 py-4 rounded-full font-black text-2xl shadow-xl ${gameResult.win ? 'bg-yellow-400 text-black animate-bounce' : 'bg-red-500/20 text-red-500 border border-red-500/50'}`}>
-                            {gameResult.win ? `+${gameResult.amount} 🍋! 🎉` : 'ПРОГРАШ 😔'}
+                        <div className={`inline-block px-10 py-4 rounded-full font-black text-2xl shadow-xl ${gameResult.win ? 'bg-blue-500 text-white animate-bounce' : 'bg-red-500/20 text-red-500 border border-red-500/50'}`}>
+                            {gameResult.win ? `+${gameResult.amount} ⭐! 🎉` : 'ПРОГРАШ 😔'}
                         </div>
                         <button
                             onClick={initMatch}
