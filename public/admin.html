@@ -46,8 +46,14 @@
                 <p class="text-[10px] font-bold text-blue-400 tracking-widest uppercase">Система управління збором v1.0
                 </p>
             </div>
-            <button onclick="location.reload()"
-                class="text-xs font-bold text-slate-500 hover:text-white transition-colors">ВИЙТИ</button>
+            <div class="flex items-center gap-4">
+                <a href="../index.html" class="text-xs font-bold text-slate-500 hover:text-white transition-colors">🎰
+                    СЛОТИ</a>
+                <a href="../football.html"
+                    class="text-xs font-bold text-slate-500 hover:text-white transition-colors">⚽️ ФУТБОЛ</a>
+                <button onclick="location.reload()"
+                    class="ml-4 text-xs font-bold text-slate-500 hover:text-white transition-colors">ВИЙТИ</button>
+            </div>
         </header>
 
         <!-- Players Management -->
@@ -63,8 +69,7 @@
                     <thead class="text-[10px] font-black text-slate-500 uppercase border-b border-white/5">
                         <tr>
                             <th class="pb-4 px-2">Гравець</th>
-                            <th class="pb-4 px-2">Спіни</th>
-                            <th class="pb-4 px-2">Бали</th>
+                            <th class="pb-4 px-2">Баланс (🍋)</th>
                             <th class="pb-4 px-2 text-right">Дії</th>
                         </tr>
                     </thead>
@@ -128,17 +133,16 @@
                     <td class="py-4 px-2">
                         <div class="font-black text-white italic truncate max-w-[150px]">${p.username}</div>
                     </td>
-                    <td class="py-4 px-2 font-black text-blue-400">${p.spins}</td>
-                    <td class="py-4 px-2 font-black text-yellow-500">${p.points.toLocaleString()}</td>
+                    <td class="py-4 px-2 font-black text-yellow-500">${p.points.toLocaleString()} 🍋</td>
                     <td class="py-4 px-2 text-right">
                         <div class="flex flex-col gap-2 sm:flex-row sm:justify-end items-center">
                             <div class="flex gap-1">
-                                <button onclick="adjustSpins('${p.username}', 10)" class="text-[9px] bg-slate-800 hover:bg-blue-600 px-2 py-1 rounded-md transition-all">+10</button>
-                                <button onclick="adjustSpins('${p.username}', 50)" class="text-[9px] bg-slate-800 hover:bg-blue-600 px-2 py-1 rounded-md transition-all">+50</button>
-                                <button onclick="adjustSpins('${p.username}', 100)" class="text-[9px] bg-slate-800 hover:bg-blue-600 px-2 py-1 rounded-md transition-all">+100</button>
+                                <button onclick="adjustBalance('${p.username}', 100)" class="text-[9px] bg-slate-800 hover:bg-yellow-600 px-2 py-1 rounded-md transition-all text-white">+100</button>
+                                <button onclick="adjustBalance('${p.username}', 500)" class="text-[9px] bg-slate-800 hover:bg-yellow-600 px-2 py-1 rounded-md transition-all text-white">+500</button>
+                                <button onclick="adjustBalance('${p.username}', 1000)" class="text-[9px] bg-slate-800 hover:bg-yellow-600 px-2 py-1 rounded-md transition-all text-white">+1000</button>
                             </div>
-                            <input type="number" id="manual-${p.username}" placeholder="К-сть" class="bg-slate-900 border border-white/10 rounded-md py-1 px-2 text-[10px] w-16 outline-none focus:border-blue-500">
-                            <button onclick="setSpins('${p.username}')" class="bg-blue-600 hover:bg-blue-500 text-[9px] font-black px-3 py-1 rounded-md transition-all">OK</button>
+                            <input type="number" id="manual-${p.username}" placeholder="К-сть" class="bg-slate-900 border border-white/10 rounded-md py-1 px-2 text-[10px] w-16 outline-none focus:border-yellow-500">
+                            <button onclick="setBalance('${p.username}')" class="bg-yellow-600 hover:bg-yellow-500 text-[9px] font-black px-3 py-1 rounded-md transition-all text-black">OK</button>
                             <button onclick="deletePlayer('${p.username}')" class="bg-red-900/50 hover:bg-red-600 text-red-400 hover:text-white p-1 rounded-md transition-all">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                             </button>
@@ -149,17 +153,17 @@
             });
         }
 
-        async function adjustSpins(username, amount) {
+        async function adjustBalance(username, amount) {
             const player = allPlayers.find(p => p.username === username);
-            const { error } = await supabaseClient.from('profiles').update({ spins: player.spins + amount }).eq('username', username);
-            if (!error) showToast(`Додано ${amount} спінів для ${username}`, 'success');
+            const { error } = await supabaseClient.from('profiles').update({ points: player.points + amount }).eq('username', username);
+            if (!error) showToast(`Додано ${amount} фішок для ${username}`, 'success');
         }
 
-        async function setSpins(username) {
+        async function setBalance(username) {
             const val = parseInt(document.getElementById(`manual-${username}`).value);
             if (isNaN(val)) return;
-            const { error } = await supabaseClient.from('profiles').update({ spins: val }).eq('username', username);
-            if (!error) showToast(`Спіни для ${username} встановлено: ${val}`, 'success');
+            const { error } = await supabaseClient.from('profiles').update({ points: val }).eq('username', username);
+            if (!error) showToast(`Баланс для ${username} встановлено: ${val}`, 'success');
         }
 
         async function deletePlayer(username) {
@@ -183,7 +187,7 @@
         document.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && e.target.id.startsWith('manual-')) {
                 const username = e.target.id.replace('manual-', '');
-                setSpins(username);
+                setBalance(username);
             }
         });
 

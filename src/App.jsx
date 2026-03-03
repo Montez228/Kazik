@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'
 import { supabase } from './lib/supabase'
 import SlotMachine from './components/SlotMachine'
+import VirtualFootball from './components/VirtualFootball'
 import Leaderboard from './components/Leaderboard'
 import AdminPanel from './components/AdminPanel'
 import { User, LogIn, Trophy, ShieldAlert, Volume2, VolumeX } from 'lucide-react'
@@ -14,6 +15,7 @@ function Home({ isMuted, setIsMuted }) {
   const [showLeaderboard, setShowLeaderboard] = useState(false)
   const [isAdminUnlocked, setIsAdminUnlocked] = useState(false)
   const [adminClicks, setAdminClicks] = useState(0)
+  const [activeTab, setActiveTab] = useState('slots') // 'slots' or 'football'
   const navigate = useNavigate()
 
   // Real-time subscription for user profile
@@ -92,25 +94,26 @@ function Home({ isMuted, setIsMuted }) {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-2 md:gap-8 glass px-3 md:px-12 py-4 md:py-6 rounded-2xl md:rounded-[3rem] neon-border shadow-[0_0_50px_rgba(240,171,252,0.1)] w-full max-w-[380px] md:max-w-none border border-white/10"
+              className="flex items-center gap-4 glass px-6 md:px-12 py-5 rounded-3xl md:rounded-[3rem] neon-border shadow-[0_0_50px_rgba(240,171,252,0.1)] w-full max-w-[380px] md:max-w-2xl border border-white/10"
             >
               <div className="text-center flex-1 md:flex-none md:min-w-[140px]">
-                <p className="text-[9px] md:text-[10px] text-gray-500 uppercase font-black tracking-widest mb-1">Гравець</p>
-                <p className="font-bold text-casino-neon text-sm md:text-2xl truncate max-w-[90px] md:max-w-[200px] mx-auto">{user.nickname}</p>
+                <p className="text-[10px] md:text-[12px] text-gray-500 uppercase font-black tracking-widest mb-1">Гравець</p>
+                <p className="font-bold text-casino-neon text-lg md:text-3xl truncate max-w-[120px] md:max-w-[300px] mx-auto">{user.nickname}</p>
               </div>
               <div className="h-10 md:h-14 w-[1px] bg-white/10" />
-              <div className="text-center flex-1 md:flex-none md:min-w-[80px]">
-                <p className="text-[9px] md:text-[10px] text-gray-500 uppercase font-black tracking-widest mb-1">Спіни</p>
-                <motion.p key={user.spins} initial={{ scale: 1.5, color: '#22d3ee' }} animate={{ scale: 1, color: '#22d3ee' }} className="font-black text-xl md:text-4xl text-center">
-                  {user.spins}
-                </motion.p>
-              </div>
-              <div className="h-10 md:h-14 w-[1px] bg-white/10" />
-              <div className="text-center flex-1 md:flex-none md:min-w-[80px]">
-                <p className="text-[9px] md:text-[10px] text-gray-500 uppercase font-black tracking-widest mb-1">Бали</p>
-                <motion.p key={user.points} initial={{ scale: 1.5, color: '#fbbf24' }} animate={{ scale: 1, color: '#fbbf24' }} className="font-black text-xl md:text-4xl text-center">
-                  {user.points}
-                </motion.p>
+              <div className="text-center flex-1 md:flex-none">
+                <p className="text-[10px] md:text-[12px] text-gray-500 uppercase font-black tracking-widest mb-1">МІЙ БАЛАНС</p>
+                <div className="flex items-center justify-center gap-2">
+                  <motion.p
+                    key={user.points}
+                    initial={{ scale: 1.5, color: '#fbbf24' }}
+                    animate={{ scale: 1, color: '#fbbf24' }}
+                    className="font-black text-2xl md:text-5xl text-center"
+                  >
+                    {user.points.toLocaleString()}
+                  </motion.p>
+                  <span className="text-2xl md:text-4xl text-yellow-500">🍋</span>
+                </div>
               </div>
             </motion.div>
           )}
@@ -151,7 +154,43 @@ function Home({ isMuted, setIsMuted }) {
         ) : (
           <>
             <div className="lg:col-span-2">
-              <SlotMachine user={user} isMuted={isMuted} />
+              {/* Tab Switcher */}
+              <div className="flex gap-4 mb-8">
+                <button
+                  onClick={() => setActiveTab('slots')}
+                  className={`flex-1 py-4 md:py-6 rounded-3xl font-black text-xl md:text-2xl transition-all flex items-center justify-center gap-3 border-2 ${activeTab === 'slots' ? 'bg-casino-neon text-black border-transparent shadow-[0_0_30px_rgba(240,171,252,0.4)]' : 'glass border-white/5 hover:bg-white/10 opacity-60'}`}
+                >
+                  🍋 СЛОТИ
+                </button>
+                <button
+                  onClick={() => setActiveTab('football')}
+                  className={`flex-1 py-4 md:py-6 rounded-3xl font-black text-xl md:text-2xl transition-all flex items-center justify-center gap-3 border-2 ${activeTab === 'football' ? 'bg-green-500 text-black border-transparent shadow-[0_0_30px_rgba(34,197,94,0.4)]' : 'glass border-white/5 hover:bg-white/10 opacity-60'}`}
+                >
+                  ⚽️ ФУТБОЛ
+                </button>
+              </div>
+
+              <AnimatePresence mode="wait">
+                {activeTab === 'slots' ? (
+                  <motion.div
+                    key="slots"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                  >
+                    <SlotMachine user={user} isMuted={isMuted} />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="football"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 20 }}
+                  >
+                    <VirtualFootball user={user} isMuted={isMuted} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
             <div className="flex flex-col gap-6">
               <div className="flex gap-2">
@@ -208,7 +247,7 @@ function Home({ isMuted, setIsMuted }) {
                 >
                   ЗАРЯДИТИ БАНКУ 🍋
                 </a>
-                <p className="text-[10px] text-gray-400 uppercase font-black tracking-widest">1 ГРН = 1 СПІН • ВСІ ДОНАТИ ЙДУТЬ НА ПЕРЕМОГУ!</p>
+                <p className="text-[10px] text-gray-400 uppercase font-black tracking-widest">1 ГРН = 100 🍋 • ВСІ ДОНАТИ ЙДУТЬ НА ПЕРЕМОГУ!</p>
               </motion.div>
             </div>
           </>

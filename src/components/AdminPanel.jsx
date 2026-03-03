@@ -8,16 +8,16 @@ export default function AdminPanel() {
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState('')
 
-    const addSpins = async (amount) => {
+    const addChips = async (amount) => {
         if (!targetNick) return
         setLoading(true)
         setMessage('')
 
         try {
-            // Find current user's spins
+            // Find current user's chips
             const { data: user, error: findError } = await supabase
                 .from('profiles')
-                .select('spins')
+                .select('points')
                 .eq('nickname', targetNick)
                 .single()
 
@@ -25,12 +25,12 @@ export default function AdminPanel() {
 
             const { error: updateError } = await supabase
                 .from('profiles')
-                .update({ spins: (user.spins || 0) + amount })
+                .update({ points: (user.points || 0) + amount })
                 .eq('nickname', targetNick)
 
             if (updateError) throw updateError
 
-            setMessage(`Нараховано +${amount} спінів для ${targetNick}`)
+            setMessage(`Нараховано +${amount} фішок для ${targetNick}`)
             setTimeout(() => setMessage(''), 3000)
         } catch (err) {
             setMessage(`Помилка: ${err.message}`)
@@ -66,18 +66,18 @@ export default function AdminPanel() {
 
                     <div className="flex gap-2">
                         <button
-                            onClick={() => addSpins(5)}
+                            onClick={() => addChips(500)}
                             disabled={loading || !targetNick}
-                            className="bg-white/5 border border-white/10 px-4 py-3 rounded-xl hover:bg-red-500 hover:text-black transition-all font-black text-xs flex items-center gap-1 disabled:opacity-20"
+                            className="bg-white/5 border border-white/10 px-4 py-3 rounded-xl hover:bg-yellow-500 hover:text-black transition-all font-black text-xs flex items-center gap-1 disabled:opacity-20"
                         >
-                            <Plus size={14} /> 5
+                            <Plus size={14} /> 500
                         </button>
                         <button
-                            onClick={() => addSpins(10)}
+                            onClick={() => addChips(1000)}
                             disabled={loading || !targetNick}
-                            className="bg-white/5 border border-white/10 px-4 py-3 rounded-xl hover:bg-red-500 hover:text-black transition-all font-black text-xs flex items-center gap-1 disabled:opacity-20"
+                            className="bg-white/5 border border-white/10 px-4 py-3 rounded-xl hover:bg-yellow-500 hover:text-black transition-all font-black text-xs flex items-center gap-1 disabled:opacity-20"
                         >
-                            <Plus size={14} /> 10
+                            <Plus size={14} /> 1000
                         </button>
                     </div>
                 </div>

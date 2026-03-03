@@ -32,18 +32,28 @@ export default function SlotMachine({ user, isMuted }) {
         }
     }, [])
 
+    const updateBalance = async (newTotal) => {
+        const { error } = await supabase
+            .from('profiles')
+            .update({ points: newTotal })
+            .eq('id', user.id)
+        if (error) console.error('Error updating balance:', error)
+    }
+
+    const SPIN_COST = 10
+
     const spin = async () => {
-        if (spinning || user.spins <= 0) return
+        if (spinning || user.points < SPIN_COST) return
 
         setSpinText('КРУТИМО ЛИМОНИ... 🍋')
         setSpinning(true)
         setWin(null)
 
 
-        // Deduct spin first
+        // Deduct points as spin cost
         const { error: spinError } = await supabase
             .from('profiles')
-            .update({ spins: user.spins - 1 })
+            .update({ points: user.points - SPIN_COST })
             .eq('id', user.id)
 
         if (spinError) {
@@ -81,9 +91,17 @@ export default function SlotMachine({ user, isMuted }) {
                     spinAudio.current.pause()
                     spinAudio.current.currentTime = 0
 
-                    // 3. Check for matching symbols
+                    // 3. New Winning Logic
+                    let reward = 0
                     if (newResults[0] === newResults[1] && newResults[1] === newResults[2]) {
-                        const reward = REWARDS[newResults[0]]
+                        // 3 of a kind
+                        reward = newResults[0] === '🍋' ? 500 : 100
+                    } else if (newResults[0] === newResults[1] || newResults[1] === newResults[2]) {
+                        // 2 in a row
+                        reward = 20
+                    }
+
+                    if (reward > 0) {
                         setWin(reward)
 
                         if (!isMuted) winAudio.current.play().catch(() => { })
@@ -94,14 +112,8 @@ export default function SlotMachine({ user, isMuted }) {
                             colors: ['#f0abfc', '#22d3ee', '#fbbf24']
                         })
 
-                        // Update points - better to use RLS or fetch latest, but we'll use the user object
-                        // which is kept in sync via realtime in App.jsx
-                        const { error: pointsError } = await supabase
-                            .from('profiles')
-                            .update({ points: user.points + reward })
-                            .eq('id', user.id)
-
-                        if (pointsError) console.error('Error updating points:', pointsError)
+                        // Update points using the helper
+                        updateBalance(user.points + reward)
                     }
                 }, 600)
             }, 600)
@@ -135,20 +147,20 @@ export default function SlotMachine({ user, isMuted }) {
                 </div>
 
                 <motion.button
-                    whileHover={!spinning && user.spins > 0 ? { scale: 1.02, boxShadow: '0 0 40px rgba(240,171,252,0.6)' } : {}}
-                    whileTap={!spinning && user.spins > 0 ? { scale: 0.95 } : {}}
+                    whileHover={!spinning && user.points >= SPIN_COST ? { scale: 1.02, boxShadow: '0 0 40px rgba(240,171,252,0.6)' } : {}}
+                    whileTap={!spinning && user.points >= SPIN_COST ? { scale: 0.95 } : {}}
                     onClick={spin}
-                    disabled={spinning || user.spins <= 0}
+                    disabled={spinning || user.points < SPIN_COST}
                     className={`w-full py-8 rounded-[2rem] font-black text-3xl transition-all relative overflow-hidden
             ${spinning ? 'bg-neutral-800/80 text-neutral-500 cursor-wait opacity-75 grayscale-[0.5]' : 'bg-casino-neon text-black'}
-            ${user.spins <= 0 && !spinning ? 'bg-red-500/20 text-red-500 border border-red-500/50 grayscale' : 'shadow-[0_0_20px_rgba(240,171,252,0.4)]'}
+            ${user.points < SPIN_COST && !spinning ? 'bg-red-500/20 text-red-500 border border-red-500/50 grayscale' : 'shadow-[0_0_20px_rgba(240,171,252,0.4)]'}
           `}
                 >
                     <span className={`relative z-10 italic uppercase tracking-tight leading-none ${spinning ? 'animate-text-pulse' : ''}`}>
-                        {spinning ? spinText : user.spins <= 0 ? 'Без спінів' : 'КРУТИТИ\u00A0\u00A0ЛИМОН'}
+                        {spinning ? spinText : user.points < SPIN_COST ? 'Поповни банку!' : 'КРУТИТИ\u00A0\u00A0ЛИМОН'}
                     </span>
 
-                    {!spinning && user.spins > 0 && (
+                    {!spinning && user.points >= SPIN_COST && (
                         <motion.div
                             animate={{ x: ['-100%', '200%'] }}
                             transition={{ repeat: Infinity, duration: 2, ease: 'linear' }}
@@ -162,7 +174,7 @@ export default function SlotMachine({ user, isMuted }) {
                     <div className="inline-flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 rounded-full bg-white/5 border border-white/10 shadow-[inner_0_0_20px_rgba(255,255,255,0.02)] transition-all hover:bg-white/10 max-w-full overflow-hidden">
                         <span className="w-1 md:w-1.5 h-1 md:h-1.5 rounded-full bg-yellow-400 animate-pulse shrink-0" />
                         <p className="text-[8px] md:text-xs font-bold uppercase tracking-[0.1em] md:tracking-[0.2em] text-gray-400 whitespace-nowrap">
-                            Кожна <span className="text-yellow-400">1 ГРН</span> на збір = <span className="text-casino-neon">1 СПІН</span>
+                            Кожна <span className="text-yellow-400">1 ГРН</span> на збір = <span className="text-casino-neon">100 🍋</span>
                         </p>
                         <span className="w-1 md:w-1.5 h-1 md:h-1.5 rounded-full bg-casino-neon animate-pulse shrink-0" />
                     </div>
