@@ -47,10 +47,8 @@
                 </p>
             </div>
             <div class="flex items-center gap-4">
-                <a href="../index.html" class="text-xs font-bold text-slate-500 hover:text-white transition-colors">🎰
-                    СЛОТИ</a>
-                <a href="../football.html"
-                    class="text-xs font-bold text-slate-500 hover:text-white transition-colors">⚽️ ФУТБОЛ</a>
+                <a href="index.html" class="text-xs font-bold text-slate-500 hover:text-white transition-colors">🎰
+                    ПОВЕРНУТИСЬ ДО ГРИ</a>
                 <button onclick="location.reload()"
                     class="ml-4 text-xs font-bold text-slate-500 hover:text-white transition-colors">ВИЙТИ</button>
             </div>
@@ -70,7 +68,7 @@
                         <tr>
                             <th class="pb-4 px-2">Гравець</th>
                             <th class="pb-4 px-2">Баланс (🍋)</th>
-                            <th class="pb-4 px-2 text-right">Дії</th>
+                            <th class="pb-4 px-2 text-right">Нарахувати фішки</th>
                         </tr>
                     </thead>
                     <tbody id="players-list" class="divide-y divide-white/5">
@@ -106,8 +104,6 @@
 
         async function initAdmin() {
             loadPlayers();
-
-            // Realtime subscriptions
             supabaseClient.channel('admin-sync')
                 .on('postgres_changes', { event: '*', table: 'profiles' }, loadPlayers)
                 .subscribe();
@@ -135,16 +131,11 @@
                     </td>
                     <td class="py-4 px-2 font-black text-yellow-500">${p.points.toLocaleString()} 🍋</td>
                     <td class="py-4 px-2 text-right">
-                        <div class="flex flex-col gap-2 sm:flex-row sm:justify-end items-center">
-                            <div class="flex gap-1">
-                                <button onclick="adjustBalance('${p.username}', 100)" class="text-[9px] bg-slate-800 hover:bg-yellow-600 px-2 py-1 rounded-md transition-all text-white">+100</button>
-                                <button onclick="adjustBalance('${p.username}', 500)" class="text-[9px] bg-slate-800 hover:bg-yellow-600 px-2 py-1 rounded-md transition-all text-white">+500</button>
-                                <button onclick="adjustBalance('${p.username}', 1000)" class="text-[9px] bg-slate-800 hover:bg-yellow-600 px-2 py-1 rounded-md transition-all text-white">+1000</button>
-                            </div>
-                            <input type="number" id="manual-${p.username}" placeholder="К-сть" class="bg-slate-900 border border-white/10 rounded-md py-1 px-2 text-[10px] w-16 outline-none focus:border-yellow-500">
-                            <button onclick="setBalance('${p.username}')" class="bg-yellow-600 hover:bg-yellow-500 text-[9px] font-black px-3 py-1 rounded-md transition-all text-black">OK</button>
-                            <button onclick="deletePlayer('${p.username}')" class="bg-red-900/50 hover:bg-red-600 text-red-400 hover:text-white p-1 rounded-md transition-all">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                        <div class="flex justify-end items-center gap-2">
+                            <input type="number" id="manual-${p.username}" placeholder="+/-" class="bg-slate-900 border border-white/10 rounded-md py-2 px-3 text-xs w-24 outline-none focus:border-yellow-500 text-center font-bold">
+                            <button onclick="adjustBalance('${p.username}')" class="bg-yellow-500 hover:bg-yellow-400 text-xs font-black px-4 py-2 rounded-md transition-all text-black uppercase">ОК</button>
+                            <button onclick="deletePlayer('${p.username}')" class="bg-red-900/50 hover:bg-red-600 text-red-400 hover:text-white p-2 rounded-md transition-all ml-2" title="Видалити">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                             </button>
                         </div>
                     </td>
@@ -153,21 +144,23 @@
             });
         }
 
-        async function adjustBalance(username, amount) {
+        async function adjustBalance(username) {
             const player = allPlayers.find(p => p.username === username);
-            const { error } = await supabaseClient.from('profiles').update({ points: player.points + amount }).eq('username', username);
-            if (!error) showToast(`Додано ${amount} фішок для ${username}`, 'success');
-        }
+            const amount = parseInt(document.getElementById(`manual-${username}`).value);
+            if (isNaN(amount)) return;
 
-        async function setBalance(username) {
-            const val = parseInt(document.getElementById(`manual-${username}`).value);
-            if (isNaN(val)) return;
-            const { error } = await supabaseClient.from('profiles').update({ points: val }).eq('username', username);
-            if (!error) showToast(`Баланс для ${username} встановлено: ${val}`, 'success');
+            const newTotal = player.points + amount;
+            const { error } = await supabaseClient.from('profiles').update({ points: newTotal }).eq('username', username);
+            if (!error) {
+                showToast(`Баланс ${username} оновлено: ${newTotal} 🍋`, 'success');
+                document.getElementById(`manual-${username}`).value = '';
+            } else {
+                showToast('Помилка оновлення!', 'error');
+            }
         }
 
         async function deletePlayer(username) {
-            if (!confirm(`Видалити гравця ${username}? Дія незворотня.`)) return;
+            if (!confirm(`Видалити гравця ${username}?`)) return;
             const { error } = await supabaseClient.from('profiles').delete().eq('username', username);
             if (!error) showToast(`Гравця ${username} видалено`, 'warning');
         }
@@ -176,21 +169,11 @@
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             const bgColor = type === 'success' ? 'bg-green-600' : (type === 'warning' ? 'bg-orange-600' : 'bg-red-600');
-            toast.className = `${bgColor} text-white px-6 py-3 rounded-2xl shadow-2xl mb-3 font-bold text-sm animate-bounce cursor-pointer`;
+            toast.className = `${bgColor} text-white px-6 py-3 rounded-xl shadow-2xl mb-3 font-black text-xs animate-bounce`;
             toast.innerText = msg;
-            toast.onclick = () => toast.remove();
             container.appendChild(toast);
             setTimeout(() => toast.remove(), 4000);
         }
-
-        // Support Enter key on manual input
-        document.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && e.target.id.startsWith('manual-')) {
-                const username = e.target.id.replace('manual-', '');
-                setBalance(username);
-            }
-        });
-
     </script>
 </body>
 
