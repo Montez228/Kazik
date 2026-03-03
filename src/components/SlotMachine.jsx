@@ -32,28 +32,31 @@ export default function SlotMachine({ user, isMuted }) {
         }
     }, [])
 
-    const updateBalance = async (newTotal) => {
+    const recordWin = async (reward) => {
         const { error } = await supabase
             .from('profiles')
-            .update({ points: newTotal })
+            .update({
+                balance: user.balance + reward,
+                points: (user.points || 0) + reward
+            })
             .eq('id', user.id)
-        if (error) console.error('Error updating balance:', error)
+        if (error) console.error('Error recording win:', error)
     }
 
     const SPIN_COST = 10
 
     const spin = async () => {
-        if (spinning || user.points < SPIN_COST) return
+        if (spinning || user.balance < SPIN_COST) return
 
         setSpinText('КРУТИМО ЛИМОНИ... 🍋')
         setSpinning(true)
         setWin(null)
 
 
-        // Deduct points as spin cost
+        // Deduct balance as spin cost
         const { error: spinError } = await supabase
             .from('profiles')
-            .update({ points: user.points - SPIN_COST })
+            .update({ balance: user.balance - SPIN_COST })
             .eq('id', user.id)
 
         if (spinError) {
@@ -112,8 +115,8 @@ export default function SlotMachine({ user, isMuted }) {
                             colors: ['#f0abfc', '#22d3ee', '#fbbf24']
                         })
 
-                        // Update points using the helper
-                        updateBalance(user.points + reward)
+                        // Update balance and points
+                        recordWin(reward)
                     }
                 }, 600)
             }, 600)
@@ -147,17 +150,17 @@ export default function SlotMachine({ user, isMuted }) {
                 </div>
 
                 <motion.button
-                    whileHover={!spinning && user.points >= SPIN_COST ? { scale: 1.02, boxShadow: '0 0 40px rgba(240,171,252,0.6)' } : {}}
-                    whileTap={!spinning && user.points >= SPIN_COST ? { scale: 0.95 } : {}}
+                    whileHover={!spinning && user.balance >= SPIN_COST ? { scale: 1.02, boxShadow: '0 0 40px rgba(240,171,252,0.6)' } : {}}
+                    whileTap={!spinning && user.balance >= SPIN_COST ? { scale: 0.95 } : {}}
                     onClick={spin}
-                    disabled={spinning || user.points < SPIN_COST}
+                    disabled={spinning || user.balance < SPIN_COST}
                     className={`w-full py-8 rounded-[2rem] font-black text-3xl transition-all relative overflow-hidden
             ${spinning ? 'bg-neutral-800/80 text-neutral-500 cursor-wait opacity-75 grayscale-[0.5]' : 'bg-casino-neon text-black'}
-            ${user.points < SPIN_COST && !spinning ? 'bg-red-500/20 text-red-500 border border-red-500/50 grayscale' : 'shadow-[0_0_20px_rgba(240,171,252,0.4)]'}
+            ${user.balance < SPIN_COST && !spinning ? 'bg-red-500/20 text-red-500 border border-red-500/50 grayscale' : 'shadow-[0_0_20px_rgba(240,171,252,0.4)]'}
           `}
                 >
                     <span className={`relative z-10 italic uppercase tracking-tight leading-none ${spinning ? 'animate-text-pulse' : ''}`}>
-                        {spinning ? spinText : user.points < SPIN_COST ? 'Поповни банку!' : 'КРУТИТИ\u00A0\u00A0ЛИМОН'}
+                        {spinning ? spinText : user.balance < SPIN_COST ? 'Поповни банку!' : 'КРУТИТИ\u00A0\u00A0ЛИМОН'}
                     </span>
 
                     {!spinning && user.points >= SPIN_COST && (
@@ -189,7 +192,7 @@ export default function SlotMachine({ user, isMuted }) {
                         exit={{ scale: 0, opacity: 0 }}
                         className="mt-10 bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-12 py-5 rounded-full font-black text-4xl shadow-[0_0_50px_rgba(251,191,36,0.6)] border-4 border-white/20"
                     >
-                        +{win} БАЛІВ! 🎉
+                        +{win} БАЛАНСУ! 🎉
                     </motion.div>
                 )}
             </AnimatePresence>

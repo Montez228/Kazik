@@ -87,10 +87,10 @@ export default function Leaderboard() {
                                 </span>
                             </div>
                             <div className="text-right shrink-0">
-                                <span className={`font-black text-lg md:text-xl ${i === 0 ? 'text-yellow-400' : i < 3 ? 'text-white' : 'text-casino-cyan'}`}>
-                                    {leader.points.toLocaleString()}
+                                <span className={`font-black text-lg md:text-xl ${i === 0 ? 'text-yellow-400' : i < 3 ? 'text-white' : 'text-blue-400'}`}>
+                                    {(leader.points || 0).toLocaleString()}
                                 </span>
-                                <p className="text-[8px] text-gray-500 uppercase font-black tracking-widest leading-none mt-1">БАЛІВ</p>
+                                <p className="text-[8px] text-gray-500 uppercase font-black tracking-widest leading-none mt-1">БАЛИ (TOP) ⭐</p>
                             </div>
                         </motion.div>
                     ))}
@@ -105,4 +105,3 @@ export default function Leaderboard() {
         </motion.div>
     )
 }
-

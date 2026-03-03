@@ -14,10 +14,10 @@ export default function AdminPanel() {
         setMessage('')
 
         try {
-            // Find current user's chips
+            // Find current user's balance
             const { data: user, error: findError } = await supabase
                 .from('profiles')
-                .select('points')
+                .select('balance')
                 .eq('nickname', targetNick)
                 .single()
 
@@ -25,7 +25,7 @@ export default function AdminPanel() {
 
             const { error: updateError } = await supabase
                 .from('profiles')
-                .update({ points: (user.points || 0) + amount })
+                .update({ balance: (user.balance || 0) + amount })
                 .eq('nickname', targetNick)
 
             if (updateError) throw updateError
@@ -44,7 +44,7 @@ export default function AdminPanel() {
             <div className="flex flex-wrap items-center justify-between gap-6">
                 <div className="flex items-center gap-3">
                     <div className="p-2 bg-red-500/20 rounded-lg">
-                        <ShieldCheck className="text-red-500 w-5 h-5" />
+                        < ShieldCheck className="text-red-500 w-5 h-5" />
                     </div>
                     <div>
                         <h4 className="font-black text-sm italic uppercase tracking-wider">Адмін-панель</h4>

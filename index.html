@@ -198,12 +198,23 @@
                     <div class="h-10 md:h-12 w-[1px] bg-white/10"></div>
                     <div class="flex-1 lg:flex-none text-center">
                         <p class="text-[10px] md:text-[8px] text-slate-500 font-black uppercase tracking-widest mb-1">
-                            МІЙ БАЛАНС</p>
+                            МІй БАЛАНС</p>
                         <div class="flex items-center justify-center gap-2">
-                            <p id="display-points"
-                                class="font-black text-yellow-400 text-2xl md:text-2xl lg:text-4xl tracking-tighter">0
+                            <p id="display-balance"
+                                class="font-black text-yellow-400 text-2xl md:text-2xl lg:text-3xl tracking-tighter">0
                             </p>
                             <span class="text-xl md:text-2xl text-yellow-500">🍋</span>
+                        </div>
+                    </div>
+                    <div class="h-10 md:h-12 w-[1px] bg-white/10"></div>
+                    <div class="flex-1 lg:flex-none text-center">
+                        <p class="text-[10px] md:text-[8px] text-slate-500 font-black uppercase tracking-widest mb-1">
+                            МОЇ БАЛИ (TOP)</p>
+                        <div class="flex items-center justify-center gap-2">
+                            <p id="display-rating"
+                                class="font-black text-blue-400 text-2xl md:text-2xl lg:text-3xl tracking-tighter">0
+                            </p>
+                            <span class="text-xl md:text-2xl">⭐</span>
                         </div>
                     </div>
                 </div>
@@ -291,7 +302,7 @@
                                     ВИГРАШ!</p>
                             </div>
 
-                            <p id="no-spins-msg"
+                            <p id="no-balance-msg"
                                 class="hidden mb-6 text-red-500 font-black text-xl animate-pulse h-12 flex items-center justify-center">
                                 Поповни банку! 🍋
                             </p>
@@ -396,7 +407,8 @@
                                     <button onclick="setBet(500)"
                                         class="flex-1 py-4 glass rounded-2xl font-black text-lg hover:bg-green-500/20 transition-all border border-white/5">500</button>
                                 </div>
-                                <input type="number" id="bet-input" value="10"
+                                <input type="number" id="bet-input" value="100" title="Сума вашої ставки"
+                                    placeholder="100"
                                     class="w-full bg-slate-900/50 border border-white/10 p-5 rounded-2xl text-center text-2xl font-black outline-none focus:border-green-500 transition-all">
                             </div>
                             <div class="space-y-4">
@@ -506,10 +518,12 @@
             { name: 'Бенфіка', emoji: '🇵🇹' }, { name: 'Спортінг', emoji: '🇵🇹' }
         ];
         const BROADCAST_PHRASES = [
-            '🔥 Атака {team}...', '🧤 Сейв воротаря!', '🟨 Жовта картка!', '⚽️ ГОООООЛ!',
-            '🏃 Швидкий прорив {team}!', '🎯 Небезпечний штрафний!', '🛡️ Надійний захист!',
-            '🚀 Удар здалеку!', '🏟️ Вболівальники скандують: {team}!', '⚡️ Контратака!',
-            '🧤 Воротар {team} забирає м\'яч!', '📐 Кутовий для {team}!'
+            '🏃 Швидкий прорив {team} по флангу...', '🧤 Сейв воротаря! Неймовірна реакція!',
+            '🟨 Жовта картка! Груба гра від {team}.', '🏟️ Вболівальники ревуть! Атмосфера на стадіоні шалена!',
+            '🎯 Небезпечний кутовий... Напруга зростає!', '🛡️ Надійний захист {team} перериває пас.',
+            '🚀 Удар здалеку! М\'яч проходить поруч зі стійкою.', '⚡️ Контратака {team} на шаленій швидкості!',
+            '🧤 Воротар {team} впевнено забирає м\'яч.', '📐 Кутовий для {team}! Подача в центр...',
+            '⚠️ Рикошет! М\'яч ледь не влетів у ворота {team}!', '🛑 Перехоплення в центрі поля!'
         ];
 
         let currentUser = null;
@@ -576,7 +590,7 @@
             try {
                 let { data } = await supabaseClient.from('profiles').select('*').eq('username', un);
                 if (!data || data.length === 0) {
-                    const { data: newUser } = await supabaseClient.from('profiles').insert([{ username: un, points: 100 }]).select();
+                    const { data: newUser } = await supabaseClient.from('profiles').insert([{ username: un, balance: 100, points: 0 }]).select();
                     data = newUser;
                 }
                 currentUser = data[0];
@@ -593,16 +607,35 @@
         function updateUI() {
             if (!currentUser) return;
             $('display-username').innerText = currentUser.username;
-            $('display-points').innerText = currentUser.points.toLocaleString();
-            $('spin-btn').disabled = isSpinning || currentUser.points < 10;
-            if (currentUser.points < 10) $('no-spins-msg').classList.remove('hidden');
-            else $('no-spins-msg').classList.add('hidden');
+            $('display-balance').innerText = currentUser.balance.toLocaleString();
+            $('display-rating').innerText = (currentUser.points || 0).toLocaleString();
+
+            const canPlay = currentUser.balance >= 10;
+            $('spin-btn').disabled = isSpinning || !canPlay;
+
+            if (!canPlay) {
+                $('no-balance-msg').innerText = 'Недостатньо фішок! Поповни банку';
+                $('no-balance-msg').classList.remove('hidden');
+            } else {
+                $('no-balance-msg').classList.add('hidden');
+            }
             updateLeaderboard();
         }
 
         async function updateBalance(newTotal) {
-            const { error } = await supabaseClient.from('profiles').update({ points: newTotal }).eq('username', currentUser.username);
+            const { error } = await supabaseClient.from('profiles').update({ balance: newTotal }).eq('username', currentUser.username);
             if (error) console.error(error);
+        }
+
+        async function recordWin(prize) {
+            const { data, error } = await supabaseClient.from('profiles').update({
+                balance: currentUser.balance + prize,
+                points: (currentUser.points || 0) + prize
+            }).eq('username', currentUser.username).select().single();
+            if (!error && data) {
+                currentUser = data;
+                updateUI();
+            }
         }
 
         function initRealtime() {
@@ -620,16 +653,16 @@
                 let isCurrent = u.username === currentUser.username;
                 return `<div class="flex justify-between items-center p-3 rounded-xl border ${isCurrent ? 'ring-2 ring-yellow-500/50 bg-yellow-400/10' : 'bg-white/5 border-white/5 shadow-inner'}">
                     <div class="flex items-center gap-2"><span>${medal}</span><span class="text-sm font-bold truncate max-w-[100px]">${u.username}</span></div>
-                    <span class="font-black text-yellow-500 text-xs">${u.points.toLocaleString()}</span>
+                    <span class="font-black text-blue-400 text-xs">${(u.points || 0).toLocaleString()} <span class="text-[8px] text-slate-500">⭐</span></span>
                 </div>`;
             }).join('');
         }
 
         // SLOTS LOGIC
         async function spin() {
-            if (isSpinning || currentUser.points < 10) return;
+            if (isSpinning || currentUser.balance < 10) return;
             isSpinning = true; $('win-overlay').classList.add('hidden');
-            const { error } = await supabaseClient.from('profiles').update({ points: currentUser.points - 10 }).eq('username', currentUser.username);
+            const { error } = await supabaseClient.from('profiles').update({ balance: currentUser.balance - 10 }).eq('username', currentUser.username);
             if (error) { isSpinning = false; return; }
             playSound(spinAudio, true); $('spin-btn').innerText = 'КРУТИМО...'; $('spin-btn').disabled = true;
             const reels = [$('reel-1'), $('reel-2'), $('reel-3')];
@@ -655,7 +688,7 @@
                 if (reward >= 100) { confetti({ particleCount: 200, spread: 70, origin: { y: 0.6 } }); playSound(winAudio); }
                 else playSound(clickAudio);
                 $('win-overlay').classList.remove('hidden'); $('win-text').innerText = `+${reward} 🍋`;
-                updateBalance(currentUser.points + reward);
+                recordWin(reward);
             }
         }
 
@@ -686,43 +719,102 @@
 
         async function startMatch() {
             let bet = parseInt($('bet-input').value);
-            if (isPlayingMatch || !selectedOutcome || isNaN(bet) || bet <= 0 || bet > currentUser.points) {
-                if (bet > currentUser.points) { $('fb-error-msg').innerText = 'Не вистачає лимонів! 🍋'; $('fb-error-msg').classList.remove('hidden'); }
+            if (isPlayingMatch || !selectedOutcome || isNaN(bet) || bet <= 0 || bet > currentUser.balance) {
+                if (bet > currentUser.balance) { $('fb-error-msg').innerText = 'Не вистачає лимонів! 🍋'; $('fb-error-msg').classList.remove('hidden'); }
                 return;
             }
             isPlayingMatch = true; $('start-btn').disabled = true; $('start-btn').innerText = 'МАТЧ ТРИВАЄ...';
             $('fb-error-msg').classList.add('hidden'); playSound(whistleAudio);
-            const newP = currentUser.points - bet;
-            await supabaseClient.from('profiles').update({ points: newP }).eq('username', currentUser.username);
-            currentUser.points = newP; updateUI();
 
+            // Deduct bet immediately
+            const newP = currentUser.balance - bet;
+            await supabaseClient.from('profiles').update({ balance: newP }).eq('username', currentUser.username);
+            currentUser.balance = newP; updateUI();
+
+            // Pre-calculate final score
             let actual = ['p1', 'x', 'p2'][Math.floor(Math.random() * 3)];
-            let step = 0; let mins = [12, 28, 45, 62, 84, 90];
-            let sim = setInterval(() => {
-                let p = BROADCAST_PHRASES[Math.floor(Math.random() * BROADCAST_PHRASES.length)];
-                $('broadcast-text').innerText = `'${mins[step]} хв: ${p.replace('{team}', Math.random() > 0.5 ? team1.name : team2.name)}`;
-                if (++step >= 6) { clearInterval(sim); finishMatch(actual, bet); }
-            }, 2000);
-        }
-
-        function finishMatch(actual, bet) {
-            playSound(whistleAudio);
             let s1, s2;
             if (actual === 'p1') { s1 = Math.floor(Math.random() * 3) + 1; s2 = Math.floor(Math.random() * s1); }
             else if (actual === 'p2') { s2 = Math.floor(Math.random() * 3) + 1; s1 = Math.floor(Math.random() * s2); }
             else { s1 = s2 = Math.floor(Math.random() * 3); }
-            $('score1').innerText = s1; $('score2').innerText = s2;
-            $('broadcast-text').innerText = `🏁 ФІНАЛЬНИЙ СВИСТОК! [${s1}:${s2}]`;
+
+            // Distribute goals across events (total 10 events, ~20 seconds)
+            let matchEvents = [];
+            let totalMatchSteps = 10;
+            let goalsT1 = s1, goalsT2 = s2;
+            let currentS1 = 0, currentS2 = 0;
+
+            // Generate sequence of events
+            for (let i = 0; i < totalMatchSteps; i++) {
+                let event = { type: 'comment', text: '', score: [currentS1, currentS2] };
+                let isGoal = false;
+
+                // Allow goals randomly but ensure we reach the target s1 and s2
+                if (goalsT1 > 0 && (Math.random() < 0.3 || i === totalMatchSteps - 2)) {
+                    event.type = 'goal1';
+                    event.text = `⚽️ ГОООООЛ! ${team1.name} забиває!`;
+                    currentS1++; goalsT1--;
+                    isGoal = true;
+                } else if (goalsT2 > 0 && (Math.random() < 0.3 || i === totalMatchSteps - 2)) {
+                    event.type = 'goal2';
+                    event.text = `⚽️ ГОООООЛ! ${team2.name} забиває!`;
+                    currentS2++; goalsT2--;
+                    isGoal = true;
+                }
+
+                if (!isGoal) {
+                    let p = BROADCAST_PHRASES[Math.floor(Math.random() * BROADCAST_PHRASES.length)];
+                    event.text = p.replace('{team}', Math.random() > 0.5 ? team1.name : team2.name);
+                }
+                event.score = [currentS1, currentS2];
+                matchEvents.push(event);
+            }
+
+            let step = 0;
+            let sim = setInterval(() => {
+                let currentEvent = matchEvents[step];
+                let minute = Math.floor((step + 1) * (90 / totalMatchSteps));
+
+                $('broadcast-text').innerText = `'${minute} хв: ${currentEvent.text}`;
+
+                // Update scoreboard only on goal
+                if (currentEvent.type === 'goal1' || currentEvent.type === 'goal2') {
+                    $('score1').innerText = currentEvent.score[0];
+                    $('score2').innerText = currentEvent.score[1];
+                    playSound(goalAudio);
+                }
+
+                step++;
+                if (step >= totalMatchSteps) {
+                    clearInterval(sim);
+                    setTimeout(() => finishMatch(actual, bet, s1, s2), 2000);
+                }
+            }, 2000);
+        }
+
+        function finishMatch(actual, bet, finalS1, finalS2) {
+            playSound(whistleAudio);
+            $('score1').innerText = finalS1; $('score2').innerText = finalS2;
+            $('broadcast-text').innerText = `🏁 ФІНАЛЬНИЙ СВИСТОК! Підсумок: [${finalS1}:${finalS2}]`;
 
             if (actual === selectedOutcome) {
                 let prize = Math.floor(bet * (selectedOutcome === 'x' ? 2.0 : currentOdds[selectedOutcome]));
-                confetti({ particleCount: 150, spread: 70 }); playSound(goalAudio);
-                $('fb-win-text').innerText = `ВИГРАШ! +${prize} 🍋`; $('fb-win-overlay').classList.remove('hidden');
-                updateBalance(currentUser.points + prize);
+                confetti({ particleCount: 150, spread: 70 });
+                setTimeout(() => {
+                    playSound(goalAudio);
+                    $('fb-win-text').innerText = `ВИГРАШ! +${prize} 🍋`;
+                    $('fb-win-overlay').classList.remove('hidden');
+                    recordWin(prize);
+                }, 500);
             } else {
-                $('fb-error-msg').innerText = 'Програш 😔'; $('fb-error-msg').classList.remove('hidden');
+                $('fb-error-msg').innerText = 'Ставка не зіграла 😔'; $('fb-error-msg').classList.remove('hidden');
             }
-            setTimeout(() => { $('start-btn').disabled = false; $('start-btn').innerText = 'НАСТУПНИЙ МАТЧ'; $('start-btn').onclick = initMatch; }, 3000);
+
+            setTimeout(() => {
+                $('start-btn').disabled = false;
+                $('start-btn').innerText = 'НАСТУПНИЙ МАТЧ';
+                $('start-btn').onclick = initMatch;
+            }, 3000);
         }
 
         function toggleMute() {

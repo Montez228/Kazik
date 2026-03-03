@@ -70,12 +70,15 @@ export default function VirtualFootball({ user, isMuted }) {
         setError('')
     }
 
-    const updateBalance = async (newTotal) => {
+    const recordWin = async (reward) => {
         const { error } = await supabase
             .from('profiles')
-            .update({ points: newTotal })
+            .update({
+                balance: user.balance + reward,
+                points: (user.points || 0) + reward
+            })
             .eq('id', user.id)
-        if (error) console.error('Error updating balance:', error)
+        if (error) console.error('Error recording win:', error)
     }
 
     const startMatch = async () => {
@@ -91,7 +94,7 @@ export default function VirtualFootball({ user, isMuted }) {
             return
         }
 
-        if (betAmount > user.points) {
+        if (betAmount > user.balance) {
             setError('Не вистачає лимонів! 🍋')
             return
         }
@@ -103,10 +106,10 @@ export default function VirtualFootball({ user, isMuted }) {
 
         if (!isMuted) whistleAudio.current.play().catch(() => { })
 
-        // Deduct points immediately in DB
+        // Deduct balance immediately in DB
         const { error: deductError } = await supabase
             .from('profiles')
-            .update({ points: user.points - betAmount })
+            .update({ balance: user.balance - betAmount })
             .eq('id', user.id)
 
         if (deductError) {
@@ -174,8 +177,8 @@ export default function VirtualFootball({ user, isMuted }) {
 
         if (didWin) {
             if (!isMuted) goalAudio.current.play().catch(() => { })
-            // Update points using helper (Delayed payoff)
-            updateBalance(user.points + winAmount)
+            // Update balance and points (Delayed payoff)
+            recordWin(winAmount)
         }
 
         setGameResult({ score: finalScore, win: didWin, amount: didWin ? winAmount : 0 })
@@ -308,13 +311,13 @@ export default function VirtualFootball({ user, isMuted }) {
                     whileHover={!isPlaying && selectedResult && betAmount > 0 ? { scale: 1.02 } : {}}
                     whileTap={!isPlaying && selectedResult && betAmount > 0 ? { scale: 0.98 } : {}}
                     onClick={startMatch}
-                    disabled={isPlaying || (betAmount > user.points && !isPlaying)}
+                    disabled={isPlaying || (betAmount > user.balance && !isPlaying)}
                     className={`w-full mt-8 py-6 rounded-[2rem] font-black text-2xl transition-all uppercase italic tracking-tighter shadow-lg
                         ${isPlaying ? 'bg-neutral-800 text-neutral-500 cursor-wait' : 'bg-green-500 text-black shadow-[0_0_30px_rgba(34,197,94,0.3)] hover:bg-green-400'}
-                        ${(!selectedResult || betAmount > user.points || betAmount <= 0) && !isPlaying ? 'opacity-50 grayscale cursor-not-allowed' : ''}
+                        ${(!selectedResult || betAmount > user.balance || betAmount <= 0) && !isPlaying ? 'opacity-50 grayscale cursor-not-allowed' : ''}
                     `}
                 >
-                    {isPlaying ? 'Матч триває...' : betAmount > user.points ? 'Поповни банку!' : 'ПОЧАТИ МАТЧ ⚽️'}
+                    {isPlaying ? 'Матч триває...' : betAmount > user.balance ? 'Поповни банку!' : 'ПОЧАТИ МАТЧ ⚽️'}
                 </motion.button>
                 {error && !isPlaying && (
                     <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center mt-4 font-black text-yellow-500 uppercase italic">

@@ -110,7 +110,7 @@
         }
 
         async function loadPlayers() {
-            const { data, error } = await supabaseClient.from('profiles').select('*').order('points', { ascending: false });
+            const { data, error } = await supabaseClient.from('profiles').select('*').order('balance', { ascending: false });
             if (data) {
                 allPlayers = data;
                 renderPlayers();
@@ -129,7 +129,7 @@
                     <td class="py-4 px-2">
                         <div class="font-black text-white italic truncate max-w-[150px]">${p.username}</div>
                     </td>
-                    <td class="py-4 px-2 font-black text-yellow-500">${p.points.toLocaleString()} 🍋</td>
+                    <td class="py-4 px-2 font-black text-yellow-500">${p.balance.toLocaleString()} 🍋</td>
                     <td class="py-4 px-2 text-right">
                         <div class="flex justify-end items-center gap-2">
                             <input type="number" id="manual-${p.username}" placeholder="+/-" class="bg-slate-900 border border-white/10 rounded-md py-2 px-3 text-xs w-24 outline-none focus:border-yellow-500 text-center font-bold">
@@ -149,8 +149,8 @@
             const amount = parseInt(document.getElementById(`manual-${username}`).value);
             if (isNaN(amount)) return;
 
-            const newTotal = player.points + amount;
-            const { error } = await supabaseClient.from('profiles').update({ points: newTotal }).eq('username', username);
+            const newTotal = player.balance + amount;
+            const { error } = await supabaseClient.from('profiles').update({ balance: newTotal }).eq('username', username);
             if (!error) {
                 showToast(`Баланс ${username} оновлено: ${newTotal} 🍋`, 'success');
                 document.getElementById(`manual-${username}`).value = '';

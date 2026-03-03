@@ -51,10 +51,10 @@ function Home({ isMuted, setIsMuted }) {
         .single()
 
       if (error && error.code === 'PGRST116') {
-        // Create new profile with 0 spins as requested
+        // Create new profile with balance 100 and points 0
         const { data: newProfile, error: createError } = await supabase
           .from('profiles')
-          .insert([{ nickname, spins: 0, points: 0 }])
+          .insert([{ nickname, balance: 100, points: 0 }])
           .select()
           .single()
 
@@ -102,17 +102,31 @@ function Home({ isMuted, setIsMuted }) {
               </div>
               <div className="h-10 md:h-14 w-[1px] bg-white/10" />
               <div className="text-center flex-1 md:flex-none">
-                <p className="text-[10px] md:text-[12px] text-gray-500 uppercase font-black tracking-widest mb-1">МІЙ БАЛАНС</p>
-                <div className="flex items-center justify-center gap-2">
-                  <motion.p
-                    key={user.points}
-                    initial={{ scale: 1.5, color: '#fbbf24' }}
-                    animate={{ scale: 1, color: '#fbbf24' }}
-                    className="font-black text-2xl md:text-5xl text-center"
-                  >
-                    {user.points.toLocaleString()}
-                  </motion.p>
-                  <span className="text-2xl md:text-4xl text-yellow-500">🍋</span>
+                <p className="text-[10px] md:text-[12px] text-gray-500 uppercase font-black tracking-widest mb-1">МІЙ БАЛАНС / БАЛИ</p>
+                <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-6">
+                  <div className="flex items-center gap-2">
+                    <motion.p
+                      key={user.balance}
+                      initial={{ scale: 1.2, color: '#fbbf24' }}
+                      animate={{ scale: 1, color: '#fbbf24' }}
+                      className="font-black text-2xl md:text-4xl text-center"
+                    >
+                      {user.balance.toLocaleString()}
+                    </motion.p>
+                    <span className="text-xl md:text-2xl text-yellow-500">🍋</span>
+                  </div>
+                  <div className="hidden md:block w-px h-8 bg-white/10" />
+                  <div className="flex items-center gap-2">
+                    <motion.p
+                      key={user.points}
+                      initial={{ scale: 1.2, color: '#60a5fa' }}
+                      animate={{ scale: 1, color: '#60a5fa' }}
+                      className="font-black text-2xl md:text-3xl text-center"
+                    >
+                      {(user.points || 0).toLocaleString()}
+                    </motion.p>
+                    <span className="text-xl md:text-2xl">⭐</span>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -238,7 +252,7 @@ function Home({ isMuted, setIsMuted }) {
                 animate={{ opacity: 1, scale: 1 }}
                 className="mt-4 p-6 glass rounded-[2rem] border-2 border-yellow-500/20 text-center flex flex-col gap-4 animate-pulse-gold"
               >
-                <p className="text-sm font-bold text-yellow-400 uppercase italic">Підтримай ЗСУ / Отримай спіни</p>
+                <p className="text-sm font-bold text-yellow-400 uppercase italic">Підтримай ЗСУ / Отримай Баланс 🍋</p>
                 <a
                   href="https://send.monobank.ua/jar/8jDCYuZb7Y"
                   target="_blank"
