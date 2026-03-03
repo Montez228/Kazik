@@ -4,17 +4,17 @@ import { supabase } from '../lib/supabase'
 
 const TEAMS = [
     { name: 'Реал Мадрид', emoji: '🇪🇸' },
-    { name: 'Динамо Київ', emoji: '🟦⬜' },
+    { name: 'Динамо Київ', emoji: '🇺🇦' },
     { name: 'Борусія Д.', emoji: '🇩🇪' },
-    { name: 'Челсі', emoji: '🦁' },
-    { name: 'Ман Юнайтед', emoji: '😈' },
+    { name: 'Челсі', emoji: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+    { name: 'Ман Юнайтед', emoji: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
     { name: 'ПСЖ', emoji: '🇫🇷' },
     { name: 'Барселона', emoji: '🇪🇸' },
-    { name: 'Шахтар Д.', emoji: '⚒️' },
-    { name: 'Ман Сіті', emoji: '🏴' },
+    { name: 'Шахтар Д.', emoji: '🇺🇦' },
+    { name: 'Ман Сіті', emoji: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
     { name: 'Баварія', emoji: '🇩🇪' },
-    { name: 'Ліверпуль', emoji: '🏴' },
-    { name: 'Арсенал Л.', emoji: '🏴' },
+    { name: 'Ліверпуль', emoji: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+    { name: 'Арсенал Л.', emoji: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
     { name: 'Бенфіка', emoji: '🇵🇹' },
     { name: 'Спортінг', emoji: '🇵🇹' }
 ]
@@ -320,7 +320,7 @@ export default function VirtualFootball({ user, isMuted }) {
                 </motion.button>
                 {(user.balance <= 0 && !isPlaying) && (
                     <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center mt-4 font-black text-red-500 text-xs">
-                        Лимони закінчилися! 🍋 Твій результат збережено в лідерборді. Задонать на банку, щоб отримати нові фішки та піднятися вище!
+                        Лимони закінчилися! 🍋 Твий результат збережено в лідерборді. Задонать на банку, щоб отримати нові лимони та піднятися вище!
                     </motion.p>
                 )}
                 {error && !isPlaying && (

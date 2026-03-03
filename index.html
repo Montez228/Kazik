@@ -490,10 +490,10 @@
 
         const EMOJIS = ['🍋', '🍒', '🍉', '💎', '7️⃣'];
         const TEAMS = [
-            { name: 'Реал Мадрид', emoji: '🇪🇸' }, { name: 'Динамо Київ', emoji: '🟦⬜' }, { name: 'Борусія Д.', emoji: '🇩🇪' },
-            { name: 'Челсі', emoji: '🦁' }, { name: 'Ман Юнайтед', emoji: '😈' }, { name: 'ПСЖ', emoji: '🇫🇷' },
-            { name: 'Барселона', emoji: '🇪🇸' }, { name: 'Шахтар Д.', emoji: '⚒️' }, { name: 'Ман Сіті', emoji: '🏴' },
-            { name: 'Баварія', emoji: '🇩🇪' }, { name: 'Ліверпуль', emoji: '🏴' }, { name: 'Арсенал Л.', emoji: '🏴' },
+            { name: 'Реал Мадрид', emoji: '🇪🇸' }, { name: 'Динамо Київ', emoji: '🇺🇦' }, { name: 'Борусія Д.', emoji: '🇩🇪' },
+            { name: 'Челсі', emoji: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' }, { name: 'Ман Юнайтед', emoji: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' }, { name: 'ПСЖ', emoji: '🇫🇷' },
+            { name: 'Барселона', emoji: '🇪🇸' }, { name: 'Шахтар Д.', emoji: '🇺🇦' }, { name: 'Ман Сіті', emoji: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+            { name: 'Баварія', emoji: '🇩🇪' }, { name: 'Ліверпуль', emoji: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' }, { name: 'Арсенал Л.', emoji: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
             { name: 'Бенфіка', emoji: '🇵🇹' }, { name: 'Спортінг', emoji: '🇵🇹' }
         ];
         const BROADCAST_PHRASES = [
@@ -545,8 +545,8 @@
                 document.body.classList.remove('football-theme');
                 title.innerText = 'LEMON GAME 🍋';
                 subtitle.innerText = 'Drive for Victory v3.0';
-                rule1.innerHTML = '**3 ЛИМОНИ** — дають **500** фішок!';
-                rule2.innerHTML = '**3 однакові символи** — **100** фішок. **2 в ряд** — **20** фішок.';
+                rule1.innerHTML = '**3 ЛИМОНИ** — дають **1000** балів! ⭐';
+                rule2.innerHTML = '**3 однакові** — **400** балів. **2 в ряд** — **200** балів! ⭐';
             } else {
                 slots.classList.add('hidden'); football.classList.remove('hidden');
                 tFootball.className = 'px-6 py-2 bg-green-500 text-slate-950 font-black rounded-xl text-[10px] uppercase italic transition-all text-white';
@@ -554,8 +554,8 @@
                 document.body.classList.add('football-theme');
                 title.innerText = 'LEMON FOOTBALL ⚽️';
                 subtitle.innerText = 'Virtual Arena 2.0';
-                rule1.innerHTML = '**Перемога (П1/П2)** — сума * коефіцієнт.';
-                rule2.innerHTML = '**Нічия (Х)** — миттєвий **X2** до ставки.';
+                rule1.innerHTML = '**Перемога (П1/П2)** — бали ⭐ на баланс.';
+                rule2.innerHTML = '**Нічия (Х)** — миттєвий **X2** в балах ⭐.';
                 if (!team1) initMatch();
             }
             if (!isMuted) clickAudio.cloneNode().play();
@@ -609,7 +609,7 @@
             $('spin-btn').disabled = isSpinning || isBalanceDepleted;
 
             if (isBalanceDepleted) {
-                $('no-balance-msg').innerText = 'Лимони закінчилися! 🍋 Твій результат збережено в лідерборді. Задонать на банку, щоб отримати нові фішки та піднятися вище!';
+                $('no-balance-msg').innerText = 'Лимони закінчилися! 🍋 Твій результат збережено в лідерборді. Задонать на банку, щоб отримати нові лимони та піднятися вище!';
                 $('no-balance-msg').classList.remove('hidden');
                 $('start-btn').disabled = true;
                 $('start-btn').innerText = 'ПОПОВНИ БАЛАНС! 🍋';
@@ -722,7 +722,7 @@
         async function startMatch() {
             let bet = parseInt($('bet-input').value);
             if (isPlayingMatch || !selectedOutcome || isNaN(bet) || bet <= 0 || bet > currentUser.balance) {
-                if (bet > currentUser.balance) { $('fb-error-msg').innerText = 'Недостатньо фішок! Поповни банку 🍋'; $('fb-error-msg').classList.remove('hidden'); }
+                if (bet > currentUser.balance) { $('fb-error-msg').innerText = 'Недостатньо лимонів! Заряди банку 🍋'; $('fb-error-msg').classList.remove('hidden'); }
                 return;
             }
 

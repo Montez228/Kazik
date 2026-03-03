@@ -160,7 +160,7 @@ export default function SlotMachine({ user, isMuted }) {
                 >
                     <span className={`relative z-10 italic uppercase tracking-tight leading-none ${spinning ? 'animate-text-pulse' : ''}`}>
                         {spinning ? spinText : user.balance <= 0 ? (
-                            <span className="text-xs">Лимони закінчилися! 🍋 Твій результат збережено в лідерборді. Задонать на банку, щоб отримати нові фішки та піднятися вище!</span>
+                            <span className="text-xs">Лимони закінчилися! 🍋 Твій результат збережено в лідерборді. Задонать на банку, щоб отримати нові лимони та піднятися вище!</span>
                         ) : 'КРУТИТИ\u00A0\u00A0ЛИМОН'}
                     </span>
 

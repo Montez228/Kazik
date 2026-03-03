@@ -30,7 +30,7 @@ export default function AdminPanel() {
 
             if (updateError) throw updateError
 
-            setMessage(`Нараховано +${amount} фішок для ${targetNick}`)
+            setMessage(`Нараховано +${amount} лимонів для ${targetNick}`)
             setTimeout(() => setMessage(''), 3000)
         } catch (err) {
             setMessage(`Помилка: ${err.message}`)
